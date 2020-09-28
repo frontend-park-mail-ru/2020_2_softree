@@ -1,6 +1,8 @@
 export class Component {
-    constructor(props) {
+    constructor(props, initState = {}) {
         this.props = props;
+        this.state = initState;
+        this.dataState = {};
     }
 
     includeCSS(name, pathInComponents) {
@@ -24,6 +26,10 @@ export class Component {
     setState(state) {
         this.state = {...this.state, ...state};
         window.render();
+    }
+
+    setDataState(state) {
+        this.dataState = {...this.dataState, ...state};
     }
 
     render() {

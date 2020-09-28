@@ -8,14 +8,17 @@ export default class App extends Component {
     constructor() {
         super();
         this.Header = new Header()
+        this.mainPageRouter = new Router('/', MainPage);
+        this.signInRouter = new Router('/signin', SignIn);
+        this.signUpRouter = new Router('/signup', SignUp);
     }
 
     render() {
         return [this.Header.render(),
             new Switch(
-                new Router('/', MainPage),
-                new Router('/signin', SignIn),
-                new Router('/signup', SignUp)
+                this.mainPageRouter,
+                this.signInRouter,
+                this.signUpRouter
             )
         ]
     }
