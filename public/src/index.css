@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.hidden-wrapper {
+    width: 100%;
+    height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background: #ebebeb;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.modal>.modal__title {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+input[type=email], input[type=password] {
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
