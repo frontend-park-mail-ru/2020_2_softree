@@ -5,7 +5,7 @@ export default class Submit extends Component {
         super();
         this.title = title;
 
-        this.includeCSS('submitCSS', 'Form/Submit/Submit.css');
+        this.includeCSS({path: 'Form/Submit'});
     }
 
     render() {

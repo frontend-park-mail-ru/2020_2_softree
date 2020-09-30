@@ -5,7 +5,7 @@ export default class GridField extends Component {
     constructor(props) {
         super(props);
 
-        this.includeCSS('gridfield', 'Form/GridField/GridField.css');
+        this.includeCSS({path: 'Form/GridField'});
     }
 
     render() {
