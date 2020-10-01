@@ -38,7 +38,7 @@ export class Component {
         return newComponent
     }
 
-    #rerender() {
+    rerender() {
         if (!this.node) {
             window.render();
         }
@@ -83,7 +83,7 @@ export class Component {
      */
     setState(state) {
         this.state = {...this.state, ...state};
-        this.#rerender();
+        this.rerender();
     }
 
     /**

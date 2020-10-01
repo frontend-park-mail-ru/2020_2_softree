@@ -41,7 +41,7 @@ export default class SignIn extends Component {
             new GridField({props:{
                     ...field,
                     value: this.data[field.name],
-                    gridTemplate: '80px 1fr',
+                    gridTemplate: '60px 1fr',
                     dataHandler: this.setData.bind(this)
                 }}));
 
