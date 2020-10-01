@@ -31,7 +31,6 @@ export class SignUp extends Component {
                     <GridFields></GridFields>
                     <SubmitButton></SubmitButton>
                 </form> 
-                ${JSON.stringify(this.data)}
             </div> 
         </div>`);
 

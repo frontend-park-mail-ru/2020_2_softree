@@ -3,6 +3,8 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
+import {id} from "../../utils/utils.js";
+
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
     /**Создание компоненты
@@ -140,7 +142,7 @@ export class Softer {
     }
 
     initApp(element, app, props = {}) {
-        const appId = Date.now();
+        const appId = id();
         const newApp = new app({props, appId});
         const render = () => Render(element, newApp.render());
         this.apps[appId] = {render, components: {}};
