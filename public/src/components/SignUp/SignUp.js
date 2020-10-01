@@ -1,4 +1,4 @@
-import {Component} from "../../modules/Softer/Softer.js";
+import {Component, softCreate} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 
@@ -18,28 +18,34 @@ export class SignUp extends Component {
     }
 
     submit(e) {
-       e.preventDefault();
-       console.log(this.dataState);
+        e.preventDefault();
+        console.log(this.dataState);
     }
 
     render() {
-        const signUp = document.createElement('div')
-        const fields = this.fields.map(field => new GridField({...field, value: this.dataState[field.name], gridTemplate: '80px 1fr', dataHandler: this.setDataState.bind(this)}));
+        const [signUp, replace, listen] = softCreate('div', `
+        <div class="hidden-wrapper">
+            <div class="modal">
+                <h2 class="modal__title">Добро пожаловать!</h2>
+                <form class="grid-form">
+                    <GridFields></GridFields>
+                    <SubmitButton></SubmitButton>
+                </form> 
+            </div> 
+        </div>`);
 
-        signUp.innerHTML = `
-    <div class="hidden-wrapper">
-        <div class="modal">
-            <h2 class="modal__title">Добро пожаловать!</h2>
-            <form class="grid-form">
-            </form> 
-        </div> 
-    </div> 
-    `;
+        const fields = this.fields.map(field =>
+            new GridField({
+                ...field,
+                value: this.dataState[field.name],
+                gridTemplate: '80px 1fr',
+                dataHandler: this.setDataState.bind(this)
+            }));
 
-        const form = signUp.querySelector('.grid-form');
-        form.append(...fields.map(field => field.render()));
-        form.appendChild(new Submit('Зарегистрироваться').render());
-        form.addEventListener('submit', e => this.submit(e))
+        replace('GridFields', ...fields.map(field => field.render()));
+        replace('SubmitButton', new Submit('Зарегистрироваться').render());
+        listen('form', 'submit', e => this.submit(e));
+
         return signUp;
     }
 }

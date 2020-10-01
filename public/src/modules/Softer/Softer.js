@@ -63,7 +63,7 @@ export class Component {
 
     /**
      * Создает и возвращает HTML элемент компоненты.
-     * @return {Node, HTMLInputElement | [Node, Switch, HTMLInputElement]}
+     * @return {HTMLElement, HTMLInputElement | [HTMLElement, Switch, HTMLInputElement]}
      */
     render() {
     }
@@ -71,8 +71,8 @@ export class Component {
 
 /**
  * Рендерит дерево элементов в указаном элементе
- * @param {Node} element - элемент, в котором будет генерироваться приложение
- * @param {Node[], Switch} tree - дерево элементов, которое представляет из себя приложение
+ * @param {HTMLElement} element - элемент, в котором будет генерироваться приложение
+ * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
  */
 export const Render = (element, tree) => {
     element.innerHTML = ''
@@ -89,7 +89,7 @@ export class Switch {
 
     /**
      * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path
-     * @return {Node}
+     * @return {HTMLElement}
      */
     render() {
         for (let i = 0; i < this.routers.length; i++) {
@@ -118,7 +118,7 @@ export class Router {
 
     /**
      * Возвращает результат рендеринга роутера
-     * @return {Node}
+     * @return {HTMLElement}
      */
     render() {
         return this.component.render();
@@ -144,11 +144,37 @@ export const Link = (title, href) => {
     }
 }
 
+/**
+ * Заменяет тег в HTML элементе на указанный (ые) элементы
+ * @param {HTMLElement} element
+ * @param {string} selector
+ * @param {Node} nodes
+ */
+export const replace = (element, selector, ...nodes) => {
+    [...element.querySelectorAll(selector)].forEach(element => element.replaceWith(...nodes));
+}
 
+export const listen = (element, selector, event, clb) => {
+    [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
+}
+
+export const ReplacerTo = (element) => {
+    return (selector, ...nodes) => replace(element, selector, ...nodes)
+}
+
+export const ListenerFor = (element) => {
+    return (selector, event, clb) => listen(element, selector, event, clb);
+}
+
+export const softCreate = (tag, content = '') => {
+    const element = document.createElement(tag);
+    element.innerHTML = content;
+    return [element, ReplacerTo(element), ListenerFor(element)];
+}
 
 const treeRender = (element, tree) => {
     tree.forEach(node => {
-        if (node instanceof Node) {
+        if (node instanceof HTMLElement) {
             element.appendChild(node);
         }
         if (node instanceof Switch) {
