@@ -42,8 +42,11 @@ export class SignUp extends Component {
                 dataHandler: this.setDataState.bind(this)
             }));
 
-        replace('GridFields', ...fields.map(field => field.render()));
-        replace('SubmitButton', new Submit('Зарегистрироваться').render());
+        replace({
+            GridFields: fields.map(field => field.render()),
+            SubmitButton: new Submit('Зарегистрироваться').render()
+        })
+
         listen('form', 'submit', e => this.submit(e));
 
         return signUp;

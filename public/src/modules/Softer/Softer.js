@@ -159,7 +159,16 @@ export const listen = (element, selector, event, clb) => {
 }
 
 export const ReplacerTo = (element) => {
-    return (selector, ...nodes) => replace(element, selector, ...nodes)
+    return (context) => {
+        let selector;
+        for (selector in context) {
+            if (context[selector] instanceof Array) {
+                replace(element, selector, ...context[selector]);
+            } else {
+                replace(element, selector, context[selector]);
+            }
+        }
+    }
 }
 
 export const ListenerFor = (element) => {
