@@ -198,11 +198,10 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor(props) {
-        super(props);
-        const {path, component, componentProps} = props;
+    constructor({path, component, componentProps}) {
+        super();
         this.path = path;
-        this.component = this.place(component, componentProps ? componentProps : {});
+        this.component = this.place(component, componentProps);
     }
 
     /**
