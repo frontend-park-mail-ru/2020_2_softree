@@ -25,9 +25,6 @@ export class Component {
     #appId = null;
     #key = null;
 
-    print() {
-        console.log(this.#appId);
-    }
     /**
      *
      * @param {} component
@@ -36,7 +33,6 @@ export class Component {
      * @return {*}
      */
     place(component, props= {}) {
-        console.log(this.constructor.name, component.constructor.name, this.#appId);
         const newComponent = new component(props);
         newComponent.#appId = this.#appId;
         newComponent.#key = `${component.constructor.name}${Date.now()}`;
@@ -44,7 +40,6 @@ export class Component {
     }
 
     #rerender() {
-        console.log(this.node);
         if (!this.node) {
             window.render();
         }
