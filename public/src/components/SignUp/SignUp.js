@@ -27,7 +27,7 @@ export class SignUp extends Component {
     render() {
         const [signUp, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
-            <div class="modal">
+            <div class="modal auth">
                 <h2 class="modal__title">Добро пожаловать!</h2>
                 <form class="grid-form">
                     <GridFields></GridFields>
@@ -41,7 +41,7 @@ export class SignUp extends Component {
             new GridField({props:{
                 ...field,
                 value: this.data[field.name],
-                gridTemplate: '80px 1fr',
+                gridTemplate: '80px 200px',
                 dataHandler: this.setData.bind(this)
             }}));
 

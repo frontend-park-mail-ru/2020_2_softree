@@ -24,16 +24,17 @@ export default class SignIn extends Component {
     render() {
         const [signIn, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
-            <div class="modal">
+            <div class="modal auth">
                 <h2 class="modal__title">Здравствуйте!</h2>
                 <form class="grid-form">
                     <GridFields></GridFields>
-                    <SubmitButton></SubmitButton>
+                    
+                    <div class="modal__bottom-wrapper">
+                        <a class="forgot-link" href="/forgot-password">Заыбли пароль?</a>
+                        <SubmitButton></SubmitButton>
+                    </div>
                 </form> 
-                <div class="modal__bottom-wrapper">
-                    <a class="signup-link" href="/signup">Уже есть аккаунт?</a>
-                    <a class="forgot-link" href="/forgot-password">Заыбли пароль?</a>
-                </div>
+                <a class="signup-link" style="margin-top: 20px" href="/signup">Еще нет аккаунта?</a>
             </div> 
         </div>`);
 
@@ -41,7 +42,7 @@ export default class SignIn extends Component {
             new GridField({props:{
                     ...field,
                     value: this.data[field.name],
-                    gridTemplate: '60px 1fr',
+                    gridTemplate: '60px 200px',
                     dataHandler: this.setData.bind(this)
                 }}));
 
