@@ -166,6 +166,14 @@ export const ListenerFor = (element) => {
     return (selector, event, clb) => listen(element, selector, event, clb);
 }
 
+/**
+ * Создает HTMLElement, а так же Replacer и Listener для него
+ * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
+ * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
+ * @param {string} tag - тег элемента
+ * @param content - содержимое элемента
+ * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
+ */
 export const softCreate = (tag, content = '') => {
     const element = document.createElement(tag);
     element.innerHTML = content;
