@@ -1,4 +1,4 @@
-import {Component, Link, softCreate} from "../../modules/Softer/Softer.js";
+import {Component, Link} from "../../modules/Softer/Softer.js";
 
 export class Header extends Component {
     constructor(parent, props) {
@@ -8,7 +8,7 @@ export class Header extends Component {
     }
 
     render() {
-        const [header, _, listen] = softCreate('header', `
+        const [header, _, listen] = this.create('header', `
         <div class="header__logo">
             <img class="header__logo_img" src="src/images/cat.svg" alt="Logo"/>
             <p class="header__logo_text">MoneyCat</p>

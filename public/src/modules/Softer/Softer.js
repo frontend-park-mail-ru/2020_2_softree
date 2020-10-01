@@ -15,6 +15,20 @@ export class Component {
         this.props = props;
         this.state = initState;
         this.dataState = initDataState;
+        this.node = null;
+    }
+
+    #rerender() {
+        console.log(this.node);
+        if (!this.node) {
+            window.render();
+        }
+        const renderResult = this.render();
+        if (renderResult instanceof Array) {
+            this.node.replaceWith(...renderResult);
+        } else {
+            this.node.replaceWith(renderResult);
+        }
     }
 
     /**
@@ -45,12 +59,12 @@ export class Component {
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
-     * или добавить. Другие поля останутся нетронутыми. Вызов этой функции влечет за собой ререндер страницы.
+     * или добавить. Другие поля останутся нетронутыми. Вызов этой функции влечет за собой ререндер компоненты.
      * @param {Object} state
      */
     setState(state) {
         this.state = {...this.state, ...state};
-        window.render();
+        this.#rerender();
     }
 
     /**
@@ -59,6 +73,21 @@ export class Component {
      */
     setDataState(state) {
         this.dataState = {...this.dataState, ...state};
+    }
+
+    /**
+     * Создает HTMLElement, а так же Replacer и Listener для него
+     * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
+     * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
+     * @param {string} tag - тег элемента
+     * @param content - содержимое элемента
+     * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
+     */
+    create (tag, content = '') {
+        if (!this.node) {
+            this.node = document.createElement(tag);
+        }
+        return setupNode(this.node, content);
     }
 
     /**
@@ -175,18 +204,9 @@ export const ListenerFor = (element) => {
     return (selector, event, clb) => listen(element, selector, event, clb);
 }
 
-/**
- * Создает HTMLElement, а так же Replacer и Listener для него
- * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
- * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
- * @param {string} tag - тег элемента
- * @param content - содержимое элемента
- * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
- */
-export const softCreate = (tag, content = '') => {
-    const element = document.createElement(tag);
-    element.innerHTML = content;
-    return [element, ReplacerTo(element), ListenerFor(element)];
+export const setupNode = (node, content) => {
+    node.innerHTML = content;
+    return [node, ReplacerTo(node), ListenerFor(node)];
 }
 
 const treeRender = (element, tree) => {

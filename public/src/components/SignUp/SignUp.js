@@ -1,4 +1,4 @@
-import {Component, softCreate} from "../../modules/Softer/Softer.js";
+import {Component} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 
@@ -23,7 +23,7 @@ export class SignUp extends Component {
     }
 
     render() {
-        const [signUp, replace, listen] = softCreate('div', `
+        const [signUp, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
             <div class="modal">
                 <h2 class="modal__title">Добро пожаловать!</h2>
@@ -31,6 +31,7 @@ export class SignUp extends Component {
                     <GridFields></GridFields>
                     <SubmitButton></SubmitButton>
                 </form> 
+                ${JSON.stringify(this.dataState)}
             </div> 
         </div>`);
 
