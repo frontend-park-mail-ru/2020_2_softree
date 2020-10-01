@@ -19,11 +19,11 @@ export class Component {
         this.data = initData;
         this.node = null;
 
-        this.#appId = appId;
+        this.appId = appId;
     }
 
-    #appId = null;
-    #key = null;
+    appId = null;
+    key = null;
 
     /**
      *
@@ -33,9 +33,8 @@ export class Component {
      * @return {*}
      */
     place(component, props= {}) {
-        const newComponent = new component(props);
-        newComponent.#appId = this.#appId;
-        newComponent.#key = `${component.constructor.name}${Date.now()}`;
+        const newComponent = new component({...props, appId: this.appId});
+        newComponent.key = id();
         return newComponent
     }
 
@@ -101,23 +100,26 @@ export class Component {
      * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
      * @param {string} tag - тег элемента
      * @param content - содержимое элемента
+     * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create (tag, content = '') {
+    create (tag, content = '', options = {}) {
         if (!this.node) {
             this.node = document.createElement(tag);
+            let option;
+            for (option in options) {
+                this.node[option] = options[option];
+            }
         }
         return setupNode(this.node, content);
     }
 
     link(selector, title, href) {
         listen(this.node, selector, 'click', e => {
-            if (e) {
-                e.preventDefault();
-            }
+            e.preventDefault();
             window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
             document.title = title;
-            window.Softer.rerenderApp(this.#appId);
+            window.Softer.rerenderApp(this.appId);
         })
     }
 
@@ -172,7 +174,8 @@ export class Switch {
     }
 
     /**
-     * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path
+     * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path. Если не нашлось подходящего,
+     * выбирает последний. В качестве последнего удобно поставить страницу 404
      * @return {HTMLElement}
      */
     render() {
@@ -181,6 +184,7 @@ export class Switch {
                 return this.routers[i].render();
             }
         }
+        return this.routers[this.routers.length - 1].render();
     }
 }
 
@@ -195,8 +199,8 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, componentProps}) {
-        super();
+    constructor({path, component, componentProps, appId}) {
+        super({appId});
         this.path = path;
         this.component = this.place(component, componentProps);
     }
@@ -232,7 +236,14 @@ export const listen = (element, selector, event, clb) => {
 }
 
 export const ReplacerTo = (element) => {
-    return (context) => {
+    return (context, ...nodes) => {
+        if (nodes.length !== 0) {
+           if (!(context instanceof String)) {
+               throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
+           }
+           replace(element, context, ...nodes);
+        }
+
         let selector;
         for (selector in context) {
             if (context[selector] instanceof Array) {

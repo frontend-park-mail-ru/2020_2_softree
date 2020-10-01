@@ -1,14 +1,14 @@
 import {Component} from "../../modules/Softer/Softer.js";
 
 export class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.includeCSS();
     }
 
     render() {
-        const [header, _, listen] = this.create('header', `
+        const [header, _, __] = this.create('header', `
         <div class="header__logo">
             <img class="header__logo_img" src="src/images/cat.svg" alt="Logo"/>
             <p class="header__logo_text">MoneyCat</p>

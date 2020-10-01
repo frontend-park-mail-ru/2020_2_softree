@@ -10,18 +10,16 @@ export default class GridField extends Component {
 
     render() {
         const {title, type, name, value, gridTemplate, dataHandler} = this.props;
-
-        const field = document.createElement('div');
-        field.className = "grid-field";
-        field.style.gridTemplateColumns = gridTemplate ? gridTemplate : '';
-        field.innerHTML = `
+        const [field, _, listen] = this.create('div', `
             <label>${title}</label>
             <input type="${type}" name="${name}" value="${value ? value : ''}"/>
-        `;
+        `);
 
-        field.querySelectorAll('input').forEach(input => input
-            .addEventListener('change', e => changeHandler(e, dataHandler))
-        )
+        field.className = "grid-field";
+        field.style.gridTemplateColumns = gridTemplate ? gridTemplate : '';
+
+        listen('input', 'change', e => changeHandler(e, dataHandler));
+
         return field;
     }
 }

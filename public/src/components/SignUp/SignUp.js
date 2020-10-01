@@ -3,8 +3,8 @@ import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 
 export class SignUp extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.fields = [
             {title: 'Email', type: 'email', name: 'email'},
             {title: 'Пароль', type: 'password', name: 'password'},
@@ -15,6 +15,8 @@ export class SignUp extends Component {
             password: '',
             password2: ''
         };
+
+        this.includeCSS();
     }
 
     submit(e) {
@@ -31,6 +33,7 @@ export class SignUp extends Component {
                     <GridFields></GridFields>
                     <SubmitButton></SubmitButton>
                 </form> 
+                <a class="signin-link" href="/signin">Уже есть аккаунт?</a>
             </div> 
         </div>`);
 
@@ -48,6 +51,7 @@ export class SignUp extends Component {
         })
 
         listen('form', 'submit', e => this.submit(e));
+        this.link('.signin-link', 'Авторизация', '/signin')
 
         return signUp;
     }
