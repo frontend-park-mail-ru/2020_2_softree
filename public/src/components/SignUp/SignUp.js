@@ -4,13 +4,13 @@ import Submit from "../Form/Submit/Submit.js";
 
 export class SignUp extends Component {
     constructor() {
-        super(null);
+        super();
         this.fields = [
             {title: 'Email', type: 'email', name: 'email'},
             {title: 'Пароль', type: 'password', name: 'password'},
             {title: 'Повторите пароль', type: 'password', name: 'password2'}
         ];
-        this.dataState = {
+        this.data = {
             email: '',
             password: '',
             password2: ''
@@ -19,7 +19,7 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
-        console.log(this.dataState);
+        console.log(this.data);
     }
 
     render() {
@@ -31,17 +31,17 @@ export class SignUp extends Component {
                     <GridFields></GridFields>
                     <SubmitButton></SubmitButton>
                 </form> 
-                ${JSON.stringify(this.dataState)}
+                ${JSON.stringify(this.data)}
             </div> 
         </div>`);
 
         const fields = this.fields.map(field =>
-            new GridField({
+            new GridField({props:{
                 ...field,
-                value: this.dataState[field.name],
+                value: this.data[field.name],
                 gridTemplate: '80px 1fr',
-                dataHandler: this.setDataState.bind(this)
-            }));
+                dataHandler: this.setData.bind(this)
+            }}));
 
         replace({
             GridFields: fields.map(field => field.render()),

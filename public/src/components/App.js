@@ -5,12 +5,12 @@ import MainPage from "./MainPage/MainPage.js";
 import SignIn from "./SignIn/SignIn.js";
 
 export default class App extends Component {
-    constructor() {
-        super();
-        this.Header = new Header()
-        this.mainPageRouter = new Router('/', MainPage);
-        this.signInRouter = new Router('/signin', SignIn);
-        this.signUpRouter = new Router('/signup', SignUp);
+    constructor(props) {
+        super(props);
+        this.Header = this.place(Header);
+        this.mainPageRouter = this.place(Router, {path: '/', component: MainPage});
+        this.signInRouter = this.place(Router, {path:'/signin', component: SignIn});
+        this.signUpRouter = this.place(Router, {path:'/signup', component: SignUp});
     }
 
     render() {

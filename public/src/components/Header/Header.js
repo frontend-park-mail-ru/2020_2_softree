@@ -1,8 +1,8 @@
-import {Component, Link} from "../../modules/Softer/Softer.js";
+import {Component} from "../../modules/Softer/Softer.js";
 
 export class Header extends Component {
-    constructor(parent, props) {
-        super(parent, props);
+    constructor() {
+        super();
 
         this.includeCSS();
     }
@@ -19,8 +19,8 @@ export class Header extends Component {
 
         header.className = 'header';
 
-        listen('.header__logo', 'click', Link('Главная страница', "/"));
-        listen('.header__control_avatar', 'click', Link('Профиль', '/signup'));
+        this.link('.header__logo', 'Главная страница', '/');
+        this.link('.header__control_avatar', 'Профиль', '/signup');
 
         return header;
     }

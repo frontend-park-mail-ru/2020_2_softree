@@ -9,13 +9,36 @@ export class Component {
      * @param {Object} props - свойства объекта, которые влияют на отображение компоненты
      * @param {Object} initState - свойства объекта, которые отвечают за визуальное состояние компоненты.
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
-     * @param {Object} initDataState - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
+     * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor(props= {}, initState = {}, initDataState = {}) {
+    constructor({props = {}, initState= {}, initData = {}, appId = null} = {}) {
         this.props = props;
         this.state = initState;
-        this.dataState = initDataState;
+        this.data = initData;
         this.node = null;
+
+        this.#appId = appId;
+    }
+
+    #appId = null;
+    #key = null;
+
+    print() {
+        console.log(this.#appId);
+    }
+    /**
+     *
+     * @param {} component
+     * @param {Object} props
+     * @param {any} key
+     * @return {*}
+     */
+    place(component, props= {}) {
+        console.log(this.constructor.name, component.constructor.name, this.#appId);
+        const newComponent = new component(props);
+        newComponent.#appId = this.#appId;
+        newComponent.#key = `${component.constructor.name}${Date.now()}`;
+        return newComponent
     }
 
     #rerender() {
@@ -68,11 +91,11 @@ export class Component {
     }
 
     /**
-     * Так же, как и setState, только обновляет состояние в this.dataState. Не влечет за собой ререндер страницы.
+     * Так же, как и setState, только обновляет состояние в this.data. Не влечет за собой ререндер страницы.
      * @param {Object} state
      */
-    setDataState(state) {
-        this.dataState = {...this.dataState, ...state};
+    setData(state) {
+        this.data = {...this.data, ...state};
     }
 
     /**
@@ -90,11 +113,46 @@ export class Component {
         return setupNode(this.node, content);
     }
 
+    link(selector, title, href) {
+        listen(this.node, selector, 'click', e => {
+            if (e) {
+                e.preventDefault();
+            }
+            window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
+            document.title = title;
+            window.Softer.rerenderApp(this.#appId);
+        })
+    }
+
     /**
      * Создает и возвращает HTML элемент компоненты.
      * @return {HTMLElement, HTMLInputElement | [HTMLElement, Switch, HTMLInputElement]}
      */
     render() {
+    }
+}
+
+export class Softer {
+    constructor() {
+        this.apps = {};
+
+        window.Softer = this;
+    }
+
+    initApp(element, app, props = {}) {
+        const appId = Date.now();
+        const newApp = new app({props, appId});
+        const render = () => Render(element, newApp.render());
+        this.apps[appId] = {render, components: {}};
+        window.addEventListener('popstate', e => {
+            e.preventDefault();
+            render();
+        })
+        render();
+    }
+
+    rerenderApp(appId) {
+        this.apps[appId].render();
     }
 }
 
@@ -133,16 +191,18 @@ export class Switch {
  * Роутер, который сопровождает элемент и его опции.
  * Указывается в Switch и вне не имеет сымсла
  */
-export class Router {
+export class Router extends Component {
     /**
      * Создает роутер
      * @param {string} path - путь, согласно которому будет отображаться компонента
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor(path, component, props= {}) {
+    constructor(props) {
+        super(props);
+        const {path, component, componentProps} = props;
         this.path = path;
-        this.component = new component(props);
+        this.component = this.place(component, componentProps ? componentProps : {});
     }
 
     /**
@@ -159,19 +219,7 @@ export const Redirect = (state, title, href) => {
     window.render();
 }
 
-export const Link = (title, href) => {
-    if (window.location.pathname === href) {
-        return
-    }
-    return e => {
-        if (e) {
-            e.preventDefault();
-        }
-        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
-        document.title = title;
-        window.render();
-    }
-}
+
 
 /**
  * Заменяет тег в HTML элементе на указанный (ые) элементы
