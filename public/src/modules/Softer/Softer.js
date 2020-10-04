@@ -4,6 +4,7 @@
  */
 
 import {id} from "../../utils/utils.js";
+import {useSelector} from "./softer-softex.js";
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -36,6 +37,10 @@ export class Component {
         const newComponent = new component({...props, appId: this.appId});
         newComponent.key = id();
         return newComponent
+    }
+
+    useSelector(selector) {
+        return useSelector(this, selector);
     }
 
     rerender() {
@@ -134,8 +139,13 @@ export class Component {
 export class Softer {
     constructor() {
         this.apps = {};
+        this.store = null;
 
         window.Softer = this;
+    }
+
+    connectStore(store) {
+        this.store = store;
     }
 
     initApp(element, app, props = {}) {
