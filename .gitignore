@@ -1,4 +1,9 @@
 .idea
+<<<<<<< Updated upstream
 .vscode
 .DS_Store
 node_modules
+=======
+.DS_Store
+.vscode
+>>>>>>> Stashed changes

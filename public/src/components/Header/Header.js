@@ -23,7 +23,7 @@ export class Header extends Component {
             .addEventListener('click', Link('Главная страница', "/"));
 
         header.querySelector('.header__control_avatar')
-            .addEventListener('click', Link('Профиль', '/signup'));
+            .addEventListener('click', Link('Профиль', '/profile'));
 
         return header;
     }

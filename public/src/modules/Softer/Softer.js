@@ -85,8 +85,6 @@ export const Link = (title, href) => {
     }
 }
 
-
-
 const treeRender = (element, tree) => {
     tree.forEach(node => {
         if (node instanceof Node) {
