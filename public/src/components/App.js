@@ -22,6 +22,7 @@ export default class App extends Component {
                 this.profilePageRouter,
                 this.signInRouter,
                 this.signUpRouter,
+                this.page404
             )
         ]
     }

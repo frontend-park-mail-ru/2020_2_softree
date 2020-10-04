@@ -5,11 +5,11 @@ export default class Submit extends Component {
         super();
         this.title = title;
 
-        this.includeCSS('submitCSS', 'Form/Submit/Submit.css');
+        this.includeCSS({path: 'Form/Submit'});
     }
 
     render() {
-        const submit = document.createElement('input');
+        const [submit] = this.create('input');
         submit.type = 'submit';
         submit.value = this.title;
         return submit;

@@ -7,19 +7,57 @@
     sans-serif;
 }
 
+a {
+    color: blueviolet;
+    text-decoration: none;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
 .hidden-wrapper {
-    width: 100%;
-    height: calc(100vh - 60px);
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.fix {
+    position: fixed;
+}
+
 .modal {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     background: #ebebeb;
     box-shadow: 0 10px 15px rgba(0,0,0,0.2);
     border-radius: 10px;
     padding: 15px;
+    width: max-content;
+    max-width: 450px;
+    margin: 0 15px;
+}
+
+.modal.auth {
+    max-width: 330px;
+}
+
+.modal__bottom-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal__bottom-wrapper.auth {
+    flex-flow: column;
 }
 
 .modal>.modal__title {
