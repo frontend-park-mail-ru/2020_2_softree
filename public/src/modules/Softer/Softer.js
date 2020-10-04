@@ -56,32 +56,6 @@ export class Component {
     }
 
     /**
-     * Включает CSS стили. Если не указывать параметры, то создает в <head>
-     * тег <link rel="stylesheet" href="src/components/<COMPONENT_NAME>"/>
-     * @param {string} name - Имя CSS файла, если оно не совпадает с именем компоненты (без .css)
-     * @param {string} path - Путь к папке файла CSS, если он находится глубже src/components/. Указывается
-     * путь до папки с файлом .css. То есть если путь до файла есть src/components/Form/GridField/GridField.css,
-     * то указываем только Form/GridField
-     */
-    includeCSS({name = '', path = ''} = {}) {
-        if (!name) {
-            name = this.constructor.name;
-        }
-        const included = document.head.querySelector(`#${name}`);
-        if (!included) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            if (path) {
-                link.href = `src/components/${path}/${name}.css`;
-            } else {
-                link.href = `src/components/${name}/${name}.css`;
-            }
-            link.id = name;
-            document.head.appendChild(link);
-        }
-    }
-
-    /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
      * или добавить. Другие поля останутся нетронутыми. Вызов этой функции влечет за собой ререндер компоненты.
      * @param {Object} state
@@ -104,8 +78,7 @@ export class Component {
      * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
      * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
      * @param {string} tag - тег элемента
-     * @param content - содержимое элемента
-     * @param {Object} options - параметры тэга
+     * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
     create (tag, content = '', options = {}) {
@@ -122,10 +95,18 @@ export class Component {
     link(selector, title, href) {
         listen(this.node, selector, 'click', e => {
             e.preventDefault();
-            window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
-            document.title = title;
-            window.Softer.rerenderApp(this.appId);
+            this.__historyPushState(title, href);
         })
+    }
+
+    redirect(title, href) {
+        this.__historyPushState(title, href);
+    }
+
+    __historyPushState(title, href) {
+        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
+        document.title = title;
+        window.Softer.rerenderApp(this.appId);
     }
 
     /**
@@ -228,8 +209,6 @@ export const Redirect = (state, title, href) => {
     window.history.pushState({id: target.id}, target.title, target.href);
     window.render();
 }
-
-
 
 /**
  * Заменяет тег в HTML элементе на указанный (ые) элементы

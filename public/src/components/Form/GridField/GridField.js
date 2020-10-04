@@ -4,14 +4,13 @@ import {changeHandler} from "../../../utils/utils.js";
 export default class GridField extends Component {
     constructor(props) {
         super(props);
-
-        this.includeCSS({path: 'Form/GridField'});
     }
 
     render() {
-        const {title, type, name, value, gridTemplate, dataHandler} = this.props;
+        const {title, type, name, value, gridTemplate, dataHandler, errors} = this.props;
         const [field,, listen] = this.create('div', `
             <label>${title}</label>
+            ${errors ? `<p class="grid-field__error">${errors.join()}</p>` : ''}
             <input type="${type}" name="${name}" value="${value ? value : ''}"/>
         `);
 
