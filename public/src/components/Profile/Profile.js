@@ -8,9 +8,9 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.menu = this.place(Menu);
-        this.mainProfileRouter = this.place(Router, {path: '/profile', component: ProfileMain});
-        this.settingsProfileRouter = this.place(Router, {path: '/profile/settings', component: ProfileSettings});
-        this.historyProfileRouter = this.place(Router, {path: '/profile/history', component: ProfileHistory});
+        this.mainProfileRouter = this.place(Router, {path: '/profile', component: ProfileMain, exact: true});
+        this.settingsProfileRouter = this.place(Router, {path: '/profile/settings', component: ProfileSettings, exact: true});
+        this.historyProfileRouter = this.place(Router, {path: '/profile/history', component: ProfileHistory, exact: true});
     }
 
     render() {
