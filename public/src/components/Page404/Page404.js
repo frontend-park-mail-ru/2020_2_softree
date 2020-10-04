@@ -8,7 +8,7 @@ export default class Page404 extends Component {
     }
 
     render() {
-        const [page, _, __] = this.create('div', `
+        const [page] = this.create('div', `
         <div class="hidden-wrapper">
             <p class="code-404">404</p>
             <div class="modal fix">

@@ -8,7 +8,7 @@ export class Header extends Component {
     }
 
     render() {
-        const [header, _, __] = this.create('header', `
+        const [header] = this.create('header', `
         <div class="header__logo">
             <img class="header__logo_img" src="src/images/cat.svg" alt="Logo"/>
             <p class="header__logo_text">MoneyCat</p>

@@ -1,7 +1,6 @@
 import {Component} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
-import {useDispatch} from "../../modules/Softer/softer-softex.js";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -27,7 +26,6 @@ export default class SignIn extends Component {
         <div class="hidden-wrapper">
             <div class="modal auth">
                 <h2 class="modal__title">Здравствуйте!</h2>
-                <h2>Loading: ${loading}</h2>
                 <form class="grid-form">
                     <GridFields></GridFields>
                     
