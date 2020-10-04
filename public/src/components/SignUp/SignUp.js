@@ -73,6 +73,6 @@ export class SignUp extends Component {
         listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', 'Авторизация', '/signin')
 
-        return signUp;
+        return [signUp];
     }
 }

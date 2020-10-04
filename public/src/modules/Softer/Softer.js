@@ -111,7 +111,7 @@ export class Component {
 
     /**
      * Создает и возвращает HTML элемент компоненты.
-     * @return {HTMLElement, HTMLInputElement | [HTMLElement, Switch, HTMLInputElement]}
+     * @return {HTMLElement}
      */
     render() {
     }
@@ -151,9 +151,9 @@ export class Softer {
  * @param {HTMLElement} element - элемент, в котором будет генерироваться приложение
  * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
  */
-export const Render = (element, tree) => {
+export const Render = (element, app) => {
     element.innerHTML = ''
-    treeRender(element, tree)
+    element.appendChild(app);
 }
 
 /**
@@ -251,18 +251,4 @@ export const ListenerFor = (element) => {
 export const setupNode = (node, content) => {
     node.innerHTML = content;
     return [node, ReplacerTo(node), ListenerFor(node)];
-}
-
-const treeRender = (element, tree) => {
-    tree.forEach(node => {
-        if (node instanceof HTMLElement) {
-            element.appendChild(node);
-        }
-        if (node instanceof Switch) {
-            element.appendChild(node.render());
-        }
-        if (node instanceof Array) {
-            treeRender(element, node);
-        }
-    })
 }

@@ -59,6 +59,6 @@ export default class SignIn extends Component {
         this.link('.signup-link', 'Регистрация', '/signup');
         this.link('.forgot-link', 'Забыли пароль', '/forgot-password');
 
-        return signIn;
+        return [signIn];
     }
 }
