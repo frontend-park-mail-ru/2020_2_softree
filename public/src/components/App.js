@@ -26,8 +26,8 @@ export default class App extends Component {
         replace({
             Header: this.Header.render(),
             MainContent: new Switch(
-                this.profile,
                 this.mainPageRouter,
+                this.profile,
                 this.signInRouter,
                 this.signUpRouter,
                 this.page404

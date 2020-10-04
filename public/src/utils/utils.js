@@ -5,3 +5,9 @@ export const changeHandler = (e, setState) => {
 export const id = () => {
     return Math.round(Math.random() * Date.now());
 }
+
+export const checkAuth = (userData) => {
+    if (userData) {
+        return true;
+    }
+}

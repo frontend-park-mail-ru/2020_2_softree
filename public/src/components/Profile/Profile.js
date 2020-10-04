@@ -3,6 +3,7 @@ import Menu from "./Menu.js";
 import ProfileMain from "./ProfileMain.js";
 import ProfileHistory from "./ProfileHistory.js";
 import ProfileSettings from "./ProfileSettings.js";
+import Page404 from "../Page404/Page404.js";
 
 export default class Profile extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class Profile extends Component {
         this.mainProfileRouter = this.place(Router, {path: '/profile', component: ProfileMain, exact: true});
         this.settingsProfileRouter = this.place(Router, {path: '/profile/settings', component: ProfileSettings, exact: true});
         this.historyProfileRouter = this.place(Router, {path: '/profile/history', component: ProfileHistory, exact: true});
+        this.page404 = this.place(Router, {component: Page404});
     }
 
     render() {
@@ -24,7 +26,8 @@ export default class Profile extends Component {
             ProfilePage: new Switch(
                 this.mainProfileRouter,
                 this.settingsProfileRouter,
-                this.historyProfileRouter
+                this.historyProfileRouter,
+                this.page404
             ).render()
         })
         return page;

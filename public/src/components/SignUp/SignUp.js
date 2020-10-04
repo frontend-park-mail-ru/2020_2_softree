@@ -1,7 +1,7 @@
 import {Component} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
-import {hostname} from "../../config.js";
+import {jpost} from "../../modules/jfetch.js";
 
 export class SignUp extends Component {
     constructor(props) {
@@ -25,16 +25,11 @@ export class SignUp extends Component {
     submit(e) {
         e.preventDefault();
         console.log(this.data);
-        fetch(`${hostname}/api/signup`, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(this.data)
-        })
+        jpost('/api/signup', this.data)
             .then(response => {
-                if (response.status === 201) {
+                console.log(response.status);
+                if (response.status === 200) {
+                    console.log('status', response.status);
                     this.redirect('Главная страница', '/');
                 }
             })
@@ -73,6 +68,6 @@ export class SignUp extends Component {
         listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', 'Авторизация', '/signin')
 
-        return [signUp];
+        return signUp;
     }
 }
