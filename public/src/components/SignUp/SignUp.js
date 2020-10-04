@@ -1,28 +1,49 @@
 import {Component} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
+import {hostname} from "../../config.js";
 
 export class SignUp extends Component {
     constructor(props) {
         super(props);
         this.fields = [
             {title: 'Email', type: 'email', name: 'email'},
-            {title: 'Пароль', type: 'password', name: 'password'},
+            {title: 'Пароль', type: 'password', name: 'password1'},
             {title: 'Повторите пароль', type: 'password', name: 'password2'}
         ];
         this.data = {
             email: '',
-            password: '',
-            password2: ''
+            password1: '',
+            password2: '',
         };
+
+        this.state = {
+            errors: {}
+        }
     }
 
     submit(e) {
         e.preventDefault();
         console.log(this.data);
+        fetch(`${hostname}/api/signup`, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.data)
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    this.redirect('Главная страница', '/');
+                }
+            })
+            .catch(e => console.log(e));
     }
 
     render() {
+        const {errors} = this.state;
+
         const [signUp, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
             <div class="modal auth">
@@ -38,6 +59,7 @@ export class SignUp extends Component {
         const fields = this.fields.map(field =>
             new GridField({props:{
                 ...field,
+                errors: errors[field.name],
                 value: this.data[field.name],
                 gridTemplate: '80px 200px',
                 dataHandler: this.setData.bind(this)

@@ -13,6 +13,10 @@ export default class SignIn extends Component {
             email: '',
             password: '',
         };
+
+        this.state = {
+            errors: {}
+        }
     }
 
     submit(e) {
@@ -21,6 +25,7 @@ export default class SignIn extends Component {
     }
 
     render() {
+        const {errors} = this.state;
         const [signIn, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
             <div class="modal auth">
@@ -39,6 +44,7 @@ export default class SignIn extends Component {
         const fields = this.fields.map(field =>
             new GridField({props:{
                     ...field,
+                    errors: errors[field.name],
                     value: this.data[field.name],
                     gridTemplate: '60px 200px',
                     dataHandler: this.setData.bind(this)
