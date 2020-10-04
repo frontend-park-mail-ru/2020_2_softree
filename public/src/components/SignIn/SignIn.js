@@ -13,7 +13,6 @@ export default class SignIn extends Component {
             email: '',
             password: '',
         };
-
     }
 
     submit(e) {
@@ -28,7 +27,6 @@ export default class SignIn extends Component {
                 <h2 class="modal__title">Здравствуйте!</h2>
                 <form class="grid-form">
                     <GridFields></GridFields>
-                    
                     <div class="modal__bottom-wrapper">
                         <a class="forgot-link" href="/forgot-password">Заыбли пароль?</a>
                         <SubmitButton></SubmitButton>

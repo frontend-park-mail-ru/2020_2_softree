@@ -15,8 +15,6 @@ export class SignUp extends Component {
             password: '',
             password2: ''
         };
-
-        this.includeCSS();
     }
 
     submit(e) {

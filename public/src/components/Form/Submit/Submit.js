@@ -4,8 +4,6 @@ export default class Submit extends Component {
     constructor(title) {
         super();
         this.title = title;
-
-        this.includeCSS({path: 'Form/Submit'});
     }
 
     render() {
