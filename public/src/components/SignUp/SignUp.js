@@ -2,6 +2,8 @@ import {Component} from "../../modules/Softer/Softer.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 import {jpost} from "../../modules/jfetch.js";
+import {apiSignUp} from "../../api.js";
+import {pageMain, pageSignIn} from "../../pages.js";
 
 export class SignUp extends Component {
     constructor(props) {
@@ -24,16 +26,15 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
-        console.log(this.data);
-        jpost('/api/signup', this.data)
+        jpost(apiSignUp, this.data)
             .then(response => {
-                console.log(response.status);
                 if (response.status === 200) {
-                    console.log('status', response.status);
-                    this.redirect('Главная страница', '/');
+                    this.redirect(...pageMain());
+                } else {
+                    response.json()
+                        .then(errors => this.setState({errors}))
                 }
             })
-            .catch(e => console.log(e));
     }
 
     render() {
@@ -55,6 +56,7 @@ export class SignUp extends Component {
             new GridField({props:{
                 ...field,
                 errors: errors[field.name],
+                required: true,
                 value: this.data[field.name],
                 gridTemplate: '80px 200px',
                 dataHandler: this.setData.bind(this)
@@ -66,7 +68,7 @@ export class SignUp extends Component {
         })
 
         listen('form', 'submit', e => this.submit(e));
-        this.link('.signin-link', 'Авторизация', '/signin')
+        this.link('.signin-link', ...pageSignIn())
 
         return signUp;
     }
