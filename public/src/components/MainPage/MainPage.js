@@ -17,7 +17,7 @@ export default class MainPage extends Component {
 
     render() {
         const [page, replace] = this.create('div', `
-        <h2>Валюты</h2>
+        <h2 class="block-title">Валюты</h2>
         <div class="rates-wrapper">
             <Rates></Rates>
         </div>
