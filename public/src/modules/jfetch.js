@@ -1,8 +1,9 @@
-const hostname = "https://api.softree.group";
+// const hostname = "https://api.softree.group";
+const hostname = "http://api.localhost";
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {
-        mode: "no-cors",
+        mode: "cors",
         credentials: 'include',
         ...options
     })
