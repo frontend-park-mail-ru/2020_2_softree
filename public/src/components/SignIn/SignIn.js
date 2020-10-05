@@ -45,7 +45,7 @@ export default class SignIn extends Component {
                 ${errors ? `<Error></Error>` : ''}
                     <GridFields></GridFields>
                     <div class="modal__bottom-wrapper">
-                        <a class="forgot-link" href="/forgot-password">Заыбли пароль?</a>
+                        <a class="forgot-link" href="/forgot-password">Забыли пароль?</a>
                         <SubmitButton></SubmitButton>
                     </div>
                 </form> 

@@ -5,6 +5,8 @@ import MainPage from "./MainPage/MainPage.js";
 import SignIn from "./SignIn/SignIn.js";
 import Page404 from "./Page404/Page404.js";
 import Profile from "./Profile/Profile.js";
+import {useDispatch} from "../modules/Softer/softer-softex.js";
+import {fetchUserData} from "../store/actions.js";
 
 export default class App extends Component {
     constructor(props) {

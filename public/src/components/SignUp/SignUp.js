@@ -28,7 +28,7 @@ export class SignUp extends Component {
         e.preventDefault();
         jpost(apiSignUp, this.data)
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     this.redirect(...pageMain());
                 } else {
                     response.json()
