@@ -14,17 +14,17 @@ export default class Rate extends Component {
 
         const [card] = this.create('div', `
         <div class="rate-card__header" style="${Styler(headerStyle)}">
-            <p>${props.title}</p> 
-            <p>${props.change}%</p> 
+            <p class="rate-card__header_title">${props.title}</p> 
+            <p class="rate-card__header_change">${props.change}%</p> 
         </div> 
         <div class="rate-card__body">
             <div class="rate-card__body_field">
-                <p>BUY</p> 
-                <p>${props.buy}</p> 
+                <p class="rate-card__body_field-title">BUY</p> 
+                <p class="rate-card__body_field-value">${props.buy}</p> 
             </div> 
             <div class="rate-card__body_field">
-                <p>SELL</p> 
-                <p>${props.sell}</p> 
+                <p class="rate-card__body_field-title">SELL</p> 
+                <p class="rate-card__body_field-value">${props.sell}</p> 
             </div>
         </div>
         `)
