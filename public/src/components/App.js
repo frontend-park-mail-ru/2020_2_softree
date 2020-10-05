@@ -4,15 +4,17 @@ import {SignUp} from "./SignUp/SignUp.js";
 import SignIn from "./SignIn/SignIn.js";
 import MainPage from "./MainPage/MainPage.js";
 import ProfilePage from "./ProfilePage/ProfilePage.js";
+import Page404 from "./Page404/Page404.js";
 
 export default class App extends Component {
-    constructor() {
-        super();
-        this.Header = new Header()
-        this.mainPageRouter = new Router('/', MainPage);
-        this.signInRouter = new Router('/signin', SignIn);
-        this.signUpRouter = new Router('/signup', SignUp);
-        this.profilePageRouter = new Router('/profile', ProfilePage);
+    constructor(props) {
+        super(props);
+        this.Header = this.place(Header);
+        this.mainPageRouter = this.place(Router, {path: '/', component: MainPage});
+        this.signInRouter = this.place(Router, {path:'/signin', component: SignIn});
+        this.signUpRouter = this.place(Router, {path:'/signup', component: SignUp});
+        this.profilePageRouter = this.place(Router, {path:'/profile', component: ProfilePage});
+        this.page404 = this.place(Router, {component: Page404});
     }
 
     render() {

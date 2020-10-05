@@ -1,0 +1,24 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.wrapper__left {
+
+}
+
+.wrapper__right {
+    
+}
+
+.button {
+    position: absolute;
+    width: 152px;
+    height: 43px;
+    left: 224px;
+    top: 34px;
+    
+    background: #EBEBEB;
+    border-radius: 10px;
+}

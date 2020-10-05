@@ -227,9 +227,9 @@ export const listen = (element, selector, event, clb) => {
 export const ReplacerTo = (element) => {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
-           if (!(context instanceof String)) {
-               throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
-           }
+            if (!(context instanceof String)) {
+                throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
+            }
            replace(element, context, ...nodes);
         }
 
@@ -255,11 +255,17 @@ export const setupNode = (node, content) => {
 
 const treeRender = (element, tree) => {
     tree.forEach(node => {
+        console.log(node)
         if (node instanceof HTMLElement) {
             element.appendChild(node);
         }
         if (node instanceof Switch) {
-            element.appendChild(node.render());
+            const result = node.render();
+            console.log('res', result);
+            if (result instanceof Array) {
+                element.append(...result);
+            }
+            treeRender(element, node.render());
         }
         if (node instanceof Array) {
             treeRender(element, node);

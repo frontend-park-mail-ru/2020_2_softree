@@ -17,13 +17,8 @@ export class Header extends Component {
 
         header.className = 'header';
 
-<<<<<<< HEAD
-        header.querySelector('.header__control_avatar')
-            .addEventListener('click', Link('Профиль', '/profile'));
-=======
         this.link('.header__logo', 'Главная страница', '/');
-        this.link('.header__control_avatar', 'Профиль', '/signup');
->>>>>>> mark
+        this.link('.header__control_avatar', 'Профиль', '/profile');
 
         return header;
     }

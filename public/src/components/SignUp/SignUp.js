@@ -1,4 +1,6 @@
+import { useDispatch } from "../../modules/Softer/softer-softex.js";
 import {Component} from "../../modules/Softer/Softer.js";
+import { startLoading } from "../../store/actions.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 
@@ -19,14 +21,20 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
+        const dispatch = useDispatch();
+        dispatch(startLoading());
         console.log(this.data);
     }
 
     render() {
+        const loading = this.useSelector(state => state.app.loading);
+
+
         const [signUp, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
             <div class="modal auth">
                 <h2 class="modal__title">Добро пожаловать!</h2>
+                ${loading}
                 <form class="grid-form">
                     <GridFields></GridFields>
                     <SubmitButton></SubmitButton>
@@ -51,6 +59,6 @@ export class SignUp extends Component {
         listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', 'Авторизация', '/signin')
 
-        return signUp;
+        return [signUp];
     }
 }

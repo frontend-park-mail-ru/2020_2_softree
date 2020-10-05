@@ -4,3 +4,7 @@
 @import "components/SignUp/SignUp.css";
 @import "components/Form/GridField/GridField.css";
 @import "components/Form/Submit/Submit.css";
+@import "components/ProfilePage/Menu/Menu.css";
+@import "components/ProfilePage/Bag/Bag.css";
+@import "components/ProfilePage/History/History.css";
+@import "components/ProfilePage/Settings/Settings.css";
