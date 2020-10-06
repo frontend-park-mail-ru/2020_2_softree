@@ -5,6 +5,7 @@
 
 import {id} from "../../utils/utils.js";
 import {useSelector} from "./softer-softex.js";
+import {pageSignUp} from "../../pages.js";
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -205,11 +206,16 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, exact, componentProps, appId}) {
+    constructor({path, component, exact, componentProps, authRequired, appId}) {
         super({appId});
         this.path = path;
         this.exact = exact;
         this.component = this.place(component, componentProps);
+        this.authRequired = authRequired;
+    }
+
+    authCheck() {
+        return this.useSelector(state => state.user.userData);
     }
 
     /**
@@ -217,13 +223,14 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
+        if (this.authRequired) {
+            if (!this.authCheck()) {
+                this.redirect(...pageSignUp());
+                return document.createElement('div');
+            }
+        }
         return this.component.render();
     }
-}
-
-export const Redirect = (state, title, href) => {
-    window.history.pushState({id: target.id}, target.title, target.href);
-    window.render();
 }
 
 /**

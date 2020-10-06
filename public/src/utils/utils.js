@@ -6,8 +6,10 @@ export const id = () => {
     return Math.round(Math.random() * Date.now());
 }
 
-export const checkAuth = (userData) => {
+export function checkAuth(userData) {
+
     if (userData) {
         return true;
     }
 }
+

@@ -5,6 +5,8 @@ import {jpost} from "../../modules/jfetch.js";
 import {apiSignIn} from "../../api.js";
 import {pageForgotPassword, pageMain, pageSignUp} from "../../pages.js";
 import ErrorField from "../Form/ErrorField.js";
+import {useDispatch} from "../../modules/Softer/softer-softex.js";
+import {setUserData} from "../../store/actions.js";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -28,7 +30,11 @@ export default class SignIn extends Component {
         jpost(apiSignIn(), this.data)
             .then(response => {
                 if (response.status === 200) {
-                    this.redirect(...pageMain());
+                    response.json()
+                        .then(data => {
+                            useDispatch()(setUserData(data));
+                            this.redirect(...pageMain());
+                        })
                 } else {
                     this.setState({errors: ["Пароль или Email не подходит"]})
                 }
