@@ -1,7 +1,10 @@
 .btn {
-    background: #d44040;
-    border-radius: 10px;
+    background: rgba(230, 230, 230, 100);
+    border-radius: 50px;
     text-align: center;
+    font-size: 27px;
+    padding: 10px;
+    margin: 10px;
 }
 
 .flex-menu {
@@ -10,10 +13,4 @@
 
 .flex-left {
     display: flex;
-    padding-right: 20px;
-    margin-top: 30px;
-}
-
-.flex-right {
-    margin-left: ;
 }

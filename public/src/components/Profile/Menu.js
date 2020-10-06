@@ -16,9 +16,9 @@ export default class Menu extends Component {
                 <div class="b3-link btn">Настройки</div>
             </div>
                 `)
-        this.link('.b1-link', 'Main', '/profile');
-        this.link('.b2-link', 'Settings', '/profile/settings');
-        this.link('.b3-link', 'History', '/profile/history');
+        this.link('.b1-link', 'Bag', '/profile');
+        this.link('.b2-link', 'History', '/profile/history');
+        this.link('.b3-link', 'Settings', '/profile/settings');
 
         return menu;
     }
