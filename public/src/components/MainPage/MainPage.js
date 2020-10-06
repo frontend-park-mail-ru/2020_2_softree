@@ -19,8 +19,7 @@ export default class MainPage extends Component {
             {title: "AUD/RUB", change: -1.24, sell: 32.345, buy: 33.284},
         ]
 
-
-        setInterval(() => this.fetchRates(), 5000);
+        this.interval = false;
     }
 
     fetchRates() {
@@ -36,6 +35,13 @@ export default class MainPage extends Component {
     }
 
     render() {
+        if (!this.interval) {
+            if (this.useSelector(store => store.user.userData)) {
+                this.fetchRates();
+                this.interval = setInterval(() => this.fetchRates(), 5000);
+            }
+        }
+
         const [page, replace] = this.create('div', `
         <h2 class="block-title">Валюты</h2>
         <div class="rates-wrapper">
