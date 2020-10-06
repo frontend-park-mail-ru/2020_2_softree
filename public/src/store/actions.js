@@ -1,10 +1,24 @@
-import {appStartLoading, appEndLoading} from "./types.js";
+import {appStartLoading, appEndLoading, userSetData, userDropData} from "./types.js";
+import {apiCheckAuth} from "../api.js";
+import {jget} from "../modules/jfetch.js";
 
 export const startLoading = () => ({type: appStartLoading});
 
 export const endLoading = () => ({type: appEndLoading});
 
-export const fetchUserData = () => {
-    return dispatch => {
+export const setUserData = (data) => ({type: userSetData, payload: data});
+export const dropUserData = () => ({type: userDropData});
+
+export const fetchUserData = (redirectToAuth) => {
+    return async dispatch => {
+        dispatch(startLoading());
+        const response = await jget(apiCheckAuth())
+        if (response.status === 200) {
+            const data = await response.json();
+            dispatch(setUserData(data));
+        } else {
+            redirectToAuth();
+        }
+        dispatch(endLoading());
     }
 }
