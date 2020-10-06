@@ -3,32 +3,44 @@ import {Component} from "../../modules/Softer/Softer.js";
 import { startLoading } from "../../store/actions.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
+import {jpost} from "../../modules/jfetch.js";
+import {apiSignUp} from "../../api.js";
+import {pageMain, pageSignIn} from "../../pages.js";
 
 export class SignUp extends Component {
     constructor(props) {
         super(props);
         this.fields = [
             {title: 'Email', type: 'email', name: 'email'},
-            {title: 'Пароль', type: 'password', name: 'password'},
+            {title: 'Пароль', type: 'password', name: 'password1'},
             {title: 'Повторите пароль', type: 'password', name: 'password2'}
         ];
         this.data = {
             email: '',
-            password: '',
-            password2: ''
+            password1: '',
+            password2: '',
         };
+
+        this.state = {
+            errors: {}
+        }
     }
 
     submit(e) {
         e.preventDefault();
-        const dispatch = useDispatch();
-        dispatch(startLoading());
-        console.log(this.data);
+        jpost(apiSignUp, this.data)
+            .then(response => {
+                if (response.status === 201) {
+                    this.redirect(...pageMain());
+                } else {
+                    response.json()
+                        .then(errors => this.setState({errors}))
+                }
+            })
     }
 
     render() {
-        const loading = this.useSelector(state => state.app.loading);
-
+        const {errors} = this.state;
 
         const [signUp, replace, listen] = this.create('div', `
         <div class="hidden-wrapper">
@@ -46,6 +58,8 @@ export class SignUp extends Component {
         const fields = this.fields.map(field =>
             new GridField({props:{
                 ...field,
+                errors: errors[field.name],
+                required: true,
                 value: this.data[field.name],
                 gridTemplate: '80px 200px',
                 dataHandler: this.setData.bind(this)
@@ -57,7 +71,7 @@ export class SignUp extends Component {
         })
 
         listen('form', 'submit', e => this.submit(e));
-        this.link('.signin-link', 'Авторизация', '/signin')
+        this.link('.signin-link', ...pageSignIn())
 
         return [signUp];
     }

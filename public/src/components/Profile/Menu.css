@@ -1,0 +1,19 @@
+.btn {
+    background: #d44040;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.flex-menu {
+    display: flex;
+}
+
+.flex-left {
+    display: flex;
+    padding-right: 20px;
+    margin-top: 30px;
+}
+
+.flex-right {
+    margin-left: ;
+}

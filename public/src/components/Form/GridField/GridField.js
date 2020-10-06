@@ -1,5 +1,6 @@
 import {Component} from "../../../modules/Softer/Softer.js";
 import {changeHandler} from "../../../utils/utils.js";
+import ErrorField from "../ErrorField.js";
 
 export default class GridField extends Component {
     constructor(props) {
@@ -7,15 +8,22 @@ export default class GridField extends Component {
     }
 
     render() {
-        const {title, type, name, value, gridTemplate, dataHandler, errors} = this.props;
-        const [field,, listen] = this.create('div', `
-            <label>${title}</label>
-            ${errors ? `<p class="grid-field__error">${errors.join()}</p>` : ''}
-            <input type="${type}" name="${name}" value="${value ? value : ''}"/>
+        const {title, type, name, value, required, gridTemplate, dataHandler, errors} = this.props;
+        const [field, replace, listen] = this.create('div', `
+            <div class="grid-field" style="grid-template-columns: ${gridTemplate ? gridTemplate : ''}"> 
+                <label style="color: ${errors ? 'red' : ''}">${title}</label>
+                <input type="${type}" ${required ? 'required' : ''} name="${name}" value="${value ? value : ''}"/>
+            </div>
+            ${errors ?  `<ErrorField></ErrorField>` : ''}
         `);
 
-        field.className = "grid-field";
-        field.style.gridTemplateColumns = gridTemplate ? gridTemplate : '';
+        field.className = "field";
+
+        if (errors) {
+            replace({
+                ErrorField: new ErrorField(errors).render()
+            })
+        }
 
         listen('input', 'change', e => changeHandler(e, dataHandler));
 

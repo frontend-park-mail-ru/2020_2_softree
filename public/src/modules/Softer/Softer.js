@@ -111,7 +111,7 @@ export class Component {
 
     /**
      * Создает и возвращает HTML элемент компоненты.
-     * @return {HTMLElement, HTMLInputElement | [HTMLElement, Switch, HTMLInputElement]}
+     * @return {HTMLElement}
      */
     render() {
     }
@@ -151,9 +151,9 @@ export class Softer {
  * @param {HTMLElement} element - элемент, в котором будет генерироваться приложение
  * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
  */
-export const Render = (element, tree) => {
+export const Render = (element, app) => {
     element.innerHTML = ''
-    treeRender(element, tree)
+    element.appendChild(app);
 }
 
 /**
@@ -164,6 +164,15 @@ export class Switch {
         this.routers = routers;
     }
 
+    checkPathFor(router) {
+        const currentPathName = window.location.pathname;
+        if (router.exact) {
+            return router.path === currentPathName;
+        }
+        const match = currentPathName.match(router.path);
+        return !!match;
+    }
+
     /**
      * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path. Если не нашлось подходящего,
      * выбирает последний. В качестве последнего удобно поставить страницу 404
@@ -171,7 +180,7 @@ export class Switch {
      */
     render() {
         for (let i = 0; i < this.routers.length; i++) {
-            if (this.routers[i].path === window.location.pathname) {
+            if (this.checkPathFor(this.routers[i])) {
                 return this.routers[i].render();
             }
         }
@@ -190,9 +199,10 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, componentProps, appId}) {
+    constructor({path, component, exact, componentProps, appId}) {
         super({appId});
         this.path = path;
+        this.exact = exact;
         this.component = this.place(component, componentProps);
     }
 
@@ -251,24 +261,4 @@ export const ListenerFor = (element) => {
 export const setupNode = (node, content) => {
     node.innerHTML = content;
     return [node, ReplacerTo(node), ListenerFor(node)];
-}
-
-const treeRender = (element, tree) => {
-    tree.forEach(node => {
-        console.log(node)
-        if (node instanceof HTMLElement) {
-            element.appendChild(node);
-        }
-        if (node instanceof Switch) {
-            const result = node.render();
-            console.log('res', result);
-            if (result instanceof Array) {
-                element.append(...result);
-            }
-            treeRender(element, node.render());
-        }
-        if (node instanceof Array) {
-            treeRender(element, node);
-        }
-    })
 }
