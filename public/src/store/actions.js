@@ -8,6 +8,7 @@ export const endLoading = () => ({type: appEndLoading});
 
 export const setUserData = (data) => ({type: userSetData, payload: data});
 export const dropUserData = () => ({type: userDropData});
+export const setAvatar = src => ({type: userSetAvatar, payload: src});
 
 export const fetchUserData = (redirectToAuth) => {
     return async dispatch => {

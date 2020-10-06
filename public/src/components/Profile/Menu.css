@@ -9,8 +9,21 @@
 
 .flex-menu {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px;
 }
 
 .flex-left {
     display: flex;
+}
+
+.flex-right {
+    display: flex;
+}
+
+@media screen and (max-width: 400px) {
+    .btn {
+        font-size: 14px;
+    }
 }

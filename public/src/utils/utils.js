@@ -7,9 +7,20 @@ export const id = () => {
 }
 
 export function checkAuth(userData) {
-
     if (userData) {
         return true;
     }
 }
 
+export function setUploadedImage(event, imgHandler) {
+    let input = event.target;
+    if (input.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            imgHandler(e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}

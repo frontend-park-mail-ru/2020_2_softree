@@ -1,5 +1,5 @@
-// const hostname = "https://api.softree.group";
-const hostname = "http://api.self.ru";
+// const hostname = "http://localhost:8000";
+const hostname = "http://self.ru";
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {

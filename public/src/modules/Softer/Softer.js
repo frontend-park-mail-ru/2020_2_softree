@@ -244,6 +244,7 @@ export const replace = (element, selector, ...nodes) => {
 }
 
 export const listen = (element, selector, event, clb) => {
+    console.log(element, selector);
     [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
 }
 
