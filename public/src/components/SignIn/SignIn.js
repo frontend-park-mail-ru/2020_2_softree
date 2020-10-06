@@ -25,12 +25,12 @@ export default class SignIn extends Component {
 
     submit(e) {
         e.preventDefault();
-        jpost(apiSignIn, this.data)
+        jpost(apiSignIn(), this.data)
             .then(response => {
                 if (response.status === 200) {
                     this.redirect(...pageMain());
                 } else {
-                    this.setState({errors: "Пароль или Email не подходит"})
+                    this.setState({errors: ["Пароль или Email не подходит"]})
                 }
             })
     }
@@ -65,8 +65,13 @@ export default class SignIn extends Component {
         replace({
             GridFields: fields.map(field => field.render()),
             SubmitButton: new Submit('Войти').render(),
-            Error: new ErrorField(errors),
         })
+
+        if (errors) {
+            replace({
+                Error: new ErrorField(errors).render(),
+            })
+        }
 
         listen('form', 'submit', e => this.submit(e));
         this.link('.signup-link', ...pageSignUp());

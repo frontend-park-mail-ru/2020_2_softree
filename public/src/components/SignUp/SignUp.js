@@ -6,6 +6,7 @@ import Submit from "../Form/Submit/Submit.js";
 import {jpost} from "../../modules/jfetch.js";
 import {apiSignUp} from "../../api.js";
 import {pageMain, pageSignIn} from "../../pages.js";
+import ErrorField from "../Form/ErrorField.js";
 
 export class SignUp extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
-        jpost(apiSignUp, this.data)
+        jpost(apiSignUp(), this.data)
             .then(response => {
                 if (response.status === 201) {
                     this.redirect(...pageMain());
@@ -49,6 +50,7 @@ export class SignUp extends Component {
                 ${loading}
                 <form class="grid-form">
                     <GridFields></GridFields>
+                    ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
                     <SubmitButton></SubmitButton>
                 </form> 
                 <a class="signin-link" href="/signin">Уже есть аккаунт?</a>
@@ -69,6 +71,12 @@ export class SignUp extends Component {
             GridFields: fields.map(field => field.render()),
             SubmitButton: new Submit('Зарегистрироваться').render()
         })
+
+        if (errors['non_field_errors']) {
+            replace({
+                FieldError: new ErrorField(errors['non_field_errors']).render()
+            })
+        }
 
         listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', ...pageSignIn())

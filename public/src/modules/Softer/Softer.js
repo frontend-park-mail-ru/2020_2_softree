@@ -92,9 +92,15 @@ export class Component {
         return setupNode(this.node, content);
     }
 
-    link(selector, title, href) {
+    link(selector, title, href, prework = null) {
         listen(this.node, selector, 'click', e => {
             e.preventDefault();
+            if (prework) {
+                const exit = prework();
+                if (exit) {
+                    return;
+                }
+            }
             this.__historyPushState(title, href);
         })
     }

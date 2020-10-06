@@ -1,4 +1,5 @@
 import {Component} from "../../modules/Softer/Softer.js";
+import {pageMain, pageSignUp} from "../../pages.js";
 
 export class Header extends Component {
     constructor(props) {
@@ -17,8 +18,18 @@ export class Header extends Component {
 
         header.className = 'header';
 
-        this.link('.header__logo', 'Главная страница', '/');
-        this.link('.header__control_avatar', 'Профиль', '/profile');
+
+        const data = this.useSelector(state => state.user.userData)
+        const redirectIfNotAuth = () => {
+            if (!data) {
+                this.redirect(...pageSignUp())
+                return true;
+            }
+            return false;
+        }
+
+        this.link('.header__logo', ...pageMain(), redirectIfNotAuth);
+        this.link('.header__control_avatar', 'Профиль', '/profile', redirectIfNotAuth);
 
         return header;
     }
