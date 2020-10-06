@@ -15,7 +15,7 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, initState= {}, initData = {}, appId = null} = {}) {
+    constructor({props = {}, initState = {}, initData = {}, appId = null} = {}) {
         this.props = props;
         this.state = initState;
         this.data = initData;
@@ -34,7 +34,7 @@ export class Component {
      * @param {any} key
      * @return {*}
      */
-    place(component, props= {}) {
+    place(component, props = {}) {
         const newComponent = new component({...props, appId: this.appId});
         newComponent.key = id();
         return newComponent
@@ -46,14 +46,9 @@ export class Component {
 
     rerender() {
         if (!this.node) {
-            window.render();
+            window.Softer.rerenderApp(this.appId);
         }
-        const renderResult = this.render();
-        if (renderResult instanceof Array) {
-            this.node.replaceWith(...renderResult);
-        } else {
-            this.node.replaceWith(renderResult);
-        }
+        this.node.replaceWith(this.render());
     }
 
     /**
@@ -82,7 +77,7 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create (tag, content = '', options = {}) {
+    create(tag, content = '', options = {}) {
         if (!this.node) {
             this.node = document.createElement(tag);
             let option;
@@ -250,10 +245,10 @@ export const listen = (element, selector, event, clb) => {
 export const ReplacerTo = (element) => {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
-           if (!(context instanceof String)) {
-               throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
-           }
-           replace(element, context, ...nodes);
+            if (!(context instanceof String)) {
+                throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
+            }
+            replace(element, context, ...nodes);
         }
 
         let selector;
