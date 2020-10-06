@@ -5,6 +5,8 @@ import {jpost} from "../../modules/jfetch.js";
 import {apiSignUp} from "../../api.js";
 import {pageMain, pageSignIn} from "../../pages.js";
 import ErrorField from "../Form/ErrorField.js";
+import {useDispatch} from "../../modules/Softer/softer-softex.js";
+import {setUserData} from "../../store/actions.js";
 
 export class SignUp extends Component {
     constructor(props) {
@@ -30,6 +32,7 @@ export class SignUp extends Component {
         jpost(apiSignUp(), this.data)
             .then(response => {
                 if (response.status === 201) {
+                    useDispatch()(setUserData({...this.data, password1: '', password2: ''}));
                     this.redirect(...pageMain());
                 } else {
                     response.json()
