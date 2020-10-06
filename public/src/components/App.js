@@ -13,14 +13,14 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.Header = this.place(Header);
-        this.mainPageRouter = this.place(Router, {path: '/', component: Profile, exact: true});
+        this.mainPageRouter = this.place(Router, {path: '/', component: MainPage, exact: true});
         this.signInRouter = this.place(Router, {path:'/signin', component: SignIn, exact: true});
         this.signUpRouter = this.place(Router, {path:'/signup', component: SignUp, exact: true});
         this.profile = this.place(Router, {path:`\/profile.*`, component: Profile});
         this.page404 = this.place(Router, {component: Page404});
 
-        const dispatch = useDispatch();
-        dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
+        //const dispatch = useDispatch();
+        //dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
     }
 
     render() {
@@ -36,11 +36,11 @@ export default class App extends Component {
             Header: this.Header.render(),
         })
 
-        if (loading) {
-            return app;
-        }
+        //if (loading) {
+        //    return app;
+        //}
 
-        if (data) {
+        //if (data) {
             replace({
                 MainContent: new Switch(
                     this.mainPageRouter,
@@ -48,15 +48,15 @@ export default class App extends Component {
                     this.page404
                 ).render()
             } )
-        } else {
-            replace({
-                MainContent: new Switch(
-                    this.signInRouter,
-                    this.signUpRouter,
-                    this.page404
-                ).render()
-            })
-        }
+        //} else {
+        //    replace({
+        //        MainContent: new Switch(
+        //            this.signInRouter,
+        //            this.signUpRouter,
+        //            this.page404
+        //        ).render()
+        //    })
+        //}
 
         return app;
     }
