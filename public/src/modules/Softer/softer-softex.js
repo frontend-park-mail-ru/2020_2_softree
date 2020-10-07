@@ -1,10 +1,10 @@
 import diff from './diff.js';
 
-export function select (selector) {
+export function select(selector) {
     return selector(window.Softer.store.getState());
 }
 
-export function useSelector (component, selector) {
+export function useSelector(component, selector) {
     const { store } = window.Softer;
     if (store === null) {
         throw new Error('Store не подключен');

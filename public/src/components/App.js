@@ -10,7 +10,7 @@ import { fetchUserData } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
 
 export default class App extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.Header = this.place(Header);
         this.mainPageRouter = this.place(Router, { path: '/', component: MainPage, exact: true, authRequired: true });
@@ -23,7 +23,7 @@ export default class App extends Component {
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
     }
 
-    render () {
+    render() {
         const loading = this.useSelector(state => state.user.loading);
 
         const [app, replace] = this.create('div', `

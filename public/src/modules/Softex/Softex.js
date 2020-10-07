@@ -3,17 +3,17 @@ export const createStore = (rootReducer, initialStore = {}) => {
     const subscribers = [];
 
     return {
-        dispatch (action) {
+        dispatch(action) {
             const was = state;
             state = rootReducer(state, action);
             subscribers.forEach(sub => sub(was, state));
         },
-        subscribe (clb) {
+        subscribe(clb) {
             if (!subscribers.includes(clb)) {
                 subscribers.push(clb);
             }
         },
-        getState () {
+        getState() {
             return state;
         }
     };

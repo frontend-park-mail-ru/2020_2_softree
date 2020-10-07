@@ -1,11 +1,11 @@
 import { Component } from '../../modules/Softer/Softer.js';
 
 export default class ProfileMain extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
-    render () {
+    render() {
         const [page] = this.create('div', `
         <div>Main page profile</div>
         `);

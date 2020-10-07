@@ -3,11 +3,11 @@ import { changeHandler } from '../../../utils/utils.js';
 import ErrorField from '../ErrorField.js';
 
 export default class GridField extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
-    render () {
+    render() {
         const { title, type, name, value, required, gridTemplate, dataHandler, errors } = this.props;
         const [field, replace, listen] = this.create('div', `
             <div class='grid-field' style='grid-template-columns: ${gridTemplate || ''}'> 
