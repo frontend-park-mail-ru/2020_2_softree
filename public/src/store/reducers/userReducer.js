@@ -1,4 +1,4 @@
-import {userEndLoading, userSetData, userStartLoading} from "../types.js";
+import {userEndLoading, userSetData, userStartLoading} from '../types.js';
 
 const initState = {
     userData: null,

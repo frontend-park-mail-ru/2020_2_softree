@@ -1,5 +1,5 @@
-// const hostname = "https://api.softree.group";
-const hostname = "http://api.self.ru";
+// const hostname = 'https://api.softree.group';
+const hostname = 'http://api.self.ru';
 
 const isJSONAnswer = response => {
     return response.headers.get('Content-Length') > 0;
@@ -7,7 +7,7 @@ const isJSONAnswer = response => {
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {
-        mode: "cors",
+        mode: 'cors',
         credentials: 'include',
         ...options
     })

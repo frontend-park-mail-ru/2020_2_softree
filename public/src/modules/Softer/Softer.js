@@ -3,9 +3,9 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from "../../utils/utils.js";
-import {select, useSelector} from "./softer-softex.js";
-import {pageSignUp} from "../../pages.js";
+import {id} from '../../utils/utils.js';
+import {select, useSelector} from './softer-softex.js';
+import {pageSignUp} from '../../pages.js';
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -212,12 +212,11 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
-        if (this.authRequired) {
-            if (!this.authCheck()) {
+        if (this.authRequired && !this.authCheck()) {
                 this.redirect(...pageSignUp());
                 return document.createElement('div');
-            }
         }
+
         return this.component.render();
     }
 }

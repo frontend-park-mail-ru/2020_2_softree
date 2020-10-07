@@ -1,6 +1,6 @@
-import {appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading} from "./types.js";
-import {apiCheckAuth} from "../api.js";
-import {jget} from "../modules/jfetch.js";
+import {appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading} from './types.js';
+import {apiCheckAuth} from '../api.js';
+import {jget} from '../modules/jfetch.js';
 
 
 //APP

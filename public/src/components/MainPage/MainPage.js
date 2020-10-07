@@ -1,7 +1,7 @@
-import {Component} from "../../modules/Softer/Softer.js";
-import Rate from "./Rate/Rate.js";
-import {jget} from "../../modules/jfetch.js";
-import {apiRates} from "../../api.js";
+import {Component} from '../../modules/Softer/Softer.js';
+import Rate from './Rate/Rate.js';
+import {jget} from '../../modules/jfetch.js';
+import {apiRates} from '../../api.js';
 
 export default class MainPage extends Component {
 
@@ -18,7 +18,7 @@ export default class MainPage extends Component {
     fetchRates() {
         jget(apiRates())
             .then(({data}) => {this.setState({rates: data});})
-            .catch(() => {this.setState({error: "Что-то пошло не так("});})
+            .catch(() => {this.setState({error: 'Что-то пошло не так('});})
     }
 
     render() {
@@ -30,8 +30,8 @@ export default class MainPage extends Component {
         }
 
         const [page, replace] = this.create('div', `
-        <h2 class="block-title">Валюты</h2>
-        <div class="rates-wrapper">
+        <h2 class='block-title'>Валюты</h2>
+        <div class='rates-wrapper'>
             ${this.state.rates.length === 0 ? `<h1>Котировки подгружаются...</h1>` : `<Rates></Rates>`}
         </div>
         `)

@@ -1,12 +1,12 @@
-import {Component} from "../../modules/Softer/Softer.js";
-import GridField from "../Form/GridField/GridField.js";
-import Submit from "../Form/Submit/Submit.js";
-import {jpost} from "../../modules/jfetch.js";
-import {apiSignIn} from "../../api.js";
-import {pageForgotPassword, pageMain, pageSignUp} from "../../pages.js";
-import ErrorField from "../Form/ErrorField.js";
-import {useDispatch} from "../../modules/Softer/softer-softex.js";
-import {setUserData} from "../../store/actions.js";
+import {Component} from '../../modules/Softer/Softer.js';
+import GridField from '../Form/GridField/GridField.js';
+import Submit from '../Form/Submit/Submit.js';
+import {jpost} from '../../modules/jfetch.js';
+import {apiSignIn} from '../../api.js';
+import {pageForgotPassword, pageMain, pageSignUp} from '../../pages.js';
+import ErrorField from '../Form/ErrorField.js';
+import {useDispatch} from '../../modules/Softer/softer-softex.js';
+import {setUserData} from '../../store/actions.js';
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -32,24 +32,24 @@ export default class SignIn extends Component {
                 useDispatch()(setUserData(data));
                 this.redirect(...pageMain());
             })
-            .catch(() => this.setState({errors: ["Пароль или Email не подходит"]}))
+            .catch(() => this.setState({errors: ['Пароль или Email не подходит']}))
     }
 
     render() {
         const {errors} = this.state;
         const [signIn, replace, listen] = this.create('div', `
-        <div class="hidden-wrapper">
-            <div class="modal auth">
-                <h2 class="modal__title">Здравствуйте!</h2>
-                <form class="grid-form">
+        <div class='hidden-wrapper'>
+            <div class='modal auth'>
+                <h2 class='modal__title'>Здравствуйте!</h2>
+                <form class='grid-form'>
                 ${errors ? `<Error></Error>` : ''}
                     <GridFields></GridFields>
-                    <div class="modal__bottom-wrapper">
-                        <a class="forgot-link" href="/forgot-password">Забыли пароль?</a>
+                    <div class='modal__bottom-wrapper'>
+                        <a class='forgot-link' href='/forgot-password'>Забыли пароль?</a>
                         <SubmitButton></SubmitButton>
                     </div>
                 </form> 
-                <a class="signup-link" style="margin-top: 20px" href="/signup">Еще нет аккаунта?</a>
+                <a class='signup-link' style='margin-top: 20px' href='/signup'>Еще нет аккаунта?</a>
             </div> 
         </div>`);
 
