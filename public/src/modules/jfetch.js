@@ -1,5 +1,5 @@
 // const hostname = "http://localhost:8000";
-const hostname = "http://self.ru";
+const hostname = "http://api.self.ru";
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {

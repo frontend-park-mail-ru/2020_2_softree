@@ -1,6 +1,6 @@
-import {appStartLoading, appEndLoading, userSetData, userDropData} from "./types.js";
-import {apiCheckAuth} from "../api.js";
-import {jget} from "../modules/jfetch.js";
+import {appStartLoading, appEndLoading, userSetData, userDropData, userSetAvatar} from "./types.js";
+import {apiCheckAuth, apiUpdateUser} from "../api.js";
+import {jget, jpatch} from "../modules/jfetch.js";
 
 export const startLoading = () => ({type: appStartLoading});
 
@@ -21,5 +21,12 @@ export const fetchUserData = (redirectToAuth) => {
             redirectToAuth();
         }
         dispatch(endLoading());
+    }
+}
+
+export const setPhoto = (src) => {
+    return async dispatch => {
+        jpatch(apiUpdateUser(), {avatar : src});
+        dispatch(setAvatar(src));
     }
 }

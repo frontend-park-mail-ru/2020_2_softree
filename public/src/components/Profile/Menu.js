@@ -1,8 +1,10 @@
-import { apiChangePass, apiLogOut } from "../../api.js";
+import { apiLogOut } from "../../api.js";
 import {Component, listen} from "../../modules/Softer/Softer.js";
 import {pageProfile, pageHistory, pageSettings} from "../../pages.js";
 import {jpost} from "../../modules/jfetch.js";
-
+import { useDispatch } from "../../modules/Softer/softer-softex.js";
+import { dropUserData } from "../../store/actions.js";
+import { pageSignIn } from "../../pages.js"
 
 export default class Menu extends Component {
     constructor(props) {
@@ -13,8 +15,9 @@ export default class Menu extends Component {
         e.preventDefault();
         jpost(apiLogOut())
             .then(response => {
-                if (response.status === 200) {
-                    this.redirect(...pageMain());
+                if (response.status === 302) {
+                    useDispatch()(dropUserData());
+                    this.redirect(...pageSignIn());
                 }
             })
     }

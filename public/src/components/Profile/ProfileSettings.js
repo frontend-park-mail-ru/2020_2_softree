@@ -1,4 +1,4 @@
-import { apiChangePass, apiLogOut } from "../../api.js";
+import { apiChangePass, apiUpdateUser } from "../../api.js";
 import { jpost } from "../../modules/jfetch.js";
 import {Component} from "../../modules/Softer/Softer.js";
 import {changeHandler} from "../../utils/utils.js";
@@ -6,7 +6,8 @@ import ErrorField from "../Form/ErrorField.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 import {setUploadedImage} from "../../utils/utils.js"
-import { pageMain } from "../../pages.js";
+import {useDispatch} from "../../modules/Softer/softer-softex.js"
+import {setPhoto} from "../../store/actions.js"
 
 export default class ProfileSettings extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ export default class ProfileSettings extends Component {
         ];
 
         this.data = {
+            avatar: '',
             password1: '',
             password2: '',
             password3: ''
@@ -44,10 +46,8 @@ export default class ProfileSettings extends Component {
     changePhoto(e) {
         e.preventDefault();
         const dispatch = useDispatch();
-        const imgHandler = src => dispatch(setAvatar(src));
+        const imgHandler = src => dispatch(setPhoto(src));
         setUploadedImage(e, imgHandler);
-
-        jpost(apiChangePhoto(), this.data);
     }
 
     render() {

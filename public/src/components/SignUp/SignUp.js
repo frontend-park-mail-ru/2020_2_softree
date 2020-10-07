@@ -49,7 +49,6 @@ export class SignUp extends Component {
         <div class="hidden-wrapper">
             <div class="modal auth">
                 <h2 class="modal__title">Добро пожаловать!</h2>
-                ${loading}
                 <form class="grid-form">
                     <GridFields></GridFields>
                     ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
