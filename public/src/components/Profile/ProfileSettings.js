@@ -26,14 +26,13 @@ export default class ProfileSettings extends Component {
         };
 
         this.state = {
-            errors: {},
-            notification: {}
+            errors: {}
         }
     }
 
     changePass(e) {
         e.preventDefault();
-        if (e.newPassword1 != e.newPassword2) {
+        if (e.newPassword1 !== e.newPassword2) {
             this.setState({errors: {errors: ['Пароли не совпадают']}})
             return;
         }
@@ -41,7 +40,7 @@ export default class ProfileSettings extends Component {
         jpatch(apiChangePass(), this.data)
             .then(({status}) => {
                 if (status === 200) {
-                    this.setState({notification: ['Пароль успешно обновлен']})
+                    this.setState({notification: 'Пароль успешно обновлен'});
                 }
             })
             .catch(({data}) => this.setState({errors: data}))
@@ -57,7 +56,7 @@ export default class ProfileSettings extends Component {
     render() {
         const data = this.useSelector(state => state.user.userData);
         const {errors} = this.state;
-        const {notification} = this.state;
+        const notification = this.state.notification;
 
         const [settings, replace, listen] = this.create('div', `
         <div class="profile-settings">
@@ -75,7 +74,7 @@ export default class ProfileSettings extends Component {
                     ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
                     <SubmitButton></SubmitButton>
                 </form>
-                    ${notification['notification'] ? `<Notification></Notification>` : ''}
+                    ${notification ? `<Notification></Notification>` : ''}
             </div>
         </div>`);
 
@@ -100,9 +99,9 @@ export default class ProfileSettings extends Component {
             })
         }
 
-        if (notification['notification']) {
+        if (notification !== undefined) {
             replace({
-                Notification: new Notification(notification['notification']).render()
+                Notification: new Notification(notification).render()
             })
         }
 

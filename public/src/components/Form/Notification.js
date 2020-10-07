@@ -4,14 +4,13 @@ export default class Notification extends Component {
     constructor(msg) {
         super();
 
-        this.errors = msg;
+        this.msg = msg;
     }
 
     render() {
         const [field] = this.create('div',`
-        <p class='form__notification'>${this.msg.join(' ')}</p>
+        <p class='form__notification'>${this.msg}</p>
         `);
-
         return field;
     }
 }
