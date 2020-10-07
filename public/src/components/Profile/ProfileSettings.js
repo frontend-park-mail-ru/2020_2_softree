@@ -1,11 +1,12 @@
 import { apiChangePass} from "../../api.js";
 import {Component} from "../../modules/Softer/Softer.js";
 import ErrorField from "../Form/ErrorField.js";
+import Notification from "../Form/Notification.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
-import {setUploadedImage} from "../../utils/utils.js"
-import {useDispatch} from "../../modules/Softer/softer-softex.js"
-import {setPhoto} from "../../store/actions.js"
+import {setUploadedImage} from "../../utils/utils.js";
+import {useDispatch} from "../../modules/Softer/softer-softex.js";
+import {setPhoto} from "../../store/actions.js";
 import {jpatch} from "../../modules/jfetch.js";
 
 export default class ProfileSettings extends Component {
@@ -25,7 +26,8 @@ export default class ProfileSettings extends Component {
         };
 
         this.state = {
-            errors: {}
+            errors: {},
+            notification: {}
         }
     }
 
@@ -33,13 +35,13 @@ export default class ProfileSettings extends Component {
         e.preventDefault();
         if (e.newPassword1 != e.newPassword2) {
             this.setState({errors: {errors: ['Пароли не совпадают']}})
-            
+            return;
         }
 
         jpatch(apiChangePass(), this.data)
             .then(({status}) => {
                 if (status === 200) {
-                    console.log("pass changed");
+                    this.setState({notification: ['Пароль успешно обновлен']})
                 }
             })
             .catch(({data}) => this.setState({errors: data}))
@@ -55,6 +57,7 @@ export default class ProfileSettings extends Component {
     render() {
         const data = this.useSelector(state => state.user.userData);
         const {errors} = this.state;
+        const {notification} = this.state;
 
         const [settings, replace, listen] = this.create('div', `
         <div class="profile-settings">
@@ -72,6 +75,7 @@ export default class ProfileSettings extends Component {
                     ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
                     <SubmitButton></SubmitButton>
                 </form>
+                    ${notification['notification'] ? `<Notification></Notification>` : ''}
             </div>
         </div>`);
 
@@ -93,6 +97,12 @@ export default class ProfileSettings extends Component {
         if (errors['non_field_errors']) {
             replace({
                 FieldError: new ErrorField(errors['non_field_errors']).render()
+            })
+        }
+
+        if (notification['notification']) {
+            replace({
+                Notification: new Notification(notification['notification']).render()
             })
         }
 
