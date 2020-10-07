@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": ["prettier"],
+    "rules": {
+        "semi": ["error", "always"],
+        "quotes": ["warn", "single"],
+        "indent": ["error", 4],
+        "space-before-function-paren": ["error", "never"],
+        "linebreak-style": ["error", "unix"],
+        "no-console": "off"
+    }
+}

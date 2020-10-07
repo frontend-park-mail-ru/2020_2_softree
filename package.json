@@ -1,0 +1,37 @@
+{
+  "name": "2020_2_softree",
+  "version": "1.0.0",
+  "description": "Coolest command 🤩",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "lint": "eslint public/src/ --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2020_2_softree.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2020_2_softree/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2020_2_softree#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-formidable": "^1.2.0",
+    "morgan": "^1.10.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-formatter-pretty": "^4.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "2.1.2"
+  }
+}
