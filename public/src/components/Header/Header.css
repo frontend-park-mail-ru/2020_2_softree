@@ -19,7 +19,7 @@
 
 .header__logo_text {
     margin-left: 10px;
-    color: white;
+    color: #ffffff;
     font-size: 28px;
     font-weight: 900;
 }
@@ -27,3 +27,4 @@
 .header__control_avatar {
     cursor: pointer;
 }
+

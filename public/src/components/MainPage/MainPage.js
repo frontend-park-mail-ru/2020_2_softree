@@ -11,13 +11,6 @@ export default class MainPage extends Component {
         this.state = {
             rates: []
         }
-        this.rates = [
-            {title: "USD/RUB", change: 1.25, sell: 72.345, buy: 73.284},
-            {title: "EUR/RUB", change: 2.31, sell: 82.345, buy: 83.284},
-            {title: "USD/EUR", change: -0.15, sell: 62.345, buy: 63.284},
-            {title: "CAD/RUB", change: 0.31, sell: 12.345, buy: 13.284},
-            {title: "AUD/RUB", change: -1.24, sell: 32.345, buy: 33.284},
-        ]
 
         this.interval = false;
     }
@@ -38,7 +31,7 @@ export default class MainPage extends Component {
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
                 this.fetchRates();
-                this.interval = setInterval(() => this.fetchRates(), 5000);
+                this.interval = setInterval(() => this.fetchRates(), 2000);
             }
         }
 
