@@ -24,12 +24,11 @@ export default class App extends Component {
     }
 
     render() {
-        const data = this.useSelector(state => state.user.userData);
-        const loading = this.useSelector(state => state.app.loading);
+        const loading = this.useSelector(state => state.user.loading);
 
         const [app, replace] = this.create('div', `
         <Header></Header>
-        ${(loading && !data) ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
+        ${loading ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
         `);
 
         replace({
