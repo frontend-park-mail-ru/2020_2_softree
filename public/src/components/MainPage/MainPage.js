@@ -4,7 +4,7 @@ import { jget } from '../../modules/jfetch.js';
 import { apiRates } from '../../api.js';
 
 export default class MainPage extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -14,13 +14,13 @@ export default class MainPage extends Component {
         this.interval = false;
     }
 
-    fetchRates () {
+    fetchRates() {
         jget(apiRates())
             .then(({ data }) => { this.setState({ rates: data }); })
             .catch(() => { this.setState({ error: 'Что-то пошло не так(' }); });
     }
 
-    render () {
+    render() {
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
                 this.fetchRates();

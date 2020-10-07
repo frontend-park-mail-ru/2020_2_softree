@@ -9,7 +9,7 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
 
 export default class SignIn extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.fields = [
             { title: 'Email', type: 'email', name: 'email' },
@@ -25,7 +25,7 @@ export default class SignIn extends Component {
         };
     }
 
-    submit (e) {
+    submit(e) {
         e.preventDefault();
         jpost(apiSignIn(), this.data)
             .then(({ data }) => {
@@ -35,7 +35,7 @@ export default class SignIn extends Component {
             .catch(() => this.setState({ errors: ['Пароль или Email не подходит'] }));
     }
 
-    render () {
+    render() {
         const { errors } = this.state;
         const [signIn, replace, listen] = this.create('div', `
         <div class='hidden-wrapper'>

@@ -6,11 +6,11 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { dropUserData } from '../../store/actions.js';
 
 export default class Menu extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
-    logOut (e) {
+    logOut(e) {
         e.preventDefault();
         jpost(apiLogOut())
             .catch(({ status }) => {
@@ -21,7 +21,7 @@ export default class Menu extends Component {
             });
     }
 
-    render () {
+    render() {
         const [menu,, listen] = this.create('div', `
             <div class="flex-menu">
                 <div class="flex-left">

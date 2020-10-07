@@ -2,11 +2,11 @@ import { Component } from '../../modules/Softer/Softer.js';
 import { pageMain } from '../../pages.js';
 
 export class Header extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
-    render () {
+    render() {
         const data = this.useSelector(store => store.user.userData);
 
         const [header] = this.create('header', `

@@ -6,18 +6,18 @@ export const id = () => {
     return Math.round(Math.random() * Date.now());
 };
 
-export function checkAuth (userData) {
+export function checkAuth(userData) {
     if (userData) {
         return true;
     }
 }
 
-export function setUploadedImage (event, imgHandler) {
+export function setUploadedImage(event, imgHandler) {
     const input = event.target;
     if (input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function (e) {
+        reader.onload = function(e) {
             imgHandler(e.target.result);
         };
 

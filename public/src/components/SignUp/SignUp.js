@@ -9,7 +9,7 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
 
 export class SignUp extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.fields = [
             { title: 'Email', type: 'email', name: 'email' },
@@ -27,7 +27,7 @@ export class SignUp extends Component {
         };
     }
 
-    submit (e) {
+    submit(e) {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
             .then(() => {
@@ -37,7 +37,7 @@ export class SignUp extends Component {
             .catch(({ data }) => this.setState({ errors: data }));
     }
 
-    render () {
+    render() {
         const { errors } = this.state;
 
         const [signUp, replace, listen] = this.create('div', `

@@ -6,7 +6,7 @@ import ProfileSettings from './ProfileSettings.js';
 import Page404 from '../Page404/Page404.js';
 
 export default class Profile extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.menu = this.place(Menu);
         this.mainProfileRouter = this.place(Router, { path: '/profile', component: ProfileMain, exact: true });
@@ -15,7 +15,7 @@ export default class Profile extends Component {
         this.page404 = this.place(Router, { component: Page404 });
     }
 
-    render () {
+    render() {
         const [page, replace] = this.create('div', `
         <Menu></Menu>
         <ProfilePage></ProfilePage>

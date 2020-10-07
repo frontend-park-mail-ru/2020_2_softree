@@ -10,7 +10,7 @@ import { setPhoto } from '../../store/actions.js';
 import { jpatch } from '../../modules/jfetch.js';
 
 export default class ProfileSettings extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.fields = [
             { title: 'Текущий пароль', type: 'password', name: 'oldPassword' },
@@ -30,7 +30,7 @@ export default class ProfileSettings extends Component {
         };
     }
 
-    changePass (e) {
+    changePass(e) {
         e.preventDefault();
         if (e.newPassword1 !== e.newPassword2) {
             this.setState({ errors: { errors: ['Пароли не совпадают'] } });
@@ -46,14 +46,14 @@ export default class ProfileSettings extends Component {
             .catch(({ data }) => this.setState({ errors: data }));
     }
 
-    changePhoto (e) {
+    changePhoto(e) {
         e.preventDefault();
         const dispatch = useDispatch();
         const imgHandler = src => dispatch(setPhoto(src));
         setUploadedImage(e, imgHandler);
     }
 
-    render () {
+    render() {
         const data = this.useSelector(state => state.user.userData);
         const { errors } = this.state;
         const notification = this.state.notification;

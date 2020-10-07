@@ -1,12 +1,12 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 
 export default class Submit extends Component {
-    constructor (title) {
+    constructor(title) {
         super();
         this.title = title;
     }
 
-    render () {
+    render() {
         const [submit] = this.create('input');
         submit.type = 'submit';
         submit.className = 'submit-button';
