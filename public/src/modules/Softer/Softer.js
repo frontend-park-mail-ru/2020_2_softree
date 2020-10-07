@@ -4,7 +4,7 @@
  */
 
 import {id} from "../../utils/utils.js";
-import {useSelector} from "./softer-softex.js";
+import {select, useSelector} from "./softer-softex.js";
 import {pageSignUp} from "../../pages.js";
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
@@ -134,6 +134,7 @@ export class Softer {
     initApp(element, app, props = {}) {
         const appId = id();
         const newApp = new app({props, appId});
+        newApp.key = appId;
         const render = () => Render(element, newApp.render());
         this.apps[appId] = {render, components: {}};
         window.addEventListener('popstate', e => {
@@ -210,7 +211,7 @@ export class Router extends Component {
     }
 
     authCheck() {
-        return this.useSelector(state => state.user.userData);
+        return select(state => state.user.userData);
     }
 
     /**

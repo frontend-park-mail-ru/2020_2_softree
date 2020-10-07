@@ -3,7 +3,6 @@ import {Component} from "../../modules/Softer/Softer.js";
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-
     }
 
     render() {
