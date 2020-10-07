@@ -2,7 +2,13 @@ export function useSelector(component, selector) {
     if (window.Softer.store === null) {
         throw new Error('Store не подключен')
     }
-    window.Softer.store.subscribe(() => component.rerender());
+
+    window.Softer.store.subscribe(() => {
+        if (!component.node) {
+            return;
+        }
+        component.rerender()
+    });
     return selector(window.Softer.store.getState());
 }
 
