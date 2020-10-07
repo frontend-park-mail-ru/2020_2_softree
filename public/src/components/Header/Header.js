@@ -7,13 +7,15 @@ export class Header extends Component {
     }
 
     render() {
+        const data = this.useSelector(store => store.user.userData);
+
         const [header] = this.create('header', `
             <div class='header__logo'>
                 <img class='header__logo_img' src='/src/images/cat.svg' alt='Logo'/>
                 <p class='header__logo_text'>MoneyCat</p>
             </div>
             <div class='header__control'>
-                <img class='header__control_avatar' src='/src/images/avatar.svg' alt='Aavatar'/>
+                <img class='header__control_avatar' src=${data && data.avatar || '/src/images/avatar.svg'} alt='Aavatar'/>
             </div>
         `);
 

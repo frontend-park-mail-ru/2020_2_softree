@@ -2,7 +2,7 @@
 const hostname = 'http://api.self.ru';
 
 const isJSONAnswer = response => {
-    return response.headers.get('Content-Length') > 0;
+    return response.headers.get('Content-Type');
 }
 
 export const jfetch = (path, options) => {

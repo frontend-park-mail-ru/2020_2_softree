@@ -33,14 +33,12 @@ export default class ProfileSettings extends Component {
     changePass(e) {
         e.preventDefault();
         jpost(apiChangePass(), this.data)
-            .then(response => {
-                if (response.status === 200) {
-                    // TODO: dispatch
-                } else {
-                    response.json()
-                        .then(errors => this.setState({errors}))
+            .then(({status}) => {
+                if (status === 200) {
+                    console.log("pass changed");
                 }
             })
+            .catch(({data}) => this.setState({errors: data}))
     }
 
     changePhoto(e) {
@@ -62,8 +60,8 @@ export default class ProfileSettings extends Component {
             </div>
             <div class="flexbox">
                 <div class="avatar-container">
-                    <img class="avatar" src=${data.avatar ? data.avatar : '/src/images/default-avatar.svg'} />
-                    <input class="avatar-input" type="file" accept="image/png", image/jpeg>
+                    <img class="avatar" src=${data.avatar ? data.avatar : '/src/images/avatar.svg'} alt="avatar"/>
+                    <input class="avatar-input" type="file" accept="image/png, image/jpeg">
                 </div>
                 <form class="password-form">
                     <GridFields></GridFields>

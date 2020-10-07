@@ -24,5 +24,9 @@
 
 .header__control_avatar {
     cursor: pointer;
+    height: 43px;
+    object-fit: cover;
+    width: 43px;
+    border-radius: 50%;
 }
 

@@ -19,8 +19,10 @@ export const fetchUserData = (redirectToAuth) => {
     return async dispatch => {
         dispatch(startUserDataLoading());
         try {
-            const {data} = await jget(apiCheckAuth())
-            dispatch(setUserData(data));
+            const response = await jget(apiCheckAuth())
+            console.log(response)
+            console.log('userData', response.data);
+            dispatch(setUserData(response.data));
         } catch (e) {
             redirectToAuth();
         }
