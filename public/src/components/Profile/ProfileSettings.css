@@ -47,6 +47,7 @@ align-items: center;
     border-radius: 50%;
     height: 200px;
     width: 200px;
+    background: gray;
     object-fit: cover;
 }
 
