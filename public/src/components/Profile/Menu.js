@@ -14,8 +14,8 @@ export default class Menu extends Component {
     logOut(e) {
         e.preventDefault();
         jpost(apiLogOut())
-            .then(response => {
-                if (response.status === 302) {
+            .catch(({status}) => {
+                if (status === 302) {
                     useDispatch()(dropUserData());
                     this.redirect(...pageSignIn());
                 }

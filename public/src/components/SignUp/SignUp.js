@@ -34,7 +34,7 @@ export class SignUp extends Component {
                     useDispatch()(setUserData({...this.data, password1: '', password2: ''}));
                     this.redirect(...pageMain());
                 })
-            .catch(({errors}) => this.setState({errors}));
+            .catch(({data}) => this.setState({errors: data}));
     }
 
     render() {
@@ -77,6 +77,6 @@ export class SignUp extends Component {
         listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', ...pageSignIn())
 
-        return [signUp];
+        return signUp;
     }
 }
