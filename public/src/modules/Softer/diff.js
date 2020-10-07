@@ -3,7 +3,7 @@ const isEmpty = o => Object.keys(o).length === 0;
 const isObject = o => o != null && typeof o === 'object';
 const properObject = o => isObject(o) && !o.hasOwnProperty ? { ...o } : o;
 
-export default function diff(lhs, rhs) {
+export default function diff (lhs, rhs) {
     if (lhs === rhs) return {}; // Объекты равны, возвращаем пустой объект
 
     if (!isObject(lhs) || !isObject(rhs)) return rhs; // return updated rhs

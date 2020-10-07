@@ -1,29 +1,28 @@
-import { apiLogOut } from "../../api.js";
-import {Component, listen} from "../../modules/Softer/Softer.js";
-import {pageProfile, pageHistory, pageSettings} from "../../pages.js";
-import {jpost} from "../../modules/jfetch.js";
-import { useDispatch } from "../../modules/Softer/softer-softex.js";
-import { dropUserData } from "../../store/actions.js";
-import { pageSignIn } from "../../pages.js"
+import { apiLogOut } from '../../api.js';
+import { Component, listen } from '../../modules/Softer/Softer.js';
+import { pageProfile, pageHistory, pageSettings, pageSignIn } from '../../pages.js';
+import { jpost } from '../../modules/jfetch.js';
+import { useDispatch } from '../../modules/Softer/softer-softex.js';
+import { dropUserData } from '../../store/actions.js';
 
 export default class Menu extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
     }
 
-    logOut(e) {
+    logOut (e) {
         e.preventDefault();
         jpost(apiLogOut())
-            .catch(({status}) => {
+            .catch(({ status }) => {
                 if (status === 302) {
                     useDispatch()(dropUserData());
                     this.redirect(...pageSignIn());
                 }
-            })
+            });
     }
 
-    render() {
-        const [menu,,listen] = this.create('div', `
+    render () {
+        const [menu,, listen] = this.create('div', `
             <div class="flex-menu">
                 <div class="flex-left">
                     <div class="b1-link btn">Портфель</div>
@@ -34,7 +33,7 @@ export default class Menu extends Component {
                     <div class="b4-link btn">Выход</div>
                 </div>
             </div>
-                `)
+                `);
 
         this.link('.b1-link', ...pageProfile());
         this.link('.b2-link', ...pageHistory());
