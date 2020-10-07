@@ -1,13 +1,12 @@
-import {Component} from "../../modules/Softer/Softer.js";
-import { startLoading } from "../../store/actions.js";
-import GridField from "../Form/GridField/GridField.js";
-import Submit from "../Form/Submit/Submit.js";
-import {jpost} from "../../modules/jfetch.js";
-import {apiSignUp} from "../../api.js";
-import {pageMain, pageSignIn} from "../../pages.js";
-import ErrorField from "../Form/ErrorField.js";
-import {useDispatch} from "../../modules/Softer/softer-softex.js";
-import {setUserData} from "../../store/actions.js";
+import {Component} from '../../modules/Softer/Softer.js';
+import GridField from '../Form/GridField/GridField.js';
+import Submit from '../Form/Submit/Submit.js';
+import {jpost} from '../../modules/jfetch.js';
+import {apiSignUp} from '../../api.js';
+import {pageMain, pageSignIn} from '../../pages.js';
+import ErrorField from '../Form/ErrorField.js';
+import {useDispatch} from '../../modules/Softer/softer-softex.js';
+import {setUserData} from '../../store/actions.js';
 
 export class SignUp extends Component {
     constructor(props) {
@@ -31,30 +30,26 @@ export class SignUp extends Component {
     submit(e) {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
-            .then(response => {
-                if (response.status === 201) {
+            .then(() => {
                     useDispatch()(setUserData({...this.data, password1: '', password2: ''}));
                     this.redirect(...pageMain());
-                } else {
-                    response.json()
-                        .then(errors => this.setState({errors}))
-                }
-            })
+                })
+            .catch(({errors}) => this.setState({errors}));
     }
 
     render() {
         const {errors} = this.state;
 
         const [signUp, replace, listen] = this.create('div', `
-        <div class="hidden-wrapper">
-            <div class="modal auth">
-                <h2 class="modal__title">Добро пожаловать!</h2>
-                <form class="grid-form">
+        <div class='hidden-wrapper'>
+            <div class='modal auth'>
+                <h2 class='modal__title'>Добро пожаловать!</h2>
+                <form class='grid-form'>
                     <GridFields></GridFields>
                     ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
                     <SubmitButton></SubmitButton>
                 </form> 
-                <a class="signin-link" href="/signin">Уже есть аккаунт?</a>
+                <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
             </div> 
         </div>`);
 

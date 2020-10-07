@@ -3,9 +3,9 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from "../../utils/utils.js";
-import {useSelector} from "./softer-softex.js";
-import {pageSignUp} from "../../pages.js";
+import {id} from '../../utils/utils.js';
+import {select, useSelector} from './softer-softex.js';
+import {pageSignUp} from '../../pages.js';
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -15,7 +15,7 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, initState= {}, initData = {}, appId = null} = {}) {
+    constructor({props = {}, initState = {}, initData = {}, appId = null} = {}) {
         this.props = props;
         this.state = initState;
         this.data = initData;
@@ -34,7 +34,7 @@ export class Component {
      * @param {any} key
      * @return {*}
      */
-    place(component, props= {}) {
+    place(component, props = {}) {
         const newComponent = new component({...props, appId: this.appId});
         newComponent.key = id();
         return newComponent
@@ -46,14 +46,9 @@ export class Component {
 
     rerender() {
         if (!this.node) {
-            window.render();
+            window.Softer.rerenderApp(this.appId);
         }
-        const renderResult = this.render();
-        if (renderResult instanceof Array) {
-            this.node.replaceWith(...renderResult);
-        } else {
-            this.node.replaceWith(renderResult);
-        }
+        this.node.replaceWith(this.render());
     }
 
     /**
@@ -82,26 +77,19 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create (tag, content = '', options = {}) {
+    create(tag, content = '', options = {}) {
         if (!this.node) {
             this.node = document.createElement(tag);
-            let option;
-            for (option in options) {
+            for (let option in options) {
                 this.node[option] = options[option];
             }
         }
         return setupNode(this.node, content);
     }
 
-    link(selector, title, href, prework = null) {
+    link(selector, title, href) {
         listen(this.node, selector, 'click', e => {
             e.preventDefault();
-            if (prework) {
-                const exit = prework();
-                if (exit) {
-                    return;
-                }
-            }
             this.__historyPushState(title, href);
         })
     }
@@ -139,6 +127,7 @@ export class Softer {
     initApp(element, app, props = {}) {
         const appId = id();
         const newApp = new app({props, appId});
+        newApp.key = appId;
         const render = () => Render(element, newApp.render());
         this.apps[appId] = {render, components: {}};
         window.addEventListener('popstate', e => {
@@ -215,7 +204,7 @@ export class Router extends Component {
     }
 
     authCheck() {
-        return this.useSelector(state => state.user.userData);
+        return select(state => state.user.userData);
     }
 
     /**
@@ -223,12 +212,11 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
-        if (this.authRequired) {
-            if (!this.authCheck()) {
+        if (this.authRequired && !this.authCheck()) {
                 this.redirect(...pageSignUp());
                 return document.createElement('div');
-            }
         }
+
         return this.component.render();
     }
 }
@@ -253,7 +241,7 @@ export const ReplacerTo = (element) => {
             if (!(context instanceof String)) {
                 throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
             }
-           replace(element, context, ...nodes);
+            replace(element, context, ...nodes);
         }
 
         let selector;

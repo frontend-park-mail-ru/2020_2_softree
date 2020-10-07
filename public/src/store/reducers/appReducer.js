@@ -1,4 +1,4 @@
-import {appEndLoading, appStartLoading} from "../types.js";
+import {appEndLoading, appStartLoading} from '../types.js';
 
 const initState = {
     loading: false

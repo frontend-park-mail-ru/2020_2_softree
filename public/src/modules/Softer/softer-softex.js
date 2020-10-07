@@ -1,14 +1,44 @@
-export function useSelector(component, selector) {
-    if (window.Softer.store === null) {
-        throw new Error('Store не подключен')
-    }
-    window.Softer.store.subscribe(() => component.rerender());
+import diff from './diff.js';
+
+export function select(selector) {
     return selector(window.Softer.store.getState());
 }
 
-export const useDispatch = () => {
-    if (window.Softer.store === null) {
+export function useSelector(component, selector) {
+    const {store} = window.Softer;
+    if (store === null) {
         throw new Error('Store не подключен')
     }
-    return window.Softer.store.dispatch;
+
+    if (!window.Softer.subscribers) {
+        window.Softer.subscribers = [];
+    }
+
+    const {subscribers} = window.Softer;
+    if (subscribers.includes(component.key)) {
+        return;
+    } else {
+        subscribers.push(component.key);
+    }
+
+    store.subscribe((was, become) => {
+        if (!component.node) {
+            return;
+        }
+
+        try {
+            selector(diff(was, become));
+            component.rerender();
+        } catch (e) {}
+
+    });
+    return selector(store.getState());
+}
+
+export const useDispatch = () => {
+    const {store} = window.Softer;
+    if (store === null) {
+        throw new Error('Store не подключен')
+    }
+    return store.dispatch;
 }

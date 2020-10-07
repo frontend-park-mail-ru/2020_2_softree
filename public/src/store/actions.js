@@ -1,26 +1,29 @@
-import {appStartLoading, appEndLoading, userSetData, userDropData, userSetAvatar} from "./types.js";
-import {apiCheckAuth, apiUpdateUser} from "../api.js";
-import {jget, jpatch} from "../modules/jfetch.js";
+import {appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading} from './types.js';
+import {apiCheckAuth, apiCheckAuth} from '../api.js';
+import {jget, jpatch} from '../modules/jfetch.js';
 
+
+//APP
 export const startLoading = () => ({type: appStartLoading});
-
 export const endLoading = () => ({type: appEndLoading});
 
+//USER
 export const setUserData = (data) => ({type: userSetData, payload: data});
 export const dropUserData = () => ({type: userDropData});
 export const setAvatar = src => ({type: userSetAvatar, payload: src});
+export const startUserDataLoading = () => ({type: userStartLoading});
+export const endUserDataLoading = () => ({type: userEndLoading});
 
 export const fetchUserData = (redirectToAuth) => {
     return async dispatch => {
-        dispatch(startLoading());
-        const response = await jget(apiCheckAuth())
-        if (response.status === 200) {
-            const data = await response.json();
+        dispatch(startUserDataLoading());
+        try {
+            const {data} = await jget(apiCheckAuth())
             dispatch(setUserData(data));
-        } else {
+        } catch (e) {
             redirectToAuth();
         }
-        dispatch(endLoading());
+        dispatch(endUserDataLoading());
     }
 }
 

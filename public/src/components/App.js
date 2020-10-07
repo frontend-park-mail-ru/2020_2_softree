@@ -1,13 +1,13 @@
-import {Component, Router, Switch} from "../modules/Softer/Softer.js";
-import {Header} from "./Header/Header.js";
-import {SignUp} from "./SignUp/SignUp.js";
-import SignIn from "./SignIn/SignIn.js";
-import MainPage from "./MainPage/MainPage.js";
-import Page404 from "./Page404/Page404.js";
-import Profile from "./Profile/Profile.js";
-import {useDispatch} from "../modules/Softer/softer-softex.js";
-import {fetchUserData} from "../store/actions.js";
-import {pageSignUp} from "../pages.js";
+import {Component, Router, Switch} from '../modules/Softer/Softer.js';
+import {Header} from './Header/Header.js';
+import {SignUp} from './SignUp/SignUp.js';
+import MainPage from './MainPage/MainPage.js';
+import SignIn from './SignIn/SignIn.js';
+import Page404 from './Page404/Page404.js';
+import Profile from './Profile/Profile.js';
+import {useDispatch} from '../modules/Softer/softer-softex.js';
+import {fetchUserData} from '../store/actions.js';
+import {pageSignUp} from '../pages.js';
 
 export default class App extends Component {
     constructor(props) {
@@ -24,13 +24,17 @@ export default class App extends Component {
     }
 
     render() {
-        const data = this.useSelector(state => state.user.userData);
-        const loading = this.useSelector(state => state.app.loading);
+        const loading = this.useSelector(state => state.user.loading);
 
         const [app, replace] = this.create('div', `
         <Header></Header>
+<<<<<<< HEAD
         ${(loading && !data) ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
         `); 
+=======
+        ${loading ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
+        `);
+>>>>>>> mark
 
         replace({
             Header: this.Header.render(),

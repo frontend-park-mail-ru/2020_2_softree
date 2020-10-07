@@ -1,12 +1,38 @@
+<<<<<<< HEAD
 // const hostname = "http://localhost:8000";
 const hostname = "http://api.self.ru";
+=======
+// const hostname = 'https://api.softree.group';
+const hostname = 'http://api.self.ru';
+
+const isJSONAnswer = response => {
+    return response.headers.get('Content-Length') > 0;
+}
+>>>>>>> mark
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {
-        mode: "cors",
+        mode: 'cors',
         credentials: 'include',
         ...options
     })
+        .then(response => {
+            return new Promise((resolve, reject) => {
+                if (response.ok) {
+                    if (isJSONAnswer(response)) {
+                        response.json().then(data => resolve({status: response.status, data}));
+                    } else {
+                        resolve({status: response.status, data: {}});
+                    }
+                } else {
+                    if (isJSONAnswer(response)) {
+                        response.json().then(data => reject({status: response.status, data}));
+                    } else {
+                        reject({status: response.status, data: {}});
+                    }
+                }
+            })
+        })
 }
 
 export const jpost = (path, data, options = {}) => {
