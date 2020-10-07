@@ -1,17 +1,16 @@
 import { Component } from '../../modules/Softer/Softer.js';
 
-export default class ErrorField extends Component {
-    constructor (errors) {
+export default class Notification extends Component {
+    constructor (msg) {
         super();
 
-        this.errors = errors;
+        this.msg = msg;
     }
 
     render () {
         const [field] = this.create('div', `
-        <p class='grid-field__error'>${this.errors.join(' ')}</p>
+        <p class='form__notification'>${this.msg}</p>
         `);
-
         return field;
     }
 }

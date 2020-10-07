@@ -1,11 +1,11 @@
-import {Component} from '../../modules/Softer/Softer.js';
+import { Component } from '../../modules/Softer/Softer.js';
 
 export default class Page404 extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
     }
 
-    render() {
+    render () {
         const [page] = this.create('div', `
         <div class='hidden-wrapper'>
             <p class='code-404'>404</p>
