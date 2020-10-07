@@ -14,7 +14,7 @@ export default class ProfileSettings extends Component {
         super(props);
         this.fields = [
             {title: 'Текущий пароль', type: 'password', name: 'password1'},
-            {title: 'Пароль', type: 'password', name: 'password2'},
+            {title: 'Новый пароль', type: 'password', name: 'password2'},
             {title: 'Повторите пароль', type: 'password', name: 'password3'}
         ];
 
@@ -56,18 +56,21 @@ export default class ProfileSettings extends Component {
 
         const [settings, replace, listen] = this.create('div', `
         <div class="profile-settings">
-            <form class="photo-form">
-                <p class="email-text">Email: ${data.email} </p>
-                <div class="avatar">
-                    <img src=${data.avatar ? data.avatar : '/src/images/avatar.svg'} />
+            <div class="email">
+                <div class="email-title">E-mail:</div>
+                ${data.email}
+            </div>
+            <div class="flexbox">
+                <div class="avatar-container">
+                    <img class="avatar" src=${data.avatar ? data.avatar : '/src/images/default-avatar.svg'} />
                     <input class="avatar-input" type="file" accept="image/png", image/jpeg>
                 </div>
-            </form>
-            <form class="password-form">
-                <GridFields></GridFields>
-                ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
-                <SubmitButton></SubmitButton>
-            </form>
+                <form class="password-form">
+                    <GridFields></GridFields>
+                    ${errors['non_field_errors'] ? `<FieldError></FieldError>` : ''}
+                    <SubmitButton></SubmitButton>
+                </form>
+            </div>
         </div>`);
 
         const fields = this.fields.map(field =>

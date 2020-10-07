@@ -28,13 +28,8 @@ export default class App extends Component {
 
         const [app, replace] = this.create('div', `
         <Header></Header>
-<<<<<<< HEAD
-        ${(loading && !data) ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
-        `); 
-=======
         ${loading ? `<h2>Загрузка...</h2>` : `<MainContent></MainContent>`}
         `);
->>>>>>> mark
 
         replace({
             Header: this.Header.render(),

@@ -1,14 +1,54 @@
-.email-text {
+.email {
     color: hotpink;
     font-size: 24px;
+    margin: 10px;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.grid-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
+    align-items: center;
     margin: 5px;
+}
+
+.grid-field input {
+    border: 2px solid black;
+}
+
+.avatar-input {
+    margin: 10px;
+}
+
+.email-title {
+    color: black;
+    margin-right: 10px;
 }
 
 .hidden-wrapper {
     position: absolute;
-    
+
 }
 
 .profile-settings {
     justify-content: space-between;
+}
+
+.avatar-container {
+display: flex;
+flex-flow: column;
+align-items: center;
+}
+
+.avatar {
+    border: black;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}
+
+.flexbox {
+    display: flex;
 }

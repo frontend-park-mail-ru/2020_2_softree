@@ -1,5 +1,5 @@
 import {appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading} from './types.js';
-import {apiCheckAuth, apiCheckAuth} from '../api.js';
+import {apiCheckAuth} from '../api.js';
 import {jget, jpatch} from '../modules/jfetch.js';
 
 

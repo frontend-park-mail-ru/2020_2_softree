@@ -1,14 +1,9 @@
-<<<<<<< HEAD
-// const hostname = "http://localhost:8000";
-const hostname = "http://api.self.ru";
-=======
 // const hostname = 'https://api.softree.group';
 const hostname = 'http://api.self.ru';
 
 const isJSONAnswer = response => {
     return response.headers.get('Content-Length') > 0;
 }
->>>>>>> mark
 
 export const jfetch = (path, options) => {
     return fetch(`${hostname}${path}`, {
