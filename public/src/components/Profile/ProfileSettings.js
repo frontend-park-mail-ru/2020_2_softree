@@ -1,28 +1,27 @@
-import { apiChangePass, apiUpdateUser } from "../../api.js";
-import { jpost } from "../../modules/jfetch.js";
+import { apiChangePass} from "../../api.js";
 import {Component} from "../../modules/Softer/Softer.js";
-import {changeHandler} from "../../utils/utils.js";
 import ErrorField from "../Form/ErrorField.js";
 import GridField from "../Form/GridField/GridField.js";
 import Submit from "../Form/Submit/Submit.js";
 import {setUploadedImage} from "../../utils/utils.js"
 import {useDispatch} from "../../modules/Softer/softer-softex.js"
 import {setPhoto} from "../../store/actions.js"
+import {jpatch} from "../../modules/jfetch.js";
 
 export default class ProfileSettings extends Component {
     constructor(props) {
         super(props);
         this.fields = [
-            {title: 'Текущий пароль', type: 'password', name: 'password1'},
-            {title: 'Новый пароль', type: 'password', name: 'password2'},
-            {title: 'Повторите пароль', type: 'password', name: 'password3'}
+            {title: 'Текущий пароль', type: 'password', name: 'oldPassword'},
+            {title: 'Новый пароль', type: 'password', name: 'newPassword1'},
+            {title: 'Повторите пароль', type: 'password', name: 'newPassword2'}
         ];
 
         this.data = {
             avatar: '',
-            password1: '',
-            password2: '',
-            password3: ''
+            oldPassword: '',
+            newPassword1: '',
+            newPassword2: ''
         };
 
         this.state = {
@@ -32,7 +31,7 @@ export default class ProfileSettings extends Component {
 
     changePass(e) {
         e.preventDefault();
-        jpost(apiChangePass(), this.data)
+        jpatch(apiChangePass(), this.data)
             .then(({status}) => {
                 if (status === 200) {
                     console.log("pass changed");
