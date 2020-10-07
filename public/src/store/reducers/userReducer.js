@@ -10,7 +10,7 @@ const userReducer = (state = initState, action) => {
         case userSetData:
             return {...state, userData: action.payload};
         case userSetAvatar:
-            return {...state, avatar: action.payload};
+            return {...state, userData: {...state.userData, avatar: action.payload}};
         case userDropData:
             return {...state, userData: null};
         case userStartLoading:
