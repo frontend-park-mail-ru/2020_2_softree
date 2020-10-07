@@ -1,4 +1,4 @@
-input[type=submit] {
+.submit-button {
     background: black;
     color: white;
     font-size: 16px;

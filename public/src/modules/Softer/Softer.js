@@ -80,23 +80,16 @@ export class Component {
     create(tag, content = '', options = {}) {
         if (!this.node) {
             this.node = document.createElement(tag);
-            let option;
-            for (option in options) {
+            for (let option in options) {
                 this.node[option] = options[option];
             }
         }
         return setupNode(this.node, content);
     }
 
-    link(selector, title, href, prework = null) {
+    link(selector, title, href) {
         listen(this.node, selector, 'click', e => {
             e.preventDefault();
-            if (prework) {
-                const exit = prework();
-                if (exit) {
-                    return;
-                }
-            }
             this.__historyPushState(title, href);
         })
     }

@@ -17,14 +17,8 @@ export default class MainPage extends Component {
 
     fetchRates() {
         jget(apiRates())
-            .then(response => {
-                if (response.status === 200) {
-                    response.json()
-                        .then(data => this.setState({rates: data}));
-                } else {
-                    this.setState({error: "Что-то пошло не так("});
-                }
-            })
+            .then(({data}) => {this.setState({rates: data});})
+            .catch(() => {this.setState({error: "Что-то пошло не так("});})
     }
 
     render() {
@@ -44,7 +38,7 @@ export default class MainPage extends Component {
 
         if (this.state.rates.length !== 0) {
             replace({
-                Rates: this.state.rates.map( rate => new Rate({props: rate}).render())
+                Rates: this.state.rates.map(rate => new Rate({props: rate}).render())
             })
         }
 

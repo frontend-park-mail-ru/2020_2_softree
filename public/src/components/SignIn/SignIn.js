@@ -28,17 +28,11 @@ export default class SignIn extends Component {
     submit(e) {
         e.preventDefault();
         jpost(apiSignIn(), this.data)
-            .then(response => {
-                if (response.status === 200) {
-                    response.json()
-                        .then(data => {
-                            useDispatch()(setUserData(data));
-                            this.redirect(...pageMain());
-                        })
-                } else {
-                    this.setState({errors: ["Пароль или Email не подходит"]})
-                }
+            .then(({data}) => {
+                useDispatch()(setUserData(data));
+                this.redirect(...pageMain());
             })
+            .catch(() => this.setState({errors: ["Пароль или Email не подходит"]}))
     }
 
     render() {
@@ -60,13 +54,15 @@ export default class SignIn extends Component {
         </div>`);
 
         const fields = this.fields.map(field =>
-            new GridField({props:{
+            new GridField({
+                props: {
                     ...field,
                     value: this.data[field.name],
                     gridTemplate: '60px 200px',
                     required: true,
                     dataHandler: this.setData.bind(this)
-                }}));
+                }
+            }));
 
         replace({
             GridFields: fields.map(field => field.render()),

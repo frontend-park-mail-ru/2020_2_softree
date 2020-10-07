@@ -16,11 +16,10 @@ export const endUserDataLoading = () => ({type: userEndLoading});
 export const fetchUserData = (redirectToAuth) => {
     return async dispatch => {
         dispatch(startUserDataLoading());
-        const response = await jget(apiCheckAuth())
-        if (response.status === 200) {
-            const data = await response.json();
+        try {
+            const {data} = await jget(apiCheckAuth())
             dispatch(setUserData(data));
-        } else {
+        } catch (e) {
             redirectToAuth();
         }
         dispatch(endUserDataLoading());

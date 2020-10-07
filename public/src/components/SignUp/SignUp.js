@@ -30,15 +30,11 @@ export class SignUp extends Component {
     submit(e) {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
-            .then(response => {
-                if (response.status === 201) {
+            .then(() => {
                     useDispatch()(setUserData({...this.data, password1: '', password2: ''}));
                     this.redirect(...pageMain());
-                } else {
-                    response.json()
-                        .then(errors => this.setState({errors}))
-                }
-            })
+                })
+            .catch(({errors}) => this.setState({errors}));
     }
 
     render() {
