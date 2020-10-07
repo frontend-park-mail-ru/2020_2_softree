@@ -15,15 +15,16 @@ export function useSelector(component, selector) {
     }
 
     const {subscribers} = window.Softer;
+    const result = selector(store.getState());
     if (subscribers.includes(component.key)) {
-        return;
+        return result;
     } else {
         subscribers.push(component.key);
     }
 
     store.subscribe((was, become) => {
         if (!component.node) {
-            return;
+            return result;
         }
 
         try {
@@ -32,7 +33,7 @@ export function useSelector(component, selector) {
         } catch (e) {}
 
     });
-    return selector(store.getState());
+    return result;
 }
 
 export const useDispatch = () => {
