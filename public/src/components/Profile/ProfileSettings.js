@@ -31,6 +31,11 @@ export default class ProfileSettings extends Component {
 
     changePass(e) {
         e.preventDefault();
+        if (e.newPassword1 != e.newPassword2) {
+            this.setState({errors: {errors: ['Пароли не совпадают']}})
+            
+        }
+
         jpatch(apiChangePass(), this.data)
             .then(({status}) => {
                 if (status === 200) {
