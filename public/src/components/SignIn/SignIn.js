@@ -65,13 +65,13 @@ export default class SignIn extends Component {
             }));
 
         replace({
-            GridFields: fields.map(field => field.render()),
-            SubmitButton: new Submit('Войти').render()
+            GridFields: fields,
+            SubmitButton: new Submit('Войти')
         });
 
         if (errors) {
             replace({
-                Error: new ErrorField(errors).render()
+                Error: new ErrorField(errors)
             });
         }
 

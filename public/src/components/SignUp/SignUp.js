@@ -66,13 +66,13 @@ export class SignUp extends Component {
             }));
 
         replace({
-            GridFields: fields.map(field => field.render()),
-            SubmitButton: new Submit('Зарегистрироваться').render()
+            GridFields: fields,
+            SubmitButton: new Submit('Зарегистрироваться')
         });
 
         if (errors.non_field_errors) {
             replace({
-                FieldError: new ErrorField(errors.non_field_errors).render()
+                FieldError: new ErrorField(errors.non_field_errors)
             });
         }
 

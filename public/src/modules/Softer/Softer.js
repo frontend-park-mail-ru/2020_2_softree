@@ -235,21 +235,33 @@ export const listen = (element, selector, event, clb) => {
     [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
 }
 
+/**
+ *
+ * @param {HTMLElement, Node, Component} node
+ */
+export const renderNode = (node) => {
+    if (node instanceof HTMLElement) {
+        return node;
+    } else {
+        return node.render();
+    }
+}
+
 export const ReplacerTo = (element) => {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
             if (!(context instanceof String)) {
                 throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
             }
-            replace(element, context, ...nodes);
+            replace(element, context, ...nodes.map(node => renderNode(node)));
         }
 
         let selector;
         for (selector in context) {
             if (context[selector] instanceof Array) {
-                replace(element, selector, ...context[selector]);
+                replace(element, selector, ...context[selector].map(node => renderNode(node)));
             } else {
-                replace(element, selector, context[selector]);
+                replace(element, selector, renderNode(context[selector]));
             }
         }
     }

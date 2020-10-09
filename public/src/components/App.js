@@ -12,12 +12,6 @@ import { pageSignUp } from '../pages.js';
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.Header = this.place(Header);
-        this.mainPageRouter = this.place(Router, { path: '/', component: MainPage, exact: true, authRequired: true });
-        this.signInRouter = this.place(Router, { path: '/signin', component: SignIn, exact: true });
-        this.signUpRouter = this.place(Router, { path: '/signup', component: SignUp, exact: true });
-        this.profile = this.place(Router, { path: '\/profile.*', component: Profile, authRequired: true });
-        this.page404 = this.place(Router, { component: Page404 });
 
         const dispatch = useDispatch();
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
@@ -32,7 +26,7 @@ export default class App extends Component {
         `);
 
         replace({
-            Header: this.Header.render()
+            Header: this.place(Header)
         });
 
         if (loading) {
@@ -41,12 +35,12 @@ export default class App extends Component {
 
         replace({
             MainContent: new Switch(
-                this.mainPageRouter,
-                this.signInRouter,
-                this.signUpRouter,
-                this.profile,
-                this.page404
-            ).render()
+                this.place(Router, { path: '/', component: MainPage, exact: true, authRequired: true }),
+                this.place(Router, { path: '/signin', component: SignIn, exact: true }),
+                this.place(Router, { path: '/signup', component: SignUp, exact: true }),
+                this.place(Router, { path: '\/profile.*', component: Profile, authRequired: true }),
+                this.place(Router, { component: Page404 })
+            )
         });
 
         return app;

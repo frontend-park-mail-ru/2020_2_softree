@@ -37,7 +37,7 @@ export default class MainPage extends Component {
 
         if (this.state.rates.length !== 0) {
             replace({
-                Rates: this.state.rates.map(rate => new Rate({ props: rate }).render())
+                Rates: this.state.rates.map(rate => new Rate({ props: rate }))
             });
         }
 
