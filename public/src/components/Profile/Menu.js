@@ -6,8 +6,8 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { dropUserData } from '../../store/actions.js';
 
 export default class Menu extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
 
     logOut(e) {

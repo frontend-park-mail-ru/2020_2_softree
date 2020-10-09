@@ -9,8 +9,8 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
 
 export default class SignIn extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.fields = [
             { title: 'Email', type: 'email', name: 'email' },
             { title: 'Пароль', type: 'password', name: 'password' }

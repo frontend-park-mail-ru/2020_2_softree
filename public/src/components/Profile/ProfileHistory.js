@@ -1,8 +1,8 @@
 import { Component } from '../../modules/Softer/Softer.js';
 
 export default class ProfileHistory extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
 
     render() {

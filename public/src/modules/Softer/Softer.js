@@ -150,10 +150,8 @@ export class Softer {
         })
     }
 
-    initApp(element, app, props = {}) {
-        const appId = id();
-        const newApp = new app({props, appId});
-        newApp.key = appId;
+    initApp(element, app) {
+        const newApp = new app();
         newApp.parent = this;
         newApp.isRoot = true;
         newApp.clearList = [];

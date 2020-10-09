@@ -10,8 +10,8 @@ import { fetchUserData } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         const dispatch = useDispatch();
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));

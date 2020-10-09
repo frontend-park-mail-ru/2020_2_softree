@@ -35,6 +35,10 @@ export function useSelector(component, selector) {
     return result;
 }
 
+export function checkThis() {
+    console.log(this)
+}
+
 export const useDispatch = () => {
     const { store } = window.Softer;
     if (store === null) {

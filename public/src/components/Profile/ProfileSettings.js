@@ -10,8 +10,8 @@ import { setPhoto } from '../../store/actions.js';
 import { jpatch } from '../../modules/jfetch.js';
 
 export default class ProfileSettings extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.fields = [
             { title: 'Текущий пароль', type: 'password', name: 'oldPassword' },
             { title: 'Новый пароль', type: 'password', name: 'newPassword1' },
@@ -91,19 +91,19 @@ export default class ProfileSettings extends Component {
             }));
 
         replace({
-            GridFields: fields.map(field => field.render()),
-            SubmitButton: new Submit('Подтвердить').render()
+            GridFields: fields,
+            SubmitButton: new Submit('Подтвердить')
         });
 
         if (errors.non_field_errors) {
             replace({
-                FieldError: new ErrorField(errors.non_field_errors).render()
+                FieldError: new ErrorField(errors.non_field_errors)
             });
         }
 
         if (notification !== undefined) {
             replace({
-                Notification: new Notification(notification).render()
+                Notification: new Notification(notification)
             });
         }
 

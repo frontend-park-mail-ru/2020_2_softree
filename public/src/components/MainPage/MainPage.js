@@ -2,6 +2,7 @@ import { Component } from '../../modules/Softer/Softer.js';
 import Rate from './Rate/Rate.js';
 import { jget } from '../../modules/jfetch.js';
 import { apiRates } from '../../api.js';
+import {checkThis} from '../../modules/Softer/softer-softex.js';
 
 export default class MainPage extends Component {
     constructor(props) {
@@ -25,7 +26,6 @@ export default class MainPage extends Component {
     }
 
     render() {
-        console.log('key', this.key);
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
                 this.fetchRates();
