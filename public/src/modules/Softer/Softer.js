@@ -15,17 +15,12 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, initState = {}, initData = {}, appId = null} = {}) {
+    constructor({props = {}, appId = null} = {}) {
         this.props = props;
-        this.state = initState;
-        this.data = initData;
+        this.state = {};
+        this.data = {};
         this.node = null;
-
-        this.appId = appId;
     }
-
-    appId = null;
-    key = null;
 
     /**
      *
@@ -35,8 +30,11 @@ export class Component {
      * @return {*}
      */
     place(component, props = {}) {
-        const newComponent = new component({...props, appId: this.appId});
-        newComponent.key = id();
+        const newComponent = new component(props);
+        newComponent.parent = this;
+        if (newComponent.clear) {
+            this.__placeClearClbToClearList(newComponent.clear.bind(newComponent));
+        }
         return newComponent
     }
 
@@ -45,11 +43,10 @@ export class Component {
     }
 
     rerender() {
-        if (!this.node) {
-            window.Softer.rerenderApp(this.appId);
-        }
+        console.assert(this.node !== null, 'У компоненты', this, 'нет HTMLElement');
         this.node.replaceWith(this.render());
     }
+
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
@@ -98,47 +95,70 @@ export class Component {
         this.__historyPushState(title, href);
     }
 
-    __historyPushState(title, href) {
-        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
-        document.title = title;
-        window.Softer.rerenderApp(this.appId);
-    }
-
     /**
      * Создает и возвращает HTML элемент компоненты.
      * @return {HTMLElement}
      */
     render() {
     }
+
+    __placeClearClbToClearList(clb) {
+        const root = this.__findRoot();
+        root.clearList.push(clb);
+    }
+
+    __findRoot() {
+        let root = this;
+        while (!root.isRoot) {
+            console.assert(root.parent !== undefined, "У компоненты", root, "нет родителя");
+            root = root.parent;
+        }
+        return root;
+    }
+
+    __rerenderAll() {
+        const root = this.__findRoot();
+
+        root.clearList.forEach(clb => clb());
+        root.clearList = []
+        root.render();
+    }
+
+    __historyPushState(title, href) {
+        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
+        document.title = title;
+        this.__rerenderAll();
+    }
 }
 
 export class Softer {
     constructor() {
-        this.apps = {};
         this.store = null;
 
-        window.Softer = this;
+        this.init()
     }
 
     connectStore(store) {
         this.store = store;
     }
 
+    init() {
+        window.Softer = this;
+
+        window.addEventListener('popstate', e => {
+            e.preventDefault();
+        })
+    }
+
     initApp(element, app, props = {}) {
         const appId = id();
         const newApp = new app({props, appId});
         newApp.key = appId;
-        const render = () => Render(element, newApp.render());
-        this.apps[appId] = {render, components: {}};
-        window.addEventListener('popstate', e => {
-            e.preventDefault();
-            render();
-        })
-        render();
-    }
+        newApp.parent = this;
+        newApp.isRoot = true;
+        newApp.clearList = [];
 
-    rerenderApp(appId) {
-        this.apps[appId].render();
+        Render(element, newApp.render());
     }
 }
 
@@ -195,12 +215,17 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, exact, componentProps, authRequired, appId}) {
-        super({appId});
+    constructor({path, component, exact, componentProps, authRequired}) {
+        super();
+        this.component = {component, componentProps};
         this.path = path;
         this.exact = exact;
-        this.component = this.place(component, componentProps);
         this.authRequired = authRequired;
+    }
+
+    init() {
+        const {component, componentProps} = this.component;
+        this.component = this.place(component, componentProps);
     }
 
     authCheck() {
@@ -216,6 +241,8 @@ export class Router extends Component {
                 this.redirect(...pageSignUp());
                 return document.createElement('div');
         }
+
+        this.init()
 
         return this.component.render();
     }

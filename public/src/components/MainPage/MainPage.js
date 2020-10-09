@@ -20,7 +20,12 @@ export default class MainPage extends Component {
             .catch(() => { this.setState({ error: 'Что-то пошло не так(' }); });
     }
 
+    clear() {
+        clearInterval(this.interval);
+    }
+
     render() {
+        console.log('key', this.key);
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
                 this.fetchRates();
