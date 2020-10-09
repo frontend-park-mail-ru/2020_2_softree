@@ -5,8 +5,8 @@ import { apiRates } from '../../api.js';
 import {checkThis} from '../../modules/Softer/softer-softex.js';
 
 export default class MainPage extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
             rates: []

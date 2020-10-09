@@ -21,7 +21,7 @@ export default class GridField extends Component {
 
         if (errors) {
             replace({
-                ErrorField: new ErrorField(errors).render()
+                ErrorField: new ErrorField(errors)
             });
         }
 

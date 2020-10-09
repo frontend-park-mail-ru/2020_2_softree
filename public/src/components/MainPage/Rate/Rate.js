@@ -2,8 +2,8 @@ import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
 
 export default class Rate extends Component {
-    constructor({ props, appId }) {
-        super({ props, appId });
+    constructor(props) {
+        super(props);
     }
 
     render() {

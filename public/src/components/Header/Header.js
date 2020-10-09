@@ -2,8 +2,8 @@ import { Component } from '../../modules/Softer/Softer.js';
 import { pageMain } from '../../pages.js';
 
 export class Header extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
 
     render() {
