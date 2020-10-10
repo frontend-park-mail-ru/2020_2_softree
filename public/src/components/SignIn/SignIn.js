@@ -55,14 +55,12 @@ export default class SignIn extends Component {
 
         const fields = this.fields.map(field =>
             new GridField({
-                props: {
                     ...field,
                     value: this.data[field.name],
                     gridTemplate: '60px 200px',
                     required: true,
-                    dataHandler: this.setData.bind(this)
-                }
-            }));
+                    dataHandler: this.setData.bind(this)})
+        );
 
         replace({
             GridFields: fields,

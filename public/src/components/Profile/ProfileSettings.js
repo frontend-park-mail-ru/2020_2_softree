@@ -6,8 +6,9 @@ import GridField from '../Form/GridField/GridField.js';
 import Submit from '../Form/Submit/Submit.js';
 import { setUploadedImage } from '../../utils/utils.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
-import { setPhoto } from '../../store/actions.js';
+import {setPhoto, showMessage} from '../../store/actions.js';
 import { jpatch } from '../../modules/jfetch.js';
+import {msgTypeSuccess} from "../../messages/types.js";
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -40,7 +41,7 @@ export default class ProfileSettings extends Component {
         jpatch(apiChangePass(), this.data)
             .then(({ status }) => {
                 if (status === 200) {
-                    this.setState({ notification: 'Пароль успешно обновлен' });
+                    useDispatch()(showMessage('Пароль успешно обновлен!', msgTypeSuccess));
                 }
             })
             .catch(({ data }) => this.setState({ errors: data }));
@@ -80,15 +81,13 @@ export default class ProfileSettings extends Component {
 
         const fields = this.fields.map(field =>
             new GridField({
-                props: {
                     ...field,
                     errors: errors[field.name],
                     required: true,
                     value: this.data[field.name],
                     gridTemplate: '80px 200px',
-                    dataHandler: this.setData.bind(this)
-                }
-            }));
+                    dataHandler: this.setData.bind(this)})
+        );
 
         replace({
             GridFields: fields,

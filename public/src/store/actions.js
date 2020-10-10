@@ -1,6 +1,7 @@
 import { appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading, userSetAvatar } from './types.js';
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
+import {MESSAGE_HIDE, MESSAGE_SHOW} from "./types.js";
 
 // APP
 export const startLoading = () => ({ type: appStartLoading });
@@ -34,3 +35,12 @@ export const setPhoto = (src) => {
         dispatch(setAvatar(src));
     };
 };
+
+
+export const hideMessage = () => ({type: MESSAGE_HIDE})
+export const showMessage = (message, type, timeout = 2000) => {
+    return async dispatch => {
+        dispatch({type: MESSAGE_SHOW, payload: {message, type}})
+        setTimeout(() => dispatch(hideMessage()), timeout)
+    }
+}

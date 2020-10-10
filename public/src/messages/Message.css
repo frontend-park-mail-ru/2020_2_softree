@@ -1,0 +1,23 @@
+#message {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    overflow: visible;
+}
+
+.message {
+    position: absolute;
+    background: white;
+    z-index: 10000;
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    right: 10px;
+    max-width: 300px;
+    padding: 10px 15px;
+    bottom: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transform: translate(150%, 0);
+    transition: transform 0.2s;
+}

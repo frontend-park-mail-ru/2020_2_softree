@@ -55,15 +55,13 @@ export class SignUp extends Component {
 
         const fields = this.fields.map(field =>
             new GridField({
-                props: {
                     ...field,
                     errors: errors[field.name],
                     required: true,
                     value: this.data[field.name],
                     gridTemplate: '80px 200px',
-                    dataHandler: this.setData.bind(this)
-                }
-            }));
+                    dataHandler: this.setData.bind(this)})
+        );
 
         replace({
             GridFields: fields,

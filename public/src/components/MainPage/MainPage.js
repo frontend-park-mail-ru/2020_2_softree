@@ -2,7 +2,6 @@ import { Component } from '../../modules/Softer/Softer.js';
 import Rate from './Rate/Rate.js';
 import { jget } from '../../modules/jfetch.js';
 import { apiRates } from '../../api.js';
-import {checkThis} from '../../modules/Softer/softer-softex.js';
 
 export default class MainPage extends Component {
     constructor() {
@@ -42,7 +41,7 @@ export default class MainPage extends Component {
 
         if (this.state.rates.length !== 0) {
             replace({
-                Rates: this.state.rates.map(rate => new Rate({ props: rate }))
+                Rates: this.state.rates.map(rate => new Rate(rate))
             });
         }
 

@@ -1,6 +1,6 @@
 export const createStore = (rootReducer, initialStore = {}) => {
     let state = rootReducer(initialStore, { type: '__INIT__' });
-    const subscribers = [];
+    let subscribers = [];
 
     return {
         dispatch(action) {
@@ -18,6 +18,7 @@ export const createStore = (rootReducer, initialStore = {}) => {
         }
     };
 };
+
 
 export const combineReducer = (reducers) => {
     return (state = {}, action) => {

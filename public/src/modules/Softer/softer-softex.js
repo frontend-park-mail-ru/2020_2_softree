@@ -4,7 +4,7 @@ export function select(selector) {
     return selector(window.Softer.store.getState());
 }
 
-export function useSelector(component, selector) {
+export function useSelector(component, selector, id = null) {
     const { store } = window.Softer;
     if (store === null) {
         throw new Error('Store не подключен');
@@ -15,16 +15,18 @@ export function useSelector(component, selector) {
     }
 
     const { subscribers } = window.Softer;
+
     const result = selector(store.getState());
-    if (subscribers.includes(component.key)) {
+    id = id || `${component.constructor.name}:${selector.toString().split('=>')[1].split('.').slice(1,).join('.')}`;
+    if (subscribers.includes(id)) {
         return result;
     } else {
-        subscribers.push(component.key);
+        subscribers.push(id);
     }
 
-    store.subscribe((was, become) => {
+    store.subscribe((was, become, check = false) => {
         if (!component.node) {
-            return result;
+            return;
         }
 
         try {
@@ -33,10 +35,6 @@ export function useSelector(component, selector) {
         } catch (e) {}
     });
     return result;
-}
-
-export function checkThis() {
-    console.log(this)
 }
 
 export const useDispatch = () => {

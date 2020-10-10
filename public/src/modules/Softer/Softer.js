@@ -3,7 +3,7 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from '../../utils/utils.js';
+import {id} from './utils.js';
 import {select, useSelector} from './softer-softex.js';
 import {pageSignUp} from '../../pages.js';
 
@@ -15,11 +15,14 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, appId = null} = {}) {
+    constructor(props = {}) {
         this.props = props;
         this.state = {};
         this.data = {};
         this.node = null;
+        this.id = id();
+        this.isRoot = false;
+        this.clear = null;
     }
 
     /**
@@ -116,11 +119,15 @@ export class Component {
         return root;
     }
 
+    __processClearList(root) {
+       root.clearList.forEach(clb => clb());
+       root.clearList = [];
+    }
+
     __rerenderAll() {
         const root = this.__findRoot();
 
-        root.clearList.forEach(clb => clb());
-        root.clearList = []
+        this.__processClearList(root);
         root.render();
     }
 
