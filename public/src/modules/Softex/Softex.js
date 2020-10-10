@@ -4,9 +4,10 @@ export const createStore = (rootReducer, initialStore = {}) => {
 
     return {
         dispatch(action) {
+            console.log("dispatch ", action);
             const was = state;
             state = rootReducer(state, action);
-            subscribers.forEach(sub => sub(was, state));
+            subscribers = subscribers.filter(sub => !sub(was, state));
         },
         subscribe(clb) {
             if (!subscribers.includes(clb)) {

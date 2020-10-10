@@ -49,7 +49,7 @@ export default class ProfileSettings extends Component {
             .then(({ status }) => {
                 if (status === 200) {
                     this.resetData();
-                    this.state({errors: {}})
+                    this.setState({errors: {}})
                     useDispatch()(showMessage('Пароль успешно обновлен!', msgTypeSuccess));
                 }
             })
@@ -85,7 +85,7 @@ export default class ProfileSettings extends Component {
                     `<div class="flexbox">
                         <form class="password-form">
                             <GridFields></GridFields>
-                            ${errors.non_field_errors ? '<FieldError></FieldError>' : ''}
+                            ${errors['non_field_errors'] ? '<FieldError></FieldError>' : ''}
                             <SubmitButton></SubmitButton>
                         </form>
                     </div>` : ''}

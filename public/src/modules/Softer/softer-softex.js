@@ -24,14 +24,15 @@ export function useSelector(component, selector, id = null) {
         subscribers.push(id);
     }
 
-    store.subscribe((was, become, check = false) => {
-        if (!component.node) {
-            return;
+    store.subscribe((was, become) => {
+        if (!component) {
+            return true;
         }
 
         try {
-            selector(diff(was, become));
-            component.rerender();
+            if (selector(diff(was, become)) !== undefined) {
+                component.rerender();
+            }
         } catch (e) {}
     });
     return result;

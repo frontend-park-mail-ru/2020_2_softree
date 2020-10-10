@@ -9,7 +9,7 @@ import {Message} from "./messages/Message.js";
 
 
 const softer = new Softer();
-softer.connectStore(applyMiddlewares(createStore(rootReducer), logger, thunk));
+softer.connectStore(applyMiddlewares(createStore(rootReducer), thunk));
 
 softer.initApp(document.getElementById('root'), App);
 softer.initApp(document.getElementById('message'), Message);

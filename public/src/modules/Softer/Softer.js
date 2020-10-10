@@ -3,7 +3,7 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from './utils.js';
+import {id, overallPath} from './utils.js';
 import {select, useSelector} from './softer-softex.js';
 import {pageSignUp} from '../../pages.js';
 
@@ -20,9 +20,7 @@ export class Component {
         this.state = {};
         this.data = {};
         this.node = null;
-        this.id = id();
         this.isRoot = false;
-        this.clear = null;
     }
 
     /**
@@ -35,9 +33,14 @@ export class Component {
     place(component, props = {}) {
         const newComponent = new component(props);
         newComponent.parent = this;
-        if (newComponent.clear) {
-            this.__placeClearClbToClearList(newComponent.clear.bind(newComponent));
+        if (!this.children) {
+            this.children = [];
         }
+        this.children.push(newComponent);
+
+        // if (newComponent.clear) {
+        //     this.__placeClearClbToClearList(newComponent.clear.bind(newComponent));
+        // }
         return newComponent
     }
 
@@ -47,6 +50,7 @@ export class Component {
 
     rerender() {
         console.assert(this.node !== null, 'У компоненты', this, 'нет HTMLElement');
+        this.__deleteChildren(this)
         this.node.replaceWith(this.render());
     }
 
@@ -119,6 +123,22 @@ export class Component {
         return root;
     }
 
+    __findSwitch(path) {
+        let node = this;
+        while (!(node.isRoot || node instanceof Switch && node.path === path)) {
+            console.assert(node.parent !== undefined, "У компоненты", node, "нет родителя");
+            node = node.parent;
+        }
+        if (node.isRoot) {
+            for (let idx = 0; idx < node.children.length; idx++) {
+                if (node.children[idx] instanceof Switch) {
+                    return node.children[idx];
+                }
+            }
+        }
+        return node;
+    }
+
     __processClearList(root) {
        root.clearList.forEach(clb => clb());
        root.clearList = [];
@@ -127,14 +147,40 @@ export class Component {
     __rerenderAll() {
         const root = this.__findRoot();
 
-        this.__processClearList(root);
-        root.render();
+        root.rerender();
+    }
+
+    __rerenderSwitch(path) {
+        const node = this.__findSwitch(path);
+        console.log(node);
+        node.rerender();
     }
 
     __historyPushState(title, href) {
-        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
+        const currentPath = window.location.pathname;
+        if (currentPath === href) {
+            return;
+        }
+        window.history.pushState({path: currentPath, title: document.title}, title, href);
         document.title = title;
-        this.__rerenderAll();
+        this.__rerenderSwitch(overallPath(currentPath, href));
+    }
+
+    __deleteChildren(root) {
+        const del = (element) => {
+            if (element.children) {
+                element.children.forEach(child => del(child));
+            }
+            if (element !== root) {
+                if (element.clear) {
+                    element.clear();
+                }
+                element = null;
+            } else {
+                 element.children = [];
+            }
+        }
+        del(root);
     }
 }
 
@@ -180,15 +226,17 @@ export const Render = (element, app) => {
 /**
  * Маршрутизатор, который выбирает на основании пути (window.location.pathname) подходящий роутер.
  */
-export class Switch {
-    constructor(...routers) {
+export class Switch extends Component {
+    constructor({path = "", routers}) {
+        super()
+        this.path = path;
         this.routers = routers;
     }
 
     checkPathFor(router) {
         const currentPathName = window.location.pathname;
         if (router.exact) {
-            return router.path === currentPathName;
+            return this.path + router.path === currentPathName;
         }
         const match = currentPathName.match(router.path);
         return !!match;
@@ -199,13 +247,21 @@ export class Switch {
      * выбирает последний. В качестве последнего удобно поставить страницу 404
      * @return {HTMLElement}
      */
-    render() {
+    renderRouter() {
         for (let i = 0; i < this.routers.length; i++) {
             if (this.checkPathFor(this.routers[i])) {
-                return this.routers[i].render();
+                return this.place(Router, this.routers[i]);
             }
         }
-        return this.routers[this.routers.length - 1].render();
+        return this.place(Router, this.routers[this.routers.length - 1]);
+    }
+
+    render() {
+        const [element, replace] = this.create('div', '<Router></Router>');
+        replace({
+            Router: this.renderRouter()
+        })
+        return element;
     }
 }
 
@@ -226,6 +282,12 @@ export class Router extends Component {
         this.path = path;
         this.exact = exact;
         this.authRequired = authRequired;
+    }
+
+    clear() {
+        if (this.component.clear) {
+            this.component.clear.bind(this.component)();
+        }
     }
 
     init() {

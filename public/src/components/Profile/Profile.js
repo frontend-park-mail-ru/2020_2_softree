@@ -18,11 +18,12 @@ export default class Profile extends Component {
 
         replace({
             Menu: this.place(Menu),
-            ProfilePage: new Switch(
-                this.place(Router, { path: '/profile', component: ProfileMain, exact: true }),
-                this.place(Router, { path: '/profile/settings', component: ProfileSettings, exact: true }),
-                this.place(Router, { path: '/profile/history', component: ProfileHistory, exact: true }),
-                this.place(Router, { component: Page404 })
+            ProfilePage: this.place(Switch, {path: '/profile', routers : [
+                    { path: '', component: ProfileMain, exact: true },
+                    { path: '/settings', component: ProfileSettings, exact: true },
+                    { path: '/history', component: ProfileHistory, exact: true },
+                    { component: Page404 }
+                ]}
             )
         });
         return page;
