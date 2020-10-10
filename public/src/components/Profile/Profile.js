@@ -2,7 +2,7 @@ import { Component, Router, Switch } from '../../modules/Softer/Softer.js';
 import Menu from './Menu.js';
 import ProfileMain from './ProfileMain.js';
 import ProfileHistory from './ProfileHistory.js';
-import ProfileSettings from './ProfileSettings.js';
+import ProfileSettings from './ProfileSettings/ProfileSettings.js';
 import Page404 from '../Page404/Page404.js';
 
 export default class Profile extends Component {

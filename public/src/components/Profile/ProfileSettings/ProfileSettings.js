@@ -1,14 +1,14 @@
-import { apiChangePass } from '../../api.js';
-import { Component } from '../../modules/Softer/Softer.js';
-import ErrorField from '../Form/ErrorField.js';
-import Notification from '../Form/Notification.js';
-import GridField from '../Form/GridField/GridField.js';
-import Submit from '../Form/Submit/Submit.js';
-import { setUploadedImage } from '../../utils/utils.js';
-import { useDispatch } from '../../modules/Softer/softer-softex.js';
-import {setPhoto, showMessage} from '../../store/actions.js';
-import { jpatch } from '../../modules/jfetch.js';
-import {msgTypeSuccess} from "../../messages/types.js";
+import { apiChangePass } from '../../../api.js';
+import { Component } from '../../../modules/Softer/Softer.js';
+import ErrorField from '../../Form/ErrorField.js';
+import Notification from '../../Form/Notification.js';
+import GridField from '../../Form/GridField/GridField.js';
+import Submit from '../../Form/Submit/Submit.js';
+import { setUploadedImage } from '../../../utils/utils.js';
+import { useDispatch } from '../../../modules/Softer/softer-softex.js';
+import {setPhoto, showMessage} from '../../../store/actions.js';
+import { jpatch } from '../../../modules/jfetch.js';
+import {msgTypeSuccess} from "../../../messages/types.js";
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -27,8 +27,15 @@ export default class ProfileSettings extends Component {
         };
 
         this.state = {
-            errors: {}
+            errors: {},
+            overalInfoIsOpen: false,
+            changePasswordIsOpen: false
         };
+    }
+
+    resetData() {
+        this.data = {}
+        this.setState({})
     }
 
     changePass(e) {
@@ -41,10 +48,15 @@ export default class ProfileSettings extends Component {
         jpatch(apiChangePass(), this.data)
             .then(({ status }) => {
                 if (status === 200) {
+                    this.resetData();
+                    this.state({errors: {}})
                     useDispatch()(showMessage('Пароль успешно обновлен!', msgTypeSuccess));
                 }
             })
-            .catch(({ data }) => this.setState({ errors: data }));
+            .catch(({ data }) => {
+                this.data = {}
+                this.setState({ errors: data })}
+                );
     }
 
     changePhoto(e) {
@@ -61,21 +73,22 @@ export default class ProfileSettings extends Component {
 
         const [settings, replace, listen] = this.create('div', `
         <div class="profile-settings">
-            <div class="email">
-                <div class="email-title">E-mail:</div>
-                ${data.email}
-            </div>
-            <div class="flexbox">
-                <div class="avatar-container">
+            <div class="avatar-container">
                     <img class="avatar" src=${data.avatar ? data.avatar : '/src/images/avatar.svg'} alt="avatar"/>
-                    <input class="avatar-input" type="file" accept="image/png, image/jpeg">
-                </div>
-                <form class="password-form">
-                    <GridFields></GridFields>
-                    ${errors.non_field_errors ? '<FieldError></FieldError>' : ''}
-                    <SubmitButton></SubmitButton>
-                </form>
-                    ${notification ? '<Notification></Notification>' : ''}
+                    <div class="email-title">${data.email}</div>
+            </div>
+            <div class="profile-settings__menu">
+                <div class="btn overal style="background: ${this.state.overalInfoIsOpen ? 'gray' : ''}">Общая информация</div>
+                ${this.state.overalInfoIsOpen ? '<input class="avatar-input" type="file" accept="image/png, image/jpeg">' : ''} 
+                <div class="btn password" style="background: ${this.state.changePasswordIsOpen ? 'gray' : ''}">Изменить пароль</div>
+                ${this.state.changePasswordIsOpen ? 
+                    `<div class="flexbox">
+                        <form class="password-form">
+                            <GridFields></GridFields>
+                            ${errors.non_field_errors ? '<FieldError></FieldError>' : ''}
+                            <SubmitButton></SubmitButton>
+                        </form>
+                    </div>` : ''}
             </div>
         </div>`);
 
@@ -91,7 +104,7 @@ export default class ProfileSettings extends Component {
 
         replace({
             GridFields: fields,
-            SubmitButton: new Submit('Подтвердить')
+            SubmitButton: new Submit('Подтвердить'),
         });
 
         if (errors.non_field_errors) {
@@ -108,6 +121,8 @@ export default class ProfileSettings extends Component {
 
         listen('.password-form', 'submit', e => this.changePass(e));
         listen('.avatar-input', 'change', e => this.changePhoto(e));
+        listen('.btn.password', 'click', () => this.setState({changePasswordIsOpen: !this.state.changePasswordIsOpen}))
+        listen('.btn.overal', 'click', () => this.setState({overalInfoIsOpen: !this.state.overalInfoIsOpen}))
 
         return settings;
     }

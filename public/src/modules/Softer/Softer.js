@@ -260,11 +260,19 @@ export class Router extends Component {
  * @param {Node} nodes
  */
 export const replace = (element, selector, ...nodes) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.replaceWith(...nodes));
+    const query = element.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.replaceWith(...nodes));
 }
 
 export const listen = (element, selector, event, clb) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
+    const query = element.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.addEventListener(event, e => clb(e)));
 }
 
 /**
