@@ -30,7 +30,13 @@ export function useSelector(component, selector, id = null) {
         }
 
         try {
+            console.log('\texec sub:', component.constructor.name, selector.toString(),
+                '\n\t\t', diff(was, become), selector(diff(was, become)));
             if (selector(diff(was, become)) !== undefined) {
+                if (component.constructor.name === "Header") {
+                   console.log("header")
+                }
+                console.log("RERENDER BY SUB");
                 component.rerender();
             }
         } catch (e) {}

@@ -2,6 +2,7 @@ import { appStartLoading, appEndLoading, userSetData, userDropData, userStartLoa
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
 import {MESSAGE_HIDE, MESSAGE_SHOW} from "./types.js";
+import {msgTypeFail, msgTypeSuccess} from "../messages/types.js";
 
 // APP
 export const startLoading = () => ({ type: appStartLoading });
@@ -19,8 +20,6 @@ export const fetchUserData = (redirectToAuth) => {
         dispatch(startUserDataLoading());
         try {
             const response = await jget(apiCheckAuth());
-            console.log(response);
-            console.log('userData', response.data);
             dispatch(setUserData(response.data));
         } catch (e) {
             redirectToAuth();
@@ -31,7 +30,13 @@ export const fetchUserData = (redirectToAuth) => {
 
 export const setPhoto = (src) => {
     return async dispatch => {
-        jpatch(apiUpdateUser(), { avatar: src });
+        jpatch(apiUpdateUser(), { avatar: src })
+            .then(response => {
+                dispatch(showMessage("Фотография успешно обновлена!", msgTypeSuccess))
+            })
+            .catch(err => {
+                dispatch(showMessage("Упс, что-то пошло не так(", msgTypeFail))
+            })
         dispatch(setAvatar(src));
     };
 };

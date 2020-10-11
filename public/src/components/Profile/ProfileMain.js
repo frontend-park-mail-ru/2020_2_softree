@@ -6,7 +6,7 @@ export default class ProfileMain extends Component {
     }
 
     render() {
-        const [page] = this.create('div', `
+        const [page] = this.create( `
         <div>Main page profile</div>
         `);
 

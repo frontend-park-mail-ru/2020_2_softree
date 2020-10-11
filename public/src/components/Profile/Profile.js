@@ -11,9 +11,12 @@ export default class Profile extends Component {
     }
 
     render() {
-        const [page, replace] = this.create('div', `
-        <Menu></Menu>
-        <ProfilePage></ProfilePage>
+        const [page, replace] = this.create(`
+        <div>
+            <Menu/>
+            <ProfilePage/>
+        </div>
+        
         `);
 
         replace({

@@ -13,6 +13,8 @@ export default class App extends Component {
     constructor() {
         super();
 
+        window.app = this;
+
         const dispatch = useDispatch();
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
     }
@@ -26,23 +28,15 @@ export default class App extends Component {
     }
 
     render() {
-        console.log("render app");
-        const loading = this.useSelector(state => state.user.loading);
-
-        const [app, replace] = this.create('div', `
-        <Header></Header>
-        ${loading ? '<h2>Загрузка...</h2>' : '<MainContent></MainContent>'}
+        const [app, replace] = this.create( `
+        <div>
+            <Header/>
+            <MainContent/>
+        </div>
         `);
 
         replace({
-            Header: this.place(Header)
-        });
-
-        if (loading) {
-            return app;
-        }
-
-        replace({
+            Header: this.place(Header),
             MainContent: this.place(Switch, {
                 routers: [
                     {path: '/', component: MainPage, exact: true, authRequired: true},
@@ -55,7 +49,7 @@ export default class App extends Component {
             })
         });
 
-        this.printTree(this, 0)
+        // this.printTree(this, 0)
         return app;
     }
 }

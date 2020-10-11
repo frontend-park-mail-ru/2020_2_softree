@@ -1,8 +1,11 @@
 import { userEndLoading, userStartLoading, userDropData, userSetAvatar, userSetData } from '../types.js';
 
 const initState = {
-    userData: null,
-    loading: false
+    userData: {
+        email: null,
+        avatar: null
+    },
+    loading: false,
 };
 
 const userReducer = (state = initState, action) => {

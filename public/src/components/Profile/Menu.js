@@ -22,7 +22,8 @@ export default class Menu extends Component {
     }
 
     render() {
-        const [menu,, listen] = this.create('div', `
+        const [menu,, listen] = this.create( `
+        <div>
             <div class="flex-menu">
                 <div class="flex-left">
                     <div class="b1-link btn">Портфель</div>
@@ -33,6 +34,7 @@ export default class Menu extends Component {
                     <div class="b4-link btn">Выход</div>
                 </div>
             </div>
+        </div>
                 `);
 
         this.link('.b1-link', ...pageProfile());

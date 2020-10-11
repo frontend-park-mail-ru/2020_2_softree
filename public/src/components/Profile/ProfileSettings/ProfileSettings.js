@@ -71,24 +71,26 @@ export default class ProfileSettings extends Component {
         const { errors } = this.state;
         const notification = this.state.notification;
 
-        const [settings, replace, listen] = this.create('div', `
-        <div class="profile-settings">
-            <div class="avatar-container">
+        const [settings, replace, listen] = this.create( `
+        <div>
+            <div class="profile-settings">
+                <div class="avatar-container">
                     <img class="avatar" src=${data.avatar ? data.avatar : '/src/images/avatar.svg'} alt="avatar"/>
                     <div class="email-title">${data.email}</div>
-            </div>
-            <div class="profile-settings__menu">
-                <div class="btn overal style="background: ${this.state.overalInfoIsOpen ? 'gray' : ''}">Общая информация</div>
-                ${this.state.overalInfoIsOpen ? '<input class="avatar-input" type="file" accept="image/png, image/jpeg">' : ''} 
-                <div class="btn password" style="background: ${this.state.changePasswordIsOpen ? 'gray' : ''}">Изменить пароль</div>
-                ${this.state.changePasswordIsOpen ? 
-                    `<div class="flexbox">
-                        <form class="password-form">
-                            <GridFields></GridFields>
-                            ${errors['non_field_errors'] ? '<FieldError></FieldError>' : ''}
-                            <SubmitButton></SubmitButton>
-                        </form>
-                    </div>` : ''}
+                </div>
+                <div class="profile-settings__menu">
+                    <div class="btn overal style="background: ${this.state.overalInfoIsOpen ? 'gray' : ''}">Общая информация</div>
+                    ${this.state.overalInfoIsOpen ? '<input class="avatar-input" type="file" accept="image/png, image/jpeg">' : ''} 
+                    <div class="btn password" style="background: ${this.state.changePasswordIsOpen ? 'gray' : ''}">Изменить пароль</div>
+                    ${this.state.changePasswordIsOpen ? 
+                        `<div class="flexbox">
+                            <form class="password-form">
+                                <GridFields/>
+                                ${errors['non_field_errors'] ? '<FieldError/>' : ''}
+                                <SubmitButton/>
+                            </form>
+                        </div>` : ''}
+                </div>
             </div>
         </div>`);
 

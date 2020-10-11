@@ -37,7 +37,8 @@ export default class SignIn extends Component {
 
     render() {
         const { errors } = this.state;
-        const [signIn, replace, listen] = this.create('div', `
+        const [signIn, replace, listen] = this.create( `
+<div>
         <div class='hidden-wrapper'>
             <div class='modal auth'>
                 <h2 class='modal__title'>Здравствуйте!</h2>
@@ -51,7 +52,8 @@ export default class SignIn extends Component {
                 </form> 
                 <a class='signup-link' style='margin-top: 20px' href='/signup'>Еще нет аккаунта?</a>
             </div> 
-        </div>`);
+        </div>
+        </div> `);
 
         const fields = this.fields.map(field =>
             new GridField({

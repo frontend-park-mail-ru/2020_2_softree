@@ -3,7 +3,7 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id, overallPath} from './utils.js';
+import {createElement, overallPath} from './utils.js';
 import {select, useSelector} from './softer-softex.js';
 import {pageSignUp} from '../../pages.js';
 
@@ -50,7 +50,7 @@ export class Component {
 
     rerender() {
         console.assert(this.node !== null, 'У компоненты', this, 'нет HTMLElement');
-        this.__deleteChildren(this)
+        this.__deleteChildren(this);
         this.node.replaceWith(this.render());
     }
 
@@ -81,14 +81,9 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create(tag, content = '', options = {}) {
-        if (!this.node) {
-            this.node = document.createElement(tag);
-            for (let option in options) {
-                this.node[option] = options[option];
-            }
-        }
-        return setupNode(this.node, content);
+    create( content = '') {
+        this.node = createElement(content);
+        return [this.node, ReplacerTo(this.node), ListenerFor(this.node)];
     }
 
     link(selector, title, href) {
@@ -257,7 +252,7 @@ export class Switch extends Component {
     }
 
     render() {
-        const [element, replace] = this.create('div', '<Router></Router>');
+        const [element, replace] = this.create( '<div><Router/></div>');
         replace({
             Router: this.renderRouter()
         })
@@ -296,7 +291,7 @@ export class Router extends Component {
     }
 
     authCheck() {
-        return select(state => state.user.userData);
+        return select(state => state.user.userData.email);
     }
 
     /**
@@ -304,14 +299,33 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
+        const [element, replace] = this.create(`
+        <div>
+            <Component/>
+        </div>
+        `)
+
         if (this.authRequired && !this.authCheck()) {
-                this.redirect(...pageSignUp());
-                return document.createElement('div');
+            const loading = this.useSelector(store => store.user.loading);
+            if (loading) {
+                replace({
+                    Component: createElement(`<h2>Загрузка...</h2>`)
+                })
+            } else {
+                if (!this.authCheck()) {
+                    this.redirect(...pageSignUp());
+                }
+            }
+            return element;
         }
 
         this.init()
 
-        return this.component.render();
+        replace({
+            Component: this.component
+        })
+
+        return element;
     }
 }
 
@@ -344,6 +358,8 @@ export const listen = (element, selector, event, clb) => {
 export const renderNode = (node) => {
     if (node instanceof HTMLElement) {
         return node;
+    } else if (typeof node === 'string') {
+        return node;
     } else {
         return node.render();
     }
@@ -375,5 +391,5 @@ export const ListenerFor = (element) => {
 
 export const setupNode = (node, content) => {
     node.innerHTML = content;
-    return [node, ReplacerTo(node), ListenerFor(node)];
+    return ;
 }

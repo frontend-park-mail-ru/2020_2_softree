@@ -40,7 +40,8 @@ export class SignUp extends Component {
     render() {
         const { errors } = this.state;
 
-        const [signUp, replace, listen] = this.create('div', `
+        const [signUp, replace, listen] = this.create( `
+<div>
         <div class='hidden-wrapper'>
             <div class='modal auth'>
                 <h2 class='modal__title'>Добро пожаловать!</h2>
@@ -51,7 +52,9 @@ export class SignUp extends Component {
                 </form> 
                 <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
             </div> 
-        </div>`);
+        </div>
+</div>
+`);
 
         const fields = this.fields.map(field =>
             new GridField({
