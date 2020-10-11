@@ -52,7 +52,7 @@ export const createElement = (string) => {
                 element[attributeToJsProp(match[1])] = match[2];
             })
         }
-        return element
+        return element;
     }
 
     result = oneTag.exec(string);
@@ -66,6 +66,7 @@ export const createElement = (string) => {
                 element[attributeToJsProp(match[1])] = match[2];
             })
         }
+        return element;
     }
 }
 
