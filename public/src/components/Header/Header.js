@@ -9,8 +9,8 @@ export class Header extends Component {
     render() {
         const data = this.useSelector(store => store.user.userData);
 
-        const [header] = this.create( `
-            <header> 
+        const header = this.create( `
+            <header class="header"> 
                 <div class='header__logo'>
                     <img class='header__logo_img' src='/src/images/cat.svg' alt='Logo'/>
                     <p class='header__logo_text'>MoneyCat</p>
@@ -20,8 +20,6 @@ export class Header extends Component {
                 </div>
             </header>
         `);
-
-        header.className = 'header';
 
         this.link('.header__logo', ...pageMain());
         this.link('.header__control_avatar', 'Профиль', '/profile');

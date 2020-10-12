@@ -27,12 +27,10 @@ export class Message extends Component {
             transform : message.isShowed ? "translate(0, 0)" : "",
         }
 
-        const [element] = this.create( `
+        return this.create( `
         <div class="message" style="${Styler(style)}">
             <div class="message-content">${message.message}</div> 
         </div>
         `)
-
-        return element;
     }
 }

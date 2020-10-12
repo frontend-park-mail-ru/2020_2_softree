@@ -12,8 +12,8 @@ export default class Rate extends Component {
             background: props.change >= 0 ? 'green' : 'red'
         };
 
-        const [card] = this.create(`
-        <div>
+        return this.create(`
+        <div class="rate-card">
             <div class="rate-card__header" style="${Styler(headerStyle)}">
                 <p class="rate-card__header_title">${props.title}</p> 
                 <p class="rate-card__header_change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
@@ -29,9 +29,5 @@ export default class Rate extends Component {
                 </div>
             </div>
         </div>`);
-
-        card.className = 'rate-card';
-
-        return card;
     }
 }

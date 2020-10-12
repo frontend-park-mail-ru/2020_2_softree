@@ -22,7 +22,7 @@ export default class Menu extends Component {
     }
 
     render() {
-        const [menu,, listen] = this.create( `
+        const menu = this.create( `
         <div>
             <div class="flex-menu">
                 <div class="flex-left">
@@ -41,7 +41,7 @@ export default class Menu extends Component {
         this.link('.b2-link', ...pageHistory());
         this.link('.b3-link', ...pageSettings());
 
-        listen('.b4-link', 'click', e => this.logOut(e));
+        this.listen('.b4-link', 'click', e => this.logOut(e));
 
         return menu;
     }

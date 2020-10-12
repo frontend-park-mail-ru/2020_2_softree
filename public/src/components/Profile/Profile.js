@@ -1,4 +1,4 @@
-import { Component, Router, Switch } from '../../modules/Softer/Softer.js';
+import {Component, Router, Switch} from '../../modules/Softer/Softer.js';
 import Menu from './Menu.js';
 import ProfileMain from './ProfileMain.js';
 import ProfileHistory from './ProfileHistory.js';
@@ -11,24 +11,21 @@ export default class Profile extends Component {
     }
 
     render() {
-        const [page, replace] = this.create(`
+        return this.create(`
         <div>
             <Menu/>
             <ProfilePage/>
         </div>
-        
-        `);
-
-        replace({
-            Menu: this.place(Menu),
-            ProfilePage: this.place(Switch, {path: '/profile', routers : [
-                    { path: '', component: ProfileMain, exact: true },
-                    { path: '/settings', component: ProfileSettings, exact: true },
-                    { path: '/history', component: ProfileHistory, exact: true },
-                    { component: Page404 }
-                ]}
-            )
+        `, {
+            Menu,
+            ProfilePage: [Switch, {
+                path: '/profile', routers: [
+                    {path: '', component: ProfileMain, exact: true},
+                    {path: '/settings', component: ProfileSettings, exact: true},
+                    {path: '/history', component: ProfileHistory, exact: true},
+                    {component: Page404}
+                ]
+            }]
         });
-        return page;
     }
 }

@@ -28,16 +28,14 @@ export default class App extends Component {
     }
 
     render() {
-        const [app, replace] = this.create( `
+        return this.create(`
         <div>
             <Header/>
             <MainContent/>
         </div>
-        `);
-
-        replace({
-            Header: this.place(Header),
-            MainContent: this.place(Switch, {
+        `, {
+            Header,
+            MainContent: [Switch, {
                 routers: [
                     {path: '/', component: MainPage, exact: true, authRequired: true},
                     {path: '/signin', component: SignIn, exact: true},
@@ -46,10 +44,7 @@ export default class App extends Component {
                     {path: '\/profile.*', component: Profile, authRequired: true},
                     {component: Page404}
                 ]
-            })
+            }]
         });
-
-        // this.printTree(this, 0)
-        return app;
     }
 }

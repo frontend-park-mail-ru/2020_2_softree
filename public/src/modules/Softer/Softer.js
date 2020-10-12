@@ -3,7 +3,7 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {createElement, overallPath} from './utils.js';
+import {id, createElement, overallPath} from './utils.js';
 import {select, useSelector} from './softer-softex.js';
 import {pageSignUp} from '../../pages.js';
 
@@ -20,6 +20,7 @@ export class Component {
         this.state = {};
         this.data = {};
         this.node = null;
+        this.id = id();
         this.isRoot = false;
     }
 
@@ -42,6 +43,10 @@ export class Component {
         //     this.__placeClearClbToClearList(newComponent.clear.bind(newComponent));
         // }
         return newComponent
+    }
+
+    clear() {
+        this.node = null;
     }
 
     useSelector(selector) {
@@ -81,9 +86,11 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create( content = '') {
+    create( content = '', components = {}) {
         this.node = createElement(content);
-        return [this.node, ReplacerTo(this.node), ListenerFor(this.node)];
+        this.__replaceComponents(components);
+        this.listen = ListenerFor(this.node);
+        return this.node;
     }
 
     link(selector, title, href) {
@@ -102,6 +109,21 @@ export class Component {
      * @return {HTMLElement}
      */
     render() {
+    }
+
+    __replaceComponents(components) {
+        for (let component in components) {
+            const config = components[component];
+            let input;
+            if (config.__proto__.name === "Component") {
+                input = [[config]];
+            } else if (config[1] instanceof Array) {
+                input = config[1].map(props => [config[0], props]);
+            } else {
+                input = [config];
+            }
+            this.__replaceComponent(component, ...input);
+        }
     }
 
     __placeClearClbToClearList(clb) {
@@ -134,6 +156,14 @@ export class Component {
         return node;
     }
 
+    __replaceComponent(selector, ...nodes) {
+        const query = this.node.querySelectorAll(selector);
+        if (!query) {
+            return;
+        }
+        query.forEach(element => element.replaceWith(...nodes.map(node => this.place(node[0], node[1]).render())));
+    }
+
     __processClearList(root) {
        root.clearList.forEach(clb => clb());
        root.clearList = [];
@@ -147,7 +177,6 @@ export class Component {
 
     __rerenderSwitch(path) {
         const node = this.__findSwitch(path);
-        console.log(node);
         node.rerender();
     }
 
@@ -240,23 +269,23 @@ export class Switch extends Component {
     /**
      * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path. Если не нашлось подходящего,
      * выбирает последний. В качестве последнего удобно поставить страницу 404
-     * @return {HTMLElement}
+     * @return {[]}
      */
     renderRouter() {
         for (let i = 0; i < this.routers.length; i++) {
             if (this.checkPathFor(this.routers[i])) {
-                return this.place(Router, this.routers[i]);
+                return [Router, this.routers[i]];
             }
         }
-        return this.place(Router, this.routers[this.routers.length - 1]);
+        return [Router, this.routers[this.routers.length - 1]];
     }
 
     render() {
-        const [element, replace] = this.create( '<div><Router/></div>');
-        replace({
-            Router: this.renderRouter()
-        })
-        return element;
+        return this.create(
+            '<div><Router/></div>',
+            {
+                Router: this.renderRouter()
+            });
     }
 }
 
@@ -273,7 +302,7 @@ export class Router extends Component {
      */
     constructor({path, component, exact, componentProps, authRequired}) {
         super();
-        this.component = {component, componentProps};
+        this.component = [component, componentProps];
         this.path = path;
         this.exact = exact;
         this.authRequired = authRequired;
@@ -285,11 +314,6 @@ export class Router extends Component {
         }
     }
 
-    init() {
-        const {component, componentProps} = this.component;
-        this.component = this.place(component, componentProps);
-    }
-
     authCheck() {
         return select(state => state.user.userData.email);
     }
@@ -299,33 +323,21 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
-        const [element, replace] = this.create(`
-        <div>
-            <Component/>
-        </div>
-        `)
-
         if (this.authRequired && !this.authCheck()) {
             const loading = this.useSelector(store => store.user.loading);
             if (loading) {
-                replace({
-                    Component: createElement(`<h2>Загрузка...</h2>`)
-                })
+                return this.create('<h2>Загрузка...</h2>');
             } else {
-                if (!this.authCheck()) {
-                    this.redirect(...pageSignUp());
-                }
+                this.redirect(...pageSignUp());
             }
-            return element;
         }
-
-        this.init()
-
-        replace({
+        return this.create(`
+        <div>
+            <Component/> 
+        </div>
+        `, {
             Component: this.component
         })
-
-        return element;
     }
 }
 
@@ -365,7 +377,7 @@ export const renderNode = (node) => {
     }
 }
 
-export const ReplacerTo = (element) => {
+export function ReplacerTo (element) {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
             if (!(context instanceof String)) {

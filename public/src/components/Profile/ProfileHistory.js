@@ -6,10 +6,6 @@ export default class ProfileHistory extends Component {
     }
 
     render() {
-        const [page] = this.create( `
-        <div>History page profile</div>
-        `);
-
-        return page;
+        return this.create( ` <div>History page profile</div> `);
     }
 }

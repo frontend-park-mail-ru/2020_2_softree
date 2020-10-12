@@ -7,7 +7,6 @@ export default class Submit extends Component {
     }
 
     render() {
-        const [submit] = this.create(`<input type='submit' class='submit-button' value='${this.title}'/>`);
-        return submit;
+        return this.create(`<input type='submit' class='submit-button' value='${this.title}'/>`);
     }
 }

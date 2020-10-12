@@ -6,10 +6,6 @@ export default class ProfileMain extends Component {
     }
 
     render() {
-        const [page] = this.create( `
-        <div>Main page profile</div>
-        `);
-
-        return page;
+        return this.create( ` <div>Main page profile</div> `);
     }
 }

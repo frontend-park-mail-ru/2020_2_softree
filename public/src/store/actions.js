@@ -30,14 +30,13 @@ export const fetchUserData = (redirectToAuth) => {
 
 export const setPhoto = (src) => {
     return async dispatch => {
-        jpatch(apiUpdateUser(), { avatar: src })
-            .then(response => {
-                dispatch(showMessage("Фотография успешно обновлена!", msgTypeSuccess))
-            })
-            .catch(err => {
-                dispatch(showMessage("Упс, что-то пошло не так(", msgTypeFail))
-            })
-        dispatch(setAvatar(src));
+        try {
+            const response = await jpatch(apiUpdateUser(), { avatar: src })
+            dispatch(setAvatar(src));
+            dispatch(showMessage("Фотография успешно обновлена!", msgTypeSuccess))
+        } catch (e) {
+            dispatch(showMessage("Упс, что-то пошло не так(", msgTypeFail))
+        }
     };
 };
 

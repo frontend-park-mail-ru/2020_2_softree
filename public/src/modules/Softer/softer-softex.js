@@ -10,33 +10,32 @@ export function useSelector(component, selector, id = null) {
         throw new Error('Store не подключен');
     }
 
-    if (!window.Softer.subscribers) {
-        window.Softer.subscribers = [];
-    }
+    // if (!window.Softer.subscribers) {
+    //     window.Softer.subscribers = [];
+    // }
 
-    const { subscribers } = window.Softer;
+    // const { subscribers } = window.Softer;
 
     const result = selector(store.getState());
-    id = id || `${component.constructor.name}:${selector.toString().split('=>')[1].split('.').slice(1,).join('.')}`;
-    if (subscribers.includes(id)) {
-        return result;
-    } else {
-        subscribers.push(id);
-    }
+    // id = id // `${component.constructor.name}:${selector.toString().split('=>')[1].split('.').slice(1,).join('.')}`;
+    // id = component.id;
+    // if (subscribers.includes(id)) {
+    //     return result;
+    // } else {
+    //     subscribers.push(id);
+    // }
 
     store.subscribe((was, become) => {
-        if (!component) {
+        if (!component || !component.node) {
             return true;
         }
 
+        if (component.constructor.name === "ProfileSettings") {
+            console.log(component);
+        }
+
         try {
-            console.log('\texec sub:', component.constructor.name, selector.toString(),
-                '\n\t\t', diff(was, become), selector(diff(was, become)));
             if (selector(diff(was, become)) !== undefined) {
-                if (component.constructor.name === "Header") {
-                   console.log("header")
-                }
-                console.log("RERENDER BY SUB");
                 component.rerender();
             }
         } catch (e) {}

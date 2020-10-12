@@ -4,7 +4,6 @@ export const createStore = (rootReducer, initialStore = {}) => {
 
     return {
         dispatch(action) {
-            console.log("dispatch ", action);
             const was = state;
             state = rootReducer(state, action);
             subscribers = subscribers.filter(sub => !sub(was, state));
