@@ -30,10 +30,6 @@ export function useSelector(component, selector, id = null) {
             return true;
         }
 
-        if (component.constructor.name === "ProfileSettings") {
-            console.log(component);
-        }
-
         try {
             if (selector(diff(was, become)) !== undefined) {
                 component.rerender();

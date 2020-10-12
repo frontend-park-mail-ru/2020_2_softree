@@ -33,9 +33,9 @@ export const setPhoto = (src) => {
         try {
             const response = await jpatch(apiUpdateUser(), { avatar: src })
             dispatch(setAvatar(src));
-            dispatch(showMessage("Фотография успешно обновлена!", msgTypeSuccess))
+            syncShowMessage(dispatch, "Фотография успешно обновлена!", msgTypeSuccess)
         } catch (e) {
-            dispatch(showMessage("Упс, что-то пошло не так(", msgTypeFail))
+            syncShowMessage(dispatch, "Упс, что-то пошло не так(", msgTypeFail)
         }
     };
 };
@@ -47,4 +47,9 @@ export const showMessage = (message, type, timeout = 2000) => {
         dispatch({type: MESSAGE_SHOW, payload: {message, type}})
         setTimeout(() => dispatch(hideMessage()), timeout)
     }
+}
+
+const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
+        dispatch({type: MESSAGE_SHOW, payload: {message, type}})
+        setTimeout(() => dispatch(hideMessage()), timeout)
 }
