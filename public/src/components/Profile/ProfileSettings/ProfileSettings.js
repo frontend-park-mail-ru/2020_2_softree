@@ -96,7 +96,7 @@ export default class ProfileSettings extends Component {
                 </div>
             </div>
         </div>`, {
-            GridField: [GridField, this.fields.map(field =>
+            GridFields: [GridField, this.fields.map(field =>
                 ({
                     ...field,
                     errors: errors[field.name],
