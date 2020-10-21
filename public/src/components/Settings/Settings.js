@@ -1,14 +1,14 @@
-import {apiChangePass} from '../../../api.js';
-import {Component} from '../../../modules/Softer/Softer.js';
-import ErrorField from '../../Form/ErrorField.js';
-import Notification from '../../Form/Notification.js';
-import GridField from '../../Form/GridField/GridField.js';
-import Submit from '../../Form/Submit/Submit.js';
-import {setUploadedImage} from '../../../utils/utils.js';
-import {useDispatch} from '../../../modules/Softer/softer-softex.js';
-import {setPhoto, showMessage} from '../../../store/actions.js';
-import {jpatch} from '../../../modules/jfetch.js';
-import {msgTypeSuccess} from "../../../messages/types.js";
+import {apiChangePass} from '../../api.js';
+import {Component} from '../../modules/Softer/Softer.js';
+import ErrorField from '../Form/ErrorField.js';
+import Notification from '../Form/Notification.js';
+import GridField from '../Form/GridField/GridField.js';
+import Submit from '../Form/Submit/Submit.js';
+import {setUploadedImage} from '../../utils/utils.js';
+import {useDispatch} from '../../modules/Softer/softer-softex.js';
+import {setPhoto, showMessage} from '../../store/actions.js';
+import {jpatch} from '../../modules/jfetch.js';
+import {msgTypeSuccess} from "../../messages/types.js";
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -31,6 +31,17 @@ export default class ProfileSettings extends Component {
             overalInfoIsOpen: false,
             changePasswordIsOpen: false
         };
+    }
+
+    logOut(e) {
+        e.preventDefault();
+        jpost(apiLogOut())
+            .catch(({ status }) => {
+                if (status === 302) {
+                    useDispatch()(dropUserData());
+                    this.redirect(...pageSignIn());
+                }
+            });
     }
 
     resetData() {

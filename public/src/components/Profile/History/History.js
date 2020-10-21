@@ -1,6 +1,6 @@
-import { Component } from '../../modules/Softer/Softer.js';
+import { Component } from '../../../modules/Softer/Softer.js';
 
-export default class ProfileHistory extends Component {
+export default class History extends Component {
     constructor() {
         super();
     }
