@@ -39,9 +39,6 @@ export class Component {
         }
         this.children.push(newComponent);
 
-        // if (newComponent.clear) {
-        //     this.__placeClearClbToClearList(newComponent.clear.bind(newComponent));
-        // }
         return newComponent
     }
 
