@@ -9,9 +9,7 @@ export const createStore = (rootReducer, initialStore = {}) => {
             subscribers = subscribers.filter(sub => !sub(was, state));
         },
         subscribe(clb) {
-            if (!subscribers.includes(clb)) {
-                subscribers.push(clb);
-            }
+            subscribers.push(clb);
         },
         getState() {
             return state;

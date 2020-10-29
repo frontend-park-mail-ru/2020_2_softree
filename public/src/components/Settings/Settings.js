@@ -97,7 +97,7 @@ export default class ProfileSettings extends Component {
                     ${this.state.overalInfoIsOpen ? '<input class="avatar-input" type="file" accept="image/png, image/jpeg">' : ''} 
                     <div class="btn password" style="background: ${this.state.changePasswordIsOpen ? 'gray' : ''}">Изменить пароль</div>
                     ${this.state.changePasswordIsOpen ?
-            `<div class="flexbox">
+                        `<div class="flexbox">
                             <form class="password-form">
                                 <GridFields/>
                                 ${errors['non_field_errors'] ? '<ErrorField/>' : ''}

@@ -10,20 +10,7 @@ export function useSelector(component, selector, id = null) {
         throw new Error('Store не подключен');
     }
 
-    // if (!window.Softer.subscribers) {
-    //     window.Softer.subscribers = [];
-    // }
-
-    // const { subscribers } = window.Softer;
-
     const result = selector(store.getState());
-    // id = id // `${component.constructor.name}:${selector.toString().split('=>')[1].split('.').slice(1,).join('.')}`;
-    // id = component.id;
-    // if (subscribers.includes(id)) {
-    //     return result;
-    // } else {
-    //     subscribers.push(id);
-    // }
 
     store.subscribe((was, become) => {
         if (!component || !component.node) {
