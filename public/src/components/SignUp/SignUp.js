@@ -9,8 +9,8 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
 
 export class SignUp extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.fields = [
             { title: 'Email', type: 'email', name: 'email' },
             { title: 'Пароль', type: 'password', name: 'password1' },
@@ -30,8 +30,7 @@ export class SignUp extends Component {
     submit(e) {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
-            .then(() => {
-                useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
+            .then(() => { useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
                 this.redirect(...pageMain());
             })
             .catch(({ data }) => this.setState({ errors: data }));
@@ -40,43 +39,32 @@ export class SignUp extends Component {
     render() {
         const { errors } = this.state;
 
-        const [signUp, replace, listen] = this.create('div', `
-        <div class='hidden-wrapper'>
-            <div class='modal auth'>
-                <h2 class='modal__title'>Добро пожаловать!</h2>
-                <form class='grid-form'>
-                    <GridFields></GridFields>
-                    ${errors.non_field_errors ? '<FieldError></FieldError>' : ''}
-                    <SubmitButton></SubmitButton>
-                </form> 
-                <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
-            </div> 
-        </div>`);
-
-        const fields = this.fields.map(field =>
-            new GridField({
-                props: {
-                    ...field,
-                    errors: errors[field.name],
-                    required: true,
-                    value: this.data[field.name],
-                    gridTemplate: '80px 200px',
-                    dataHandler: this.setData.bind(this)
-                }
-            }));
-
-        replace({
-            GridFields: fields.map(field => field.render()),
-            SubmitButton: new Submit('Зарегистрироваться').render()
+        const signUp = this.create( `
+        <div>
+            <div class='hidden-wrapper'>
+                <div class='modal auth'>
+                    <h2 class='modal__title'>Добро пожаловать!</h2>
+                    <form class='grid-form'>
+                        <GridFields/>
+                        ${errors.non_field_errors ? '<FieldError/>' : ''}
+                        <SubmitButton/>
+                    </form> 
+                    <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
+                </div> 
+            </div>
+        </div>`, {
+            GridFields: [GridField, this.fields.map(field => ({
+                ...field,
+                errors: errors[field.name],
+                required: true,
+                value: this.data[field.name],
+                gridTemplate: '80px 200px',
+                dataHandler: this.setData.bind(this)}))],
+            SubmitButton: [Submit, 'Зарегистрироваться'],
+            FieldError: [ErrorField, errors.non_field_errors]
         });
 
-        if (errors.non_field_errors) {
-            replace({
-                FieldError: new ErrorField(errors.non_field_errors).render()
-            });
-        }
-
-        listen('form', 'submit', e => this.submit(e));
+        this.listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', ...pageSignIn());
 
         return signUp;

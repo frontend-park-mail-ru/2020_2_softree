@@ -1,6 +1,8 @@
 import { appStartLoading, appEndLoading, userSetData, userDropData, userStartLoading, userEndLoading, userSetAvatar } from './types.js';
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
+import {MESSAGE_HIDE, MESSAGE_SHOW} from "./types.js";
+import {msgTypeFail, msgTypeSuccess} from "../messages/types.js";
 
 // APP
 export const startLoading = () => ({ type: appStartLoading });
@@ -18,8 +20,6 @@ export const fetchUserData = (redirectToAuth) => {
         dispatch(startUserDataLoading());
         try {
             const response = await jget(apiCheckAuth());
-            console.log(response);
-            console.log('userData', response.data);
             dispatch(setUserData(response.data));
         } catch (e) {
             redirectToAuth();
@@ -30,7 +30,26 @@ export const fetchUserData = (redirectToAuth) => {
 
 export const setPhoto = (src) => {
     return async dispatch => {
-        jpatch(apiUpdateUser(), { avatar: src });
-        dispatch(setAvatar(src));
+        try {
+            const response = await jpatch(apiUpdateUser(), { avatar: src })
+            dispatch(setAvatar(src));
+            syncShowMessage(dispatch, "Фотография успешно обновлена!", msgTypeSuccess)
+        } catch (e) {
+            syncShowMessage(dispatch, "Упс, что-то пошло не так(", msgTypeFail)
+        }
     };
 };
+
+
+export const hideMessage = () => ({type: MESSAGE_HIDE})
+export const showMessage = (message, type, timeout = 2000) => {
+    return async dispatch => {
+        dispatch({type: MESSAGE_SHOW, payload: {message, type}})
+        setTimeout(() => dispatch(hideMessage()), timeout)
+    }
+}
+
+const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
+        dispatch({type: MESSAGE_SHOW, payload: {message, type}})
+        setTimeout(() => dispatch(hideMessage()), timeout)
+}

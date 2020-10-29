@@ -6,8 +6,8 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { dropUserData } from '../../store/actions.js';
 
 export default class Menu extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
     }
 
     logOut(e) {
@@ -22,7 +22,8 @@ export default class Menu extends Component {
     }
 
     render() {
-        const [menu,, listen] = this.create('div', `
+        const menu = this.create( `
+        <div>
             <div class="flex-menu">
                 <div class="flex-left">
                     <div class="b1-link btn">Портфель</div>
@@ -33,13 +34,14 @@ export default class Menu extends Component {
                     <div class="b4-link btn">Выход</div>
                 </div>
             </div>
+        </div>
                 `);
 
         this.link('.b1-link', ...pageProfile());
         this.link('.b2-link', ...pageHistory());
         this.link('.b3-link', ...pageSettings());
 
-        listen('.b4-link', 'click', e => this.logOut(e));
+        this.listen('.b4-link', 'click', e => this.logOut(e));
 
         return menu;
     }

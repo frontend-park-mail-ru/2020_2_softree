@@ -4,8 +4,8 @@ import { jget } from '../../modules/jfetch.js';
 import { apiRates } from '../../api.js';
 
 export default class MainPage extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
             rates: []
@@ -20,6 +20,11 @@ export default class MainPage extends Component {
             .catch(() => { this.setState({ error: 'Что-то пошло не так(' }); });
     }
 
+    clear() {
+        super.clear();
+        clearInterval(this.interval);
+    }
+
     render() {
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
@@ -28,19 +33,14 @@ export default class MainPage extends Component {
             }
         }
 
-        const [page, replace] = this.create('div', `
-        <h2 class='block-title'>Валюты</h2>
-        <div class='rates-wrapper'>
-            ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
-        </div>
-        `);
-
-        if (this.state.rates.length !== 0) {
-            replace({
-                Rates: this.state.rates.map(rate => new Rate({ props: rate }).render())
-            });
-        }
-
-        return page;
+        return this.create( `
+        <div>
+            <h2 class='block-title'>Валюты</h2>
+            <div class='rates-wrapper'>
+                ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
+            </div> 
+        </div>`, {
+            Rates: [Rate, this.state.rates]
+        });
     }
 }

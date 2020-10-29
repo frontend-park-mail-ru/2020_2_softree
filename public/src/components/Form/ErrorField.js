@@ -8,10 +8,6 @@ export default class ErrorField extends Component {
     }
 
     render() {
-        const [field] = this.create('div', `
-        <p class='grid-field__error'>${this.errors.join(' ')}</p>
-        `);
-
-        return field;
+        return this.create( `<p class='grid-field__error'>${this.errors.join(' ')}</p>`);
     }
 }

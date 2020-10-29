@@ -3,7 +3,7 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from '../../utils/utils.js';
+import {id, createElement, overallPath} from './utils.js';
 import {select, useSelector} from './softer-softex.js';
 import {pageSignUp} from '../../pages.js';
 
@@ -15,17 +15,14 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, initState = {}, initData = {}, appId = null} = {}) {
+    constructor(props = {}) {
         this.props = props;
-        this.state = initState;
-        this.data = initData;
+        this.state = {};
+        this.data = {};
         this.node = null;
-
-        this.appId = appId;
+        this.id = id();
+        this.isRoot = false;
     }
-
-    appId = null;
-    key = null;
 
     /**
      *
@@ -35,9 +32,18 @@ export class Component {
      * @return {*}
      */
     place(component, props = {}) {
-        const newComponent = new component({...props, appId: this.appId});
-        newComponent.key = id();
+        const newComponent = new component(props);
+        newComponent.parent = this;
+        if (!this.children) {
+            this.children = [];
+        }
+        this.children.push(newComponent);
+
         return newComponent
+    }
+
+    clear() {
+        this.node = null;
     }
 
     useSelector(selector) {
@@ -45,11 +51,11 @@ export class Component {
     }
 
     rerender() {
-        if (!this.node) {
-            window.Softer.rerenderApp(this.appId);
-        }
+        console.assert(this.node !== null, 'У компоненты', this, 'нет HTMLElement');
+        this.__deleteChildren(this);
         this.node.replaceWith(this.render());
     }
+
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
@@ -77,14 +83,11 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create(tag, content = '', options = {}) {
-        if (!this.node) {
-            this.node = document.createElement(tag);
-            for (let option in options) {
-                this.node[option] = options[option];
-            }
-        }
-        return setupNode(this.node, content);
+    create( content = '', components = {}) {
+        this.node = createElement(content);
+        this.__replaceComponents(components);
+        this.listen = ListenerFor(this.node);
+        return this.node;
     }
 
     link(selector, title, href) {
@@ -98,47 +101,136 @@ export class Component {
         this.__historyPushState(title, href);
     }
 
-    __historyPushState(title, href) {
-        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
-        document.title = title;
-        window.Softer.rerenderApp(this.appId);
-    }
-
     /**
      * Создает и возвращает HTML элемент компоненты.
      * @return {HTMLElement}
      */
     render() {
     }
+
+    __replaceComponents(components) {
+        for (let component in components) {
+            const config = components[component];
+            let input;
+            if (config.__proto__.name === "Component") {
+                input = [[config]];
+            } else if (config[1] instanceof Array) {
+                input = config[1].map(props => [config[0], props]);
+            } else {
+                input = [config];
+            }
+            this.__replaceComponent(component, ...input);
+        }
+    }
+
+    __placeClearClbToClearList(clb) {
+        const root = this.__findRoot();
+        root.clearList.push(clb);
+    }
+
+    __findRoot() {
+        let root = this;
+        while (!root.isRoot) {
+            console.assert(root.parent !== undefined, "У компоненты", root, "нет родителя");
+            root = root.parent;
+        }
+        return root;
+    }
+
+    __findSwitch(path) {
+        let node = this;
+        while (!(node.isRoot || node instanceof Switch && node.path === path)) {
+            console.assert(node.parent !== undefined, "У компоненты", node, "нет родителя");
+            node = node.parent;
+        }
+        if (node.isRoot) {
+            for (let idx = 0; idx < node.children.length; idx++) {
+                if (node.children[idx] instanceof Switch) {
+                    return node.children[idx];
+                }
+            }
+        }
+        return node;
+    }
+
+    __replaceComponent(selector, ...nodes) {
+        const query = this.node.querySelectorAll(selector);
+        if (!query) {
+            return;
+        }
+        query.forEach(element => element.replaceWith(...nodes.map(node => this.place(node[0], node[1]).render())));
+    }
+
+    __processClearList(root) {
+       root.clearList.forEach(clb => clb());
+       root.clearList = [];
+    }
+
+    __rerenderAll() {
+        const root = this.__findRoot();
+
+        root.rerender();
+    }
+
+    __rerenderSwitch(path) {
+        const node = this.__findSwitch(path);
+        node.rerender();
+    }
+
+    __historyPushState(title, href) {
+        const currentPath = window.location.pathname;
+        if (currentPath === href) {
+            return;
+        }
+        window.history.pushState({path: currentPath, title: document.title}, title, href);
+        document.title = title;
+        this.__rerenderSwitch(overallPath(currentPath, href));
+    }
+
+    __deleteChildren(root) {
+        const del = (element) => {
+            if (element.children) {
+                element.children.forEach(child => del(child));
+            }
+            if (element !== root) {
+                if (element.clear) {
+                    element.clear();
+                }
+                element = null;
+            } else {
+                 element.children = [];
+            }
+        }
+        del(root);
+    }
 }
 
 export class Softer {
     constructor() {
-        this.apps = {};
         this.store = null;
 
-        window.Softer = this;
+        this.init()
     }
 
     connectStore(store) {
         this.store = store;
     }
 
-    initApp(element, app, props = {}) {
-        const appId = id();
-        const newApp = new app({props, appId});
-        newApp.key = appId;
-        const render = () => Render(element, newApp.render());
-        this.apps[appId] = {render, components: {}};
+    init() {
+        window.Softer = this;
+
         window.addEventListener('popstate', e => {
             e.preventDefault();
-            render();
         })
-        render();
     }
 
-    rerenderApp(appId) {
-        this.apps[appId].render();
+    initApp(element, app) {
+        const newApp = new app();
+        newApp.parent = this;
+        newApp.isRoot = true;
+        newApp.clearList = [];
+
+        Render(element, newApp.render());
     }
 }
 
@@ -155,15 +247,17 @@ export const Render = (element, app) => {
 /**
  * Маршрутизатор, который выбирает на основании пути (window.location.pathname) подходящий роутер.
  */
-export class Switch {
-    constructor(...routers) {
+export class Switch extends Component {
+    constructor({path = "", routers}) {
+        super()
+        this.path = path;
         this.routers = routers;
     }
 
     checkPathFor(router) {
         const currentPathName = window.location.pathname;
         if (router.exact) {
-            return router.path === currentPathName;
+            return this.path + router.path === currentPathName;
         }
         const match = currentPathName.match(router.path);
         return !!match;
@@ -172,15 +266,23 @@ export class Switch {
     /**
      * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path. Если не нашлось подходящего,
      * выбирает последний. В качестве последнего удобно поставить страницу 404
-     * @return {HTMLElement}
+     * @return {[]}
      */
-    render() {
+    renderRouter() {
         for (let i = 0; i < this.routers.length; i++) {
             if (this.checkPathFor(this.routers[i])) {
-                return this.routers[i].render();
+                return [Router, this.routers[i]];
             }
         }
-        return this.routers[this.routers.length - 1].render();
+        return [Router, this.routers[this.routers.length - 1]];
+    }
+
+    render() {
+        return this.create(
+            '<div><Router/></div>',
+            {
+                Router: this.renderRouter()
+            });
     }
 }
 
@@ -195,16 +297,22 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, exact, componentProps, authRequired, appId}) {
-        super({appId});
+    constructor({path, component, exact, componentProps, authRequired}) {
+        super();
+        this.component = [component, componentProps];
         this.path = path;
         this.exact = exact;
-        this.component = this.place(component, componentProps);
         this.authRequired = authRequired;
     }
 
+    clear() {
+        if (this.component.clear) {
+            this.component.clear.bind(this.component)();
+        }
+    }
+
     authCheck() {
-        return select(state => state.user.userData);
+        return select(state => state.user.userData.email);
     }
 
     /**
@@ -213,11 +321,20 @@ export class Router extends Component {
      */
     render() {
         if (this.authRequired && !this.authCheck()) {
+            const loading = this.useSelector(store => store.user.loading);
+            if (loading) {
+                return this.create('<h2>Загрузка...</h2>');
+            } else {
                 this.redirect(...pageSignUp());
-                return document.createElement('div');
+            }
         }
-
-        return this.component.render();
+        return this.create(`
+        <div>
+            <Component/> 
+        </div>
+        `, {
+            Component: this.component
+        })
     }
 }
 
@@ -228,28 +345,50 @@ export class Router extends Component {
  * @param {Node} nodes
  */
 export const replace = (element, selector, ...nodes) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.replaceWith(...nodes));
+    const query = element.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.replaceWith(...nodes));
 }
 
 export const listen = (element, selector, event, clb) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
+    const query = element.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.addEventListener(event, e => clb(e)));
 }
 
-export const ReplacerTo = (element) => {
+/**
+ *
+ * @param {HTMLElement, Node, Component} node
+ */
+export const renderNode = (node) => {
+    if (node instanceof HTMLElement) {
+        return node;
+    } else if (typeof node === 'string') {
+        return node;
+    } else {
+        return node.render();
+    }
+}
+
+export function ReplacerTo (element) {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
             if (!(context instanceof String)) {
                 throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
             }
-            replace(element, context, ...nodes);
+            replace(element, context, ...nodes.map(node => renderNode(node)));
         }
 
         let selector;
         for (selector in context) {
             if (context[selector] instanceof Array) {
-                replace(element, selector, ...context[selector]);
+                replace(element, selector, ...context[selector].map(node => renderNode(node)));
             } else {
-                replace(element, selector, context[selector]);
+                replace(element, selector, renderNode(context[selector]));
             }
         }
     }
@@ -261,5 +400,5 @@ export const ListenerFor = (element) => {
 
 export const setupNode = (node, content) => {
     node.innerHTML = content;
-    return [node, ReplacerTo(node), ListenerFor(node)];
+    return ;
 }
