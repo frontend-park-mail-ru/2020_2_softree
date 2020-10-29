@@ -1,33 +1,38 @@
 // const hostname = 'https://api.softree.group';
 const hostname = 'http://api.self.ru';
 
-const isJSONAnswer = response => {
-    return response.headers.get('Content-Type');
-};
-
-export const jfetch = (path, options) => {
-    return fetch(`${hostname}${path}`, {
+export const jfetch = async (path, options) => {
+    const response = await fetch(`${hostname}${path}`, {
         mode: 'cors',
         credentials: 'include',
         ...options
-    })
-        .then(response => {
-            return new Promise((resolve, reject) => {
-                if (response.ok) {
-                    if (isJSONAnswer(response)) {
-                        response.json().then(data => resolve({ status: response.status, data }));
-                    } else {
-                        resolve({ status: response.status, data: {} });
-                    }
-                } else {
-                    if (isJSONAnswer(response)) {
-                        response.json().then(data => reject({ status: response.status, data }));
-                    } else {
-                        reject({ status: response.status, data: {} });
-                    }
-                }
-            });
-        });
+    });
+
+    const {ok, status} = response;
+
+    try {
+        const data = await response.json();
+        const resp = {
+            status,
+            data
+        }
+
+        if (ok) {
+            return resp;
+        }
+        return Promise.reject(resp);
+
+    } catch(err) {
+        const resp = {
+            status,
+            data: {}
+        };
+    
+        if (ok) {
+            return resp;
+        }
+        return Promise.reject(resp);
+    }
 };
 
 export const jpost = (path, data, options = {}) => {

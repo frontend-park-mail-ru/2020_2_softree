@@ -1,5 +1,5 @@
 import { Component } from '../../modules/Softer/Softer.js';
-import { pageMain } from '../../pages.js';
+import { pageMain, pageProfile, pageSettings } from '../../pages.js';
 
 export class Header extends Component {
     constructor() {
@@ -12,6 +12,9 @@ export class Header extends Component {
         const header = this.create( `
             <header class='header'> 
                 <div class="container">
+                    <div class ='bag__btn'>
+                        <img class='header__bag_img' src='/src/images/bag.svg' alt='Bag'/>
+                    </div>
                     <div class='header__logo'>
                         <img class='header__logo_img' src='/src/images/cat.svg' alt='Logo'/>
                         <p class='header__logo_text'>MoneyCat</p>
@@ -24,7 +27,8 @@ export class Header extends Component {
         `);
 
         this.link('.header__logo', ...pageMain());
-        this.link('.header__control_avatar', 'Профиль', '/profile');
+        this.link('.header__control_avatar', ...pageSettings());
+        this.link('.header__bag_img', ...pageProfile());
 
         return header;
     }

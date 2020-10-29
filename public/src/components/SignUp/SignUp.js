@@ -33,7 +33,10 @@ export class SignUp extends Component {
             .then(() => { useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
                 this.redirect(...pageMain());
             })
-            .catch(({ data }) => this.setState({ errors: data }));
+            .catch(({ data }) => {
+                console.log(data);
+                this.setState({ errors: data });
+            });
     }
 
     render() {

@@ -1,6 +1,6 @@
-import { Component } from '../../modules/Softer/Softer.js';
+import { Component } from '../../../modules/Softer/Softer.js';
 
-export default class ProfileMain extends Component {
+export default class Bag extends Component {
     constructor() {
         super();
     }

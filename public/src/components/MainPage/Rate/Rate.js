@@ -9,7 +9,7 @@ export default class Rate extends Component {
     render() {
         const {props} = this;
         const headerStyle = {
-            background: props.change >= 0 ? 'green' : 'red'
+            background: props.change >= 0 ? '#60992D' : '#E71D36'
         };
 
         return this.create(`

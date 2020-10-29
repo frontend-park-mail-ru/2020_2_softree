@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    font-family: -apple-system, 'Inter' ,'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
@@ -72,6 +72,46 @@ input[type=email], input[type=password] {
     padding: 5px;
 }
 
+.btn {
+    background: rgba(230, 230, 230, 100);
+    border-radius: 50px;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    max-width: 300px;
+}
+
+.btn.overal, .btn.password {
+    margin: 10px auto;
+}
+
+.btn:hover {
+    background: #bbb;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+
+.flex-menu {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.flex-left {
+    display: flex;
+}
+
+.flex-right {
+    display: flex;
+}
+
+@media screen and (max-width: 400px) {
+    .btn {
+        font-size: 14px;
+    }
+}
+
 .container {
     width: 1140px;
     margin: 0 auto;
@@ -106,4 +146,3 @@ input[type=email], input[type=password] {
         margin-right: 15px;
     }
 }
-
