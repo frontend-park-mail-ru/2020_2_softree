@@ -34,13 +34,11 @@ export default class MainPage extends Component {
         }
 
         return this.create( `
-        <div class="page">
-            <div class="container">
-                <h2 class='block-title'>Валюты</h2>
-                <div class='rates-wrapper'>
-                    ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
-                </div> 
-            </div>
+        <div class="container">
+            <h2 class='block-title'>Валюты</h2>
+            <div class='rates-wrapper'>
+                ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
+            </div> 
         </div>
         `, {
             Rates: [Rate, this.state.rates]

@@ -33,7 +33,9 @@ export default class App extends Component {
         return this.create(`
         <div>
             <Header/>
-            <MainContent/>
+            <div class='page'>
+                <MainContent/>
+            </div>
         </div>
         `, {
             Header,
