@@ -1,11 +1,17 @@
 .header {
-    height: 60px;
     width: 100%;
+    background: white;
+    padding: 15px 0 0;
+}
+
+.header .container {
     display: flex;
-    background: #090C02;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px
+}
+
+.header img {
+    filter: invert();
 }
 
 .header__logo {
@@ -17,7 +23,7 @@
 
 .header__logo_text {
     margin-left: 10px;
-    color: #ffffff;
+    color: black;
     font-size: 28px;
     font-weight: 900;
 }
@@ -34,16 +40,4 @@
     cursor: pointer;
     height: 43px;
     width: 43px;
-    border-radius: 10%;
-    margin-left: 25px;
-    background: #4C6085;
-}
-
-.header__bag_img {
-    display: block;
-    margin: auto;
-}
-
-.header__flexbox {
-    display: flex;
 }

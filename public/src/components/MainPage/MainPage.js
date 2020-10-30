@@ -37,9 +37,8 @@ export default class MainPage extends Component {
             }
         }
 
-        return this.create(
-            `
-        <div>
+        return this.create( `
+        <div class="container">
             <h2 class='block-title'>Валюты</h2>
             <div class='rates-wrapper'>
                 ${
@@ -48,10 +47,9 @@ export default class MainPage extends Component {
                         : '<Rates></Rates>'
                 }
             </div> 
-        </div>`,
-            {
-                Rates: [Rate, this.state.rates],
-            },
-        );
+        </div>
+        `, {
+            Rates: [Rate, this.state.rates]
+        });
     }
 }

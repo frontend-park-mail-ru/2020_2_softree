@@ -11,7 +11,7 @@ export class Header extends Component {
 
         const header = this.create(`
             <header class='header'> 
-                <div class="container">
+                <div class='container'>
                     <div class ='bag__btn'>
                         <img class='header__bag_img' src='/src/images/bag.svg' alt='Bag'/>
                     </div>
@@ -20,9 +20,7 @@ export class Header extends Component {
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     <div class='header__control'>
-                        <img class='header__control_avatar' src=${
-                            data.avatar || '/src/images/avatar.svg'
-                        } alt='Aavatar'/>
+                        <img class='header__control_avatar' src=${data.avatar || '/src/images/avatar.svg'} alt='Avatar'/>
                     </div>
                 </div>
             </header>

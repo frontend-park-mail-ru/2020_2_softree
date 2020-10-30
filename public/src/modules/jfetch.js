@@ -10,29 +10,15 @@ export const jfetch = async (path, options) => {
 
     const {ok, status} = response;
 
+    const resp = {status}
     try {
-        const data = await response.json();
-        const resp = {
-            status,
-            data
-        }
+        resp.data = await response.json();
+    } catch(err) {}
 
-        if (ok) {
-            return resp;
-        }
-        return Promise.reject(resp);
-
-    } catch(err) {
-        const resp = {
-            status,
-            data: {}
-        };
-    
-        if (ok) {
-            return resp;
-        }
-        return Promise.reject(resp);
+    if (ok) {
+        return resp;
     }
+    return Promise.reject(resp);
 };
 
 export const jpost = (path, data, options = {}) => {
