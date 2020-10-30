@@ -3,9 +3,9 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id, createElement, overallPath} from './utils.js';
-import {select, useSelector} from './softer-softex.js';
-import {pageSignUp} from '../../pages.js';
+import { id, createElement, overallPath } from './utils.js';
+import { select, useSelector } from './softer-softex.js';
+import { pageSignUp } from '../../pages.js';
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -39,7 +39,7 @@ export class Component {
         }
         this.children.push(newComponent);
 
-        return newComponent
+        return newComponent;
     }
 
     clear() {
@@ -51,11 +51,15 @@ export class Component {
     }
 
     rerender() {
-        console.assert(this.node !== null, 'У компоненты', this, 'нет HTMLElement');
+        console.assert(
+            this.node !== null,
+            'У компоненты',
+            this,
+            'нет HTMLElement',
+        );
         this.__deleteChildren(this);
         this.node.replaceWith(this.render());
     }
-
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
@@ -63,7 +67,7 @@ export class Component {
      * @param {Object} state
      */
     setState(state) {
-        this.state = {...this.state, ...state};
+        this.state = { ...this.state, ...state };
         this.rerender();
     }
 
@@ -72,7 +76,7 @@ export class Component {
      * @param {Object} state
      */
     setData(state) {
-        this.data = {...this.data, ...state};
+        this.data = { ...this.data, ...state };
     }
 
     /**
@@ -83,7 +87,7 @@ export class Component {
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
      * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
      */
-    create( content = '', components = {}) {
+    create(content = '', components = {}) {
         this.node = createElement(content);
         this.__replaceComponents(components);
         this.listen = ListenerFor(this.node);
@@ -94,7 +98,7 @@ export class Component {
         listen(this.node, selector, 'click', e => {
             e.preventDefault();
             this.__historyPushState(title, href);
-        })
+        });
     }
 
     redirect(title, href) {
@@ -105,14 +109,13 @@ export class Component {
      * Создает и возвращает HTML элемент компоненты.
      * @return {HTMLElement}
      */
-    render() {
-    }
+    render() {}
 
     __replaceComponents(components) {
         for (let component in components) {
             const config = components[component];
             let input;
-            if (config.__proto__.name === "Component") {
+            if (config.__proto__.name === 'Component') {
                 input = [[config]];
             } else if (config[1] instanceof Array) {
                 input = config[1].map(props => [config[0], props]);
@@ -131,7 +134,12 @@ export class Component {
     __findRoot() {
         let root = this;
         while (!root.isRoot) {
-            console.assert(root.parent !== undefined, "У компоненты", root, "нет родителя");
+            console.assert(
+                root.parent !== undefined,
+                'У компоненты',
+                root,
+                'нет родителя',
+            );
             root = root.parent;
         }
         return root;
@@ -139,8 +147,15 @@ export class Component {
 
     __findSwitch(path) {
         let node = this;
-        while (!(node.isRoot || node instanceof Switch && node.path === path)) {
-            console.assert(node.parent !== undefined, "У компоненты", node, "нет родителя");
+        while (
+            !(node.isRoot || (node instanceof Switch && node.path === path))
+        ) {
+            console.assert(
+                node.parent !== undefined,
+                'У компоненты',
+                node,
+                'нет родителя',
+            );
             node = node.parent;
         }
         if (node.isRoot) {
@@ -158,12 +173,16 @@ export class Component {
         if (!query) {
             return;
         }
-        query.forEach(element => element.replaceWith(...nodes.map(node => this.place(node[0], node[1]).render())));
+        query.forEach(element =>
+            element.replaceWith(
+                ...nodes.map(node => this.place(node[0], node[1]).render()),
+            ),
+        );
     }
 
     __processClearList(root) {
-       root.clearList.forEach(clb => clb());
-       root.clearList = [];
+        root.clearList.forEach(clb => clb());
+        root.clearList = [];
     }
 
     __rerenderAll() {
@@ -182,13 +201,17 @@ export class Component {
         if (currentPath === href) {
             return;
         }
-        window.history.pushState({path: currentPath, title: document.title}, title, href);
+        window.history.pushState(
+            { path: currentPath, title: document.title },
+            title,
+            href,
+        );
         document.title = title;
         this.__rerenderSwitch(overallPath(currentPath, href));
     }
 
     __deleteChildren(root) {
-        const del = (element) => {
+        const del = element => {
             if (element.children) {
                 element.children.forEach(child => del(child));
             }
@@ -198,9 +221,9 @@ export class Component {
                 }
                 element = null;
             } else {
-                 element.children = [];
+                element.children = [];
             }
-        }
+        };
         del(root);
     }
 }
@@ -209,7 +232,7 @@ export class Softer {
     constructor() {
         this.store = null;
 
-        this.init()
+        this.init();
     }
 
     connectStore(store) {
@@ -221,7 +244,7 @@ export class Softer {
 
         window.addEventListener('popstate', e => {
             e.preventDefault();
-        })
+        });
     }
 
     initApp(element, app) {
@@ -240,16 +263,16 @@ export class Softer {
  * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
  */
 export const Render = (element, app) => {
-    element.innerHTML = ''
+    element.innerHTML = '';
     element.appendChild(app);
-}
+};
 
 /**
  * Маршрутизатор, который выбирает на основании пути (window.location.pathname) подходящий роутер.
  */
 export class Switch extends Component {
-    constructor({path = "", routers}) {
-        super()
+    constructor({ path = '', routers }) {
+        super();
         this.path = path;
         this.routers = routers;
     }
@@ -278,11 +301,9 @@ export class Switch extends Component {
     }
 
     render() {
-        return this.create(
-            '<div><Router/></div>',
-            {
-                Router: this.renderRouter()
-            });
+        return this.create('<div><Router/></div>', {
+            Router: this.renderRouter(),
+        });
     }
 }
 
@@ -297,7 +318,7 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, exact, componentProps, authRequired}) {
+    constructor({ path, component, exact, componentProps, authRequired }) {
         super();
         this.component = [component, componentProps];
         this.path = path;
@@ -328,13 +349,16 @@ export class Router extends Component {
                 this.redirect(...pageSignUp());
             }
         }
-        return this.create(`
+        return this.create(
+            `
         <div>
             <Component/> 
         </div>
-        `, {
-            Component: this.component
-        })
+        `,
+            {
+                Component: this.component,
+            },
+        );
     }
 }
 
@@ -350,7 +374,7 @@ export const replace = (element, selector, ...nodes) => {
         return;
     }
     query.forEach(element => element.replaceWith(...nodes));
-}
+};
 
 export const listen = (element, selector, event, clb) => {
     const query = element.querySelectorAll(selector);
@@ -358,13 +382,13 @@ export const listen = (element, selector, event, clb) => {
         return;
     }
     query.forEach(element => element.addEventListener(event, e => clb(e)));
-}
+};
 
 /**
  *
  * @param {HTMLElement, Node, Component} node
  */
-export const renderNode = (node) => {
+export const renderNode = node => {
     if (node instanceof HTMLElement) {
         return node;
     } else if (typeof node === 'string') {
@@ -372,13 +396,15 @@ export const renderNode = (node) => {
     } else {
         return node.render();
     }
-}
+};
 
-export function ReplacerTo (element) {
+export function ReplacerTo(element) {
     return (context, ...nodes) => {
         if (nodes.length !== 0) {
             if (!(context instanceof String)) {
-                throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
+                throw new TypeError(
+                    'Неверное использование. Первым аргументом должен быть селектором',
+                );
             }
             replace(element, context, ...nodes.map(node => renderNode(node)));
         }
@@ -386,19 +412,23 @@ export function ReplacerTo (element) {
         let selector;
         for (selector in context) {
             if (context[selector] instanceof Array) {
-                replace(element, selector, ...context[selector].map(node => renderNode(node)));
+                replace(
+                    element,
+                    selector,
+                    ...context[selector].map(node => renderNode(node)),
+                );
             } else {
                 replace(element, selector, renderNode(context[selector]));
             }
         }
-    }
+    };
 }
 
-export const ListenerFor = (element) => {
+export const ListenerFor = element => {
     return (selector, event, clb) => listen(element, selector, event, clb);
-}
+};
 
 export const setupNode = (node, content) => {
     node.innerHTML = content;
-    return ;
-}
+    return;
+};

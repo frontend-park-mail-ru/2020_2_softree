@@ -4,9 +4,11 @@
   "description": "Coolest command 🤩",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier",
+    "test": "jest",
     "start": "node server/index.js",
-    "lint": "eslint public/src/ --fix"
+    "lint": "eslint public/src/",
+    "fix": "eslint public/src/ --fix"
   },
   "repository": {
     "type": "git",
@@ -19,18 +21,19 @@
     "url": "https://github.com/frontend-park-mail-ru/2020_2_softree/issues"
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2020_2_softree#readme",
-  "dependencies": {
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^26.6.1",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-formatter-pretty": "^4.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
+    "jest": "^26.6.1",
     "morgan": "^1.10.0",
-    "uuid": "^8.3.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.10.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-formatter-pretty": "^4.0.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "2.1.2"
+    "prettier": "^2.1.2",
+    "regenerator-runtime": "^0.13.7"
   }
 }

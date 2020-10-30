@@ -6,6 +6,6 @@ export default class Bag extends Component {
     }
 
     render() {
-        return this.create( ` <div>Main page profile</div> `);
+        return this.create(` <div>Main page profile</div> `);
     }
 }

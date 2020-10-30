@@ -1,4 +1,4 @@
-import {Component} from '../../../modules/Softer/Softer.js';
+import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
 
 export default class Rate extends Component {
@@ -7,16 +7,18 @@ export default class Rate extends Component {
     }
 
     render() {
-        const {props} = this;
+        const { props } = this;
         const headerStyle = {
-            background: props.change >= 0 ? '#60992D' : '#E71D36'
+            background: props.change >= 0 ? '#60992D' : '#E71D36',
         };
 
         return this.create(`
         <div class="rate-card">
             <div class="rate-card__header" style="${Styler(headerStyle)}">
                 <p class="rate-card__header_title">${props.title}</p> 
-                <p class="rate-card__header_change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
+                <p class="rate-card__header_change">${
+                    props.change >= 0 ? `+${props.change}` : props.change
+                }%</p> 
             </div> 
             <div class="rate-card__body">
                 <div class="rate-card__body_field">

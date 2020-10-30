@@ -9,7 +9,7 @@ export class Header extends Component {
     render() {
         const data = this.useSelector(store => store.user.userData);
 
-        const header = this.create( `
+        const header = this.create(`
             <header class='header'> 
                 <div class="container">
                     <div class ='bag__btn'>
@@ -20,7 +20,9 @@ export class Header extends Component {
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     <div class='header__control'>
-                        <img class='header__control_avatar' src=${data.avatar || '/src/images/avatar.svg'} alt='Aavatar'/>
+                        <img class='header__control_avatar' src=${
+                            data.avatar || '/src/images/avatar.svg'
+                        } alt='Aavatar'/>
                     </div>
                 </div>
             </header>

@@ -13,12 +13,11 @@ export const createStore = (rootReducer, initialStore = {}) => {
         },
         getState() {
             return state;
-        }
+        },
     };
 };
 
-
-export const combineReducer = (reducers) => {
+export const combineReducer = reducers => {
     return (state = {}, action) => {
         const newState = {};
         for (const reducer in reducers) {

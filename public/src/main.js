@@ -5,8 +5,7 @@ import App from './components/App.js';
 import { applyMiddlewares, createStore } from './modules/Softex/Softex.js';
 import rootReducer from './store/reducers/rootReducer.js';
 import { thunk, logger } from './modules/Softex/middlewares.js';
-import {Message} from "./messages/Message.js";
-
+import { Message } from './messages/Message.js';
 
 const softer = new Softer();
 softer.connectStore(applyMiddlewares(createStore(rootReducer), logger, thunk));

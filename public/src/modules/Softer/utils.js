@@ -1,4 +1,3 @@
-
 export const id = () => {
     return Math.round(Math.random() * Date.now());
 };
@@ -6,12 +5,12 @@ export const id = () => {
 export const overallBy = (path, nextPath) => {
     const minLen = Math.min(path.length, nextPath.length);
     for (let i = 0; i < minLen; i++) {
-            if (path[i] !== nextPath[i]) {
-                return i;
-            }
+        if (path[i] !== nextPath[i]) {
+            return i;
+        }
     }
     return minLen;
-}
+};
 
 export const overallPath = (path, nextPath) => {
     const overallIdx = overallBy(path, nextPath);
@@ -20,7 +19,7 @@ export const overallPath = (path, nextPath) => {
         result = result.slice(result.length - 1, 1);
     }
     return result;
-}
+};
 
 const attributeToJsProp = attribute => {
     switch (attribute) {
@@ -29,14 +28,13 @@ const attributeToJsProp = attribute => {
         default:
             return attribute;
     }
-}
+};
 
-export const createElement = (string) => {
-    const regexHTML = /<([\w]+)\s*(.*?)>(.*)<\/.*>/sg;
+export const createElement = string => {
+    const regexHTML = /<([\w]+)\s*(.*?)>(.*)<\/.*>/gs;
     const oneTag = /<([\w]+)\s*(.*?)\/>/;
-    const closedTag = /<([A-Z]\w+)\/>/sg;
+    const closedTag = /<([A-Z]\w+)\/>/gs;
     const regexpAttributes = /(\w+)=['"](.*?)['"]/g;
-
 
     let result = regexHTML.exec(string);
 
@@ -50,7 +48,7 @@ export const createElement = (string) => {
             const attributesResult = [...attributes.matchAll(regexpAttributes)];
             attributesResult.forEach(match => {
                 element[attributeToJsProp(match[1])] = match[2];
-            })
+            });
         }
         return element;
     }
@@ -64,10 +62,10 @@ export const createElement = (string) => {
             const attributesResult = [...attributes.matchAll(regexpAttributes)];
             attributesResult.forEach(match => {
                 element[attributeToJsProp(match[1])] = match[2];
-            })
+            });
         }
         return element;
     }
-}
+};
 
 window.create = createElement;

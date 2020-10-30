@@ -8,7 +8,7 @@ export default class MainPage extends Component {
         super();
 
         this.state = {
-            rates: []
+            rates: [],
         };
 
         this.interval = false;
@@ -16,8 +16,12 @@ export default class MainPage extends Component {
 
     fetchRates() {
         jget(apiRates())
-            .then(({ data }) => { this.setState({ rates: data }); })
-            .catch(() => { this.setState({ error: 'Что-то пошло не так(' }); });
+            .then(({ data }) => {
+                this.setState({ rates: data });
+            })
+            .catch(() => {
+                this.setState({ error: 'Что-то пошло не так(' });
+            });
     }
 
     clear() {
@@ -33,14 +37,21 @@ export default class MainPage extends Component {
             }
         }
 
-        return this.create( `
+        return this.create(
+            `
         <div>
             <h2 class='block-title'>Валюты</h2>
             <div class='rates-wrapper'>
-                ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
+                ${
+                    this.state.rates.length === 0
+                        ? '<h1>Котировки подгружаются...</h1>'
+                        : '<Rates></Rates>'
+                }
             </div> 
-        </div>`, {
-            Rates: [Rate, this.state.rates]
-        });
+        </div>`,
+            {
+                Rates: [Rate, this.state.rates],
+            },
+        );
     }
 }

@@ -1,4 +1,10 @@
-!.eslintrc.js
-./server
-images
+.eslintrc.js
+.eslintignore
+.prettierrc
+.eslint-plugin-prettier.js
+.babelrc
+*/images
+node_modules/
 *.css
+*.conf
+*.json

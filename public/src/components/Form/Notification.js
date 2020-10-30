@@ -8,9 +8,12 @@ export default class Notification extends Component {
     }
 
     render() {
-        const [field] = this.create('div', `
+        const [field] = this.create(
+            'div',
+            `
         <p class='form__notification'>${this.msg}</p>
-        `);
+        `,
+        );
         return field;
     }
 }

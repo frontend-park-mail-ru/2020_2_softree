@@ -12,13 +12,12 @@ export default class Exit extends Component {
 
     logOut(e) {
         e.preventDefault();
-        jpost(apiLogOut())
-            .catch(({ status }) => {
-                if (status === 302) {
-                    useDispatch()(dropUserData());
-                    this.redirect(...pageSignIn());
-                }
-            });
+        jpost(apiLogOut()).catch(({ status }) => {
+            if (status === 302) {
+                useDispatch()(dropUserData());
+                this.redirect(...pageSignIn());
+            }
+        });
     }
 
     render() {
