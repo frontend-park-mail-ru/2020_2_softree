@@ -5,30 +5,30 @@ export const jfetch = async (path, options) => {
     const response = await fetch(`${hostname}${path}`, {
         mode: 'cors',
         credentials: 'include',
-        ...options
+        ...options,
     });
 
-    const {ok, status} = response;
+    const { ok, status } = response;
 
-    const resp = {status}
+    const resp = { status };
     try {
         resp.data = await response.json();
-    } catch(err) {}
+    } catch (err) {}
 
     if (ok) {
         return resp;
     }
-    return Promise.reject(resp);
+    throw resp;
 };
 
 export const jpost = (path, data, options = {}) => {
     return jfetch(path, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        ...options
+        ...options,
     });
 };
 
@@ -48,6 +48,6 @@ export const jget = (path, params, options = {}) => {
     return jfetch(path, {
         method: 'GET',
         data: new URLSearchParams(params),
-        ...options
+        ...options,
     });
 };

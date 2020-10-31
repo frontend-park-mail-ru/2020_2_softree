@@ -14,23 +14,26 @@ export class SignUp extends Component {
         this.fields = [
             { title: 'Email', type: 'email', name: 'email' },
             { title: 'Пароль', type: 'password', name: 'password1' },
-            { title: 'Повторите пароль', type: 'password', name: 'password2' }
+            { title: 'Повторите пароль', type: 'password', name: 'password2' },
         ];
         this.data = {
             email: '',
             password1: '',
-            password2: ''
+            password2: '',
         };
 
         this.state = {
-            errors: {}
+            errors: {},
         };
     }
 
     submit(e) {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
-            .then(() => { useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
+            .then(() => {
+                useDispatch()(
+                    setUserData({ ...this.data, password1: '', password2: '' }),
+                );
                 this.redirect(...pageMain());
             })
             .catch(({ data }) => {
@@ -42,7 +45,8 @@ export class SignUp extends Component {
     render() {
         const { errors } = this.state;
 
-        const signUp = this.create( `
+        const signUp = this.create(
+            `
         <div>
             <div class='hidden-wrapper'>
                 <div class='modal auth'>
@@ -55,17 +59,23 @@ export class SignUp extends Component {
                     <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
                 </div> 
             </div>
-        </div>`, {
-            GridFields: [GridField, this.fields.map(field => ({
-                ...field,
-                errors: errors[field.name],
-                required: true,
-                value: this.data[field.name],
-                gridTemplate: '80px 200px',
-                dataHandler: this.setData.bind(this)}))],
-            SubmitButton: [Submit, 'Зарегистрироваться'],
-            FieldError: [ErrorField, errors.non_field_errors]
-        });
+        </div>`,
+            {
+                GridFields: [
+                    GridField,
+                    this.fields.map(field => ({
+                        ...field,
+                        errors: errors[field.name],
+                        required: true,
+                        value: this.data[field.name],
+                        gridTemplate: '80px 200px',
+                        dataHandler: this.setData.bind(this),
+                    })),
+                ],
+                SubmitButton: [Submit, 'Зарегистрироваться'],
+                FieldError: [ErrorField, errors.non_field_errors],
+            },
+        );
 
         this.listen('form', 'submit', e => this.submit(e));
         this.link('.signin-link', ...pageSignIn());

@@ -8,18 +8,34 @@ export default class GridField extends Component {
     }
 
     render() {
-        const { title, type, name, value, required, gridTemplate, dataHandler, errors } = this.props;
-        const field = this.create( `
+        const {
+            title,
+            type,
+            name,
+            value,
+            required,
+            gridTemplate,
+            dataHandler,
+            errors,
+        } = this.props;
+        const field = this.create(
+            `
         <div class="field">
-            <div class='grid-field' style='grid-template-columns: ${gridTemplate || ''}'> 
+            <div class='grid-field' style='grid-template-columns: ${
+                gridTemplate || ''
+            }'> 
                 <label style='color: ${errors ? 'red' : ''}'>${title}</label>
-                <input type='${type}' ${required ? 'required' : ''} name='${name}' value='${value || ''}'/>
+                <input type='${type}' ${
+                required ? 'required' : ''
+            } name='${name}' value='${value || ''}'/>
             </div>
             ${errors ? '<ErrorField/>' : ''}
         </div>
-        `, {
-            ErrorField: [ErrorField, [errors]]
-        });
+        `,
+            {
+                ErrorField: [ErrorField, [errors]],
+            },
+        );
 
         this.listen('input', 'change', e => changeHandler(e, dataHandler));
 

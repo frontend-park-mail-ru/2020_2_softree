@@ -1,43 +1,46 @@
-import {Component} from '../../modules/Softer/Softer.js';
+import { Component } from '../../modules/Softer/Softer.js';
 import GridField from '../Form/GridField/GridField.js';
 import Submit from '../Form/Submit/Submit.js';
-import {jpost} from '../../modules/jfetch.js';
-import {apiSignIn} from '../../api.js';
-import {pageForgotPassword, pageMain, pageSignUp} from '../../pages.js';
+import { jpost } from '../../modules/jfetch.js';
+import { apiSignIn } from '../../api.js';
+import { pageForgotPassword, pageMain, pageSignUp } from '../../pages.js';
 import ErrorField from '../Form/ErrorField.js';
-import {useDispatch} from '../../modules/Softer/softer-softex.js';
-import {setUserData} from '../../store/actions.js';
+import { useDispatch } from '../../modules/Softer/softer-softex.js';
+import { setUserData } from '../../store/actions.js';
 
 export default class SignIn extends Component {
     constructor() {
         super();
         this.fields = [
-            {title: 'Email', type: 'email', name: 'email'},
-            {title: 'Пароль', type: 'password', name: 'password'}
+            { title: 'Email', type: 'email', name: 'email' },
+            { title: 'Пароль', type: 'password', name: 'password' },
         ];
         this.data = {
             email: '',
-            password: ''
+            password: '',
         };
 
         this.state = {
-            errors: null
+            errors: null,
         };
     }
 
     submit(e) {
         e.preventDefault();
         jpost(apiSignIn(), this.data)
-            .then(({data}) => {
+            .then(({ data }) => {
                 useDispatch()(setUserData(data));
                 this.redirect(...pageMain());
             })
-            .catch(() => this.setState({errors: ['Пароль или Email не подходит']}));
+            .catch(() =>
+                this.setState({ errors: ['Пароль или Email не подходит'] }),
+            );
     }
 
     render() {
-        const {errors} = this.state;
-        const signIn = this.create(`
+        const { errors } = this.state;
+        const signIn = this.create(
+            `
         <div>
             <div class='hidden-wrapper'>
                 <div class='modal auth'>
@@ -53,18 +56,22 @@ export default class SignIn extends Component {
                     <a class='signup-link' style='margin-top: 20px' href='/signup'>Еще нет аккаунта?</a>
                 </div> 
             </div>
-        </div> `
-            , {
-                GridFields: [GridField, this.fields.map(field => ({
-                    ...field,
-                    value: this.data[field.name],
-                    gridTemplate: '60px 200px',
-                    required: true,
-                    dataHandler: this.setData.bind(this)
-                }))],
+        </div> `,
+            {
+                GridFields: [
+                    GridField,
+                    this.fields.map(field => ({
+                        ...field,
+                        value: this.data[field.name],
+                        gridTemplate: '60px 200px',
+                        required: true,
+                        dataHandler: this.setData.bind(this),
+                    })),
+                ],
                 SubmitButton: [Submit, 'Войти'],
-                Error: [ErrorField, [errors]]
-            });
+                Error: [ErrorField, [errors]],
+            },
+        );
 
         this.listen('form', 'submit', e => this.submit(e));
         this.link('.signup-link', ...pageSignUp());

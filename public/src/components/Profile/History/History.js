@@ -6,6 +6,6 @@ export default class History extends Component {
     }
 
     render() {
-        return this.create( ` <div>History page profile</div> `);
+        return this.create(` <div>History page profile</div> `);
     }
 }
