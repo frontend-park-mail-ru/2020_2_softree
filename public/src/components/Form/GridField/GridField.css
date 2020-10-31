@@ -21,3 +21,10 @@
     color: red;
     font-size: 12px;
 }
+
+.grid-field__input {
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow:  5px 5px 10px #b5b5b5,
+        -5px -5px 10px #ffffff;
+}

@@ -25,7 +25,7 @@ export default class GridField extends Component {
                 gridTemplate || ''
             }'> 
                 <label style='color: ${errors ? 'red' : ''}'>${title}</label>
-                <input type='${type}' ${
+                <input class='grid-field__input' type='${type}' ${
                 required ? 'required' : ''
             } name='${name}' value='${value || ''}'/>
             </div>
