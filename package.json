@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prettier": "prettier",
-    "test": "jest",
+    "test": "jest --collect-coverage",
     "start": "node server/index.js",
     "lint": "eslint public/src/",
     "fix": "eslint public/src/ --fix"
