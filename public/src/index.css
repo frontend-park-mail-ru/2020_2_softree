@@ -32,7 +32,7 @@ input {
     position: fixed;
 }
 
-.modal {
+.modal, .settings-payload {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -44,6 +44,14 @@ input {
     width: max-content;
     max-width: 450px;
     margin: 0 15px;
+}
+
+.email-flexbox {
+    display: flex;
+}
+
+.control-panel {
+    width: max-content;
 }
 
 .modal.auth {

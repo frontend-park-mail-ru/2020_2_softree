@@ -1,6 +1,5 @@
 import { Component, Switch } from '../../modules/Softer/Softer.js';
 import ControlPanel from './ControlPanel.js';
-import Exit from './Exit.js';
 import User from './User.js';
 import Password from './Password.js';
 
@@ -13,14 +12,16 @@ export default class Settings extends Component {
         return this.create(
             `
             <div class="container-settings">
-                <Exit/>
                 <div class="settings-flexbox">
-                    <ControlPanel/>
-                    <Content/>
+                    <div class="settings-ctrl__panel">
+                        <ControlPanel/>
+                    </div>
+                    <div class="settings-payload">
+                        <Content/>
+                    </div>
                 </div>
             </div>`,
             {
-                Exit,
                 ControlPanel,
                 Content: [
                     Switch,

@@ -17,11 +17,12 @@ export function useSelector(component, selector, id = null) {
             return true;
         }
 
-        try {
-            if (selector(diff(was, become)) !== undefined) {
-                component.rerender();
-            }
-        } catch (e) {}
+        //try {
+        //    if (selector(diff(was, become)) !== undefined) {
+        //        component.rerender();
+        //    }
+        //} catch (e) {}
+        component.rerender();
     });
     return result;
 }

@@ -23,11 +23,7 @@ export default class Exit extends Component {
     render() {
         const exit = this.create(`
         <div>
-            <div class="flex-menu">
-                <div class="flex-right">
-                    <div class="exit-btn btn">Выход</div>
-                </div>
-            </div>
+            <div class="exit-btn btn">Выйти из аккаунта</div>
         </div>
         `);
 
