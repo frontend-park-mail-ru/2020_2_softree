@@ -1,7 +1,7 @@
 import { Component, Switch } from '../../modules/Softer/Softer.js';
 import Menu from './Menu.js';
-import ProfileHistory from './History/History.js';
-import Page404 from '../Page404/Page404.js';
+import History from './History/History.js';
+import Bag from './Bag/Bag.js';
 
 export default class Profile extends Component {
     constructor() {
@@ -13,26 +13,23 @@ export default class Profile extends Component {
             `
         <div>
             <Menu/>
-            <ProfilePage/>
+            <Content/>
         </div>
         `,
             {
                 Menu,
-                ProfilePage: [
+                Content: [
                     Switch,
                     {
                         routers: [
                             {
-                                path: '/bag',
-                                component: ProfileMain,
-                                exact: true,
+                                path: '/profile/history',
+                                component: History,
                             },
                             {
-                                path: '/history',
-                                component: ProfileHistory,
-                                exact: true,
+                                path: '/profile',
+                                component: Bag,
                             },
-                            { component: Page404 },
                         ],
                     },
                 ],

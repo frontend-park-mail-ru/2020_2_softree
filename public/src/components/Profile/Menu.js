@@ -13,7 +13,7 @@ export default class Menu extends Component {
                 <div class="flex-left">
                     <div class="b1-link btn">Портфель</div>
                     <div class="b2-link btn">История</div>
-                </div>1rs
+                </div>
             </div>
         </div>
         `);

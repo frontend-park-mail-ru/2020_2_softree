@@ -25,14 +25,13 @@ export default class Exit extends Component {
         <div>
             <div class="flex-menu">
                 <div class="flex-right">
-                    <div class="b4-link btn">Выход</div>
+                    <div class="exit-btn btn">Выход</div>
                 </div>
             </div>
         </div>
         `);
 
-        this.listen('.b4-link', 'click', e => this.logOut(e));
-
+        this.listen('.exit-btn', 'click', e => this.logOut(e));
         return exit;
     }
 }
