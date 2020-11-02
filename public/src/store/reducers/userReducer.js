@@ -24,7 +24,7 @@ const userReducer = (state = initState, action) => {
                 userData: { ...state.userData, avatar: action.payload },
             };
         case userDropData:
-            return { ...state, userData: null };
+            return { ...state, userData: {email: null, avatar: null} };
         case userStartLoading:
             return { ...state, loading: true };
         case userEndLoading:
