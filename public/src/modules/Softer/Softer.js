@@ -17,11 +17,21 @@ export class Component {
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
     constructor(props = {}) {
         this.props = props;
+        this.children = [];
         this.state = {};
         this.data = {};
         this.node = null;
         this.id = id();
         this.isRoot = false;
+    }
+
+    __includes(component) {
+        for (let idx = 0; idx < this.children.length; idx++) {
+            if (this.children[idx].constructor.name === component.name) {
+                return idx;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -32,14 +42,16 @@ export class Component {
      * @return {*}
      */
     place(component, props = {}) {
-        const newComponent = new component(props);
-        newComponent.parent = this;
-        if (!this.children) {
-            this.children = [];
+        const idx = this.__includes(component);
+        if (this.children.length === 0 || idx === -1) {
+            const newComponent = new component(props);
+            newComponent.parent = this;
+            this.children.push(newComponent);
+            return newComponent;
         }
-        this.children.push(newComponent);
 
-        return newComponent;
+        this.children[idx].props = props;
+        return this.children[idx];
     }
 
     clear() {
@@ -52,11 +64,10 @@ export class Component {
 
     rerender() {
         if (this.node == null) {
-            delete(this);
             return;
         }
 
-        this.__deleteChildren(this);
+        this.__clearChildren(this);
         this.node.replaceWith(this.render());
     }
 
@@ -66,7 +77,11 @@ export class Component {
      * @param {Object} state
      */
     setState(state) {
-        this.state = { ...this.state, ...state };
+        if (state instanceof Function) {
+            this.state = state(this.state);
+        } else {
+            this.state = { ...this.state, ...state };
+        }
         this.rerender();
     }
 
@@ -78,13 +93,15 @@ export class Component {
         this.data = { ...this.data, ...state };
     }
 
+    listen(selector, event, clb) {console.error("Функция listen не определена ", this)}
+
     /**
      * Создает HTMLElement, а так же Replacer и Listener для него
      * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
      * Listener - среди элемента можем найти интересующий элемент и повесить на него событие
      * @param {string} tag - тег элемента
      * @param content - содержимое элемента * @param {Object} options - параметры тэга
-     * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
+     * @return {HTMLElement}
      */
     create(content = '', components = {}) {
         this.node = createElement(content);
@@ -179,17 +196,6 @@ export class Component {
         );
     }
 
-    __processClearList(root) {
-        root.clearList.forEach(clb => clb());
-        root.clearList = [];
-    }
-
-    __rerenderAll() {
-        const root = this.__findRoot();
-
-        root.rerender();
-    }
-
     __rerenderSwitch(path) {
         const node = this.__findSwitch(path);
         node.rerender();
@@ -209,7 +215,7 @@ export class Component {
         this.__rerenderSwitch(overallPath(currentPath, href));
     }
 
-    __deleteChildren(root) {
+    __clearChildren(root) {
         const del = element => {
             if (element.children) {
                 element.children.forEach(child => del(child));
@@ -218,9 +224,6 @@ export class Component {
                 if (element.clear) {
                     element.clear();
                 }
-                element = null;
-            } else {
-                element.children = [];
             }
         };
         del(root);
