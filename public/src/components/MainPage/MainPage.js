@@ -47,7 +47,7 @@ export default class MainPage extends Component {
                         ? '<h1>Котировки подгружаются...</h1>'
                         : '<Rates></Rates>'
                 }
-            </div> 
+            </div>
         </div>
         `,
             {
