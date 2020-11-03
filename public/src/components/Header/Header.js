@@ -1,5 +1,6 @@
 import { Component } from '../../modules/Softer/Softer.js';
 import { pageMain, pageProfile, pageSettings } from '../../pages.js';
+import Styler from '../../modules/Styler.js';
 
 export class Header extends Component {
     constructor() {
@@ -8,6 +9,10 @@ export class Header extends Component {
 
     render() {
         const data = this.useSelector(store => store.user.userData);
+
+        const nonInvertStyle = {
+            filter: 'none',
+        }
 
         const header = this.create(`
             <header class='header'> 
@@ -20,7 +25,7 @@ export class Header extends Component {
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     <div class='header__control'>
-                        <img class='header__control_avatar' src=${
+                        <img class='header__control_avatar' style=${data.avatar ? Styler(nonInvertStyle) : {}} src=${
                             data.avatar || '/src/images/avatar.svg'
                         } alt='Avatar'/>
                     </div>

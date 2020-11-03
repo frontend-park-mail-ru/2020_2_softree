@@ -68,7 +68,6 @@ input {
 
 input[type=email], input[type=password] {
     font-size: 16px;
-    border: none;
     border-radius: 5px;
     padding: 5px;
 }
