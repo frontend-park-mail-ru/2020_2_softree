@@ -32,7 +32,7 @@ input {
     position: fixed;
 }
 
-.modal {
+.modal, .settings-payload {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -44,6 +44,14 @@ input {
     width: max-content;
     max-width: 450px;
     margin: 0 15px;
+}
+
+.email-flexbox {
+    display: flex;
+}
+
+.control-panel {
+    width: max-content;
 }
 
 .modal.auth {
@@ -74,13 +82,43 @@ input[type=email], input[type=password] {
 
 .btn {
     background: rgba(230, 230, 230, 100);
-    border-radius: 50px;
+    border-radius: 10px;
     text-align: center;
     font-size: 16px;
     padding: 10px;
     margin: 10px;
     cursor: pointer;
     max-width: 300px;
+}
+
+.exit-btn {
+    background: red;
+    color: white;
+    right: 0;
+}
+
+.exit-btn:hover {
+    background: red;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+
+.control-panel {
+    position: absolute;
+    left: 0;
+}
+
+.settings-flexbox {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar {
+    border: black;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    background: black;
+    object-fit: cover;
 }
 
 .btn.overal, .btn.password {

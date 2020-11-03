@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.header img {
+.header__bag_img, .header__logo_img {
     filter: invert();
 }
 
