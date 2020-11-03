@@ -51,12 +51,11 @@ export class Component {
     }
 
     rerender() {
-        console.assert(
-            this.node !== null,
-            'У компоненты',
-            this,
-            'нет HTMLElement',
-        );
+        if (this.node == null) {
+            delete(this);
+            return;
+        }
+
         this.__deleteChildren(this);
         this.node.replaceWith(this.render());
     }

@@ -25,7 +25,7 @@ export class Header extends Component {
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     <div class='header__control'>
-                        <img class='header__control_avatar' style=${data.avatar ? Styler(nonInvertStyle) : {}} src=${
+                        <img class='header__control_avatar' style='${data.avatar ? Styler(nonInvertStyle) : ''}' src=${
                             data.avatar || '/src/images/avatar.svg'
                         } alt='Avatar'/>
                     </div>
