@@ -1,0 +1,38 @@
+.drop-down-menu {
+    /*position: fixed;*/
+    /*z-index: 500;*/
+}
+
+
+.container.drop-menu {
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+.drop-down-menu {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.drop-down-menu div {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: solid 1px #dbdbdb;
+    margin: 5px 0;
+    border-radius: 10px;
+    transition: box-shadow 200ms, background 200ms;
+}
+
+#drop-down-settings-btn:hover {
+    background: #dbdbdb;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#drop-down-exit-btn:hover {
+    background: #ffa7a7;
+    border-color: #ffa7a7;
+    box-shadow: 5px 5px 15px rgba(255, 121, 121, 0.64);
+}

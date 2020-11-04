@@ -7,11 +7,12 @@ export default class MainPage extends Component {
     constructor() {
         super();
 
-        this.state = {
-            rates: [],
-        };
-
         this.interval = false;
+        this.doNotReset = true;
+    }
+
+    initState() {
+        return {rates: []}
     }
 
     fetchRates() {
@@ -27,15 +28,20 @@ export default class MainPage extends Component {
     clear() {
         super.clear();
         clearInterval(this.interval);
+        this.interval = null;
     }
 
-    render() {
+    subscribe() {
         if (!this.interval) {
             if (this.useSelector(store => store.user.userData)) {
                 this.fetchRates();
                 this.interval = setInterval(() => this.fetchRates(), 2000);
             }
         }
+    }
+
+    render() {
+        this.subscribe();
 
         return this.create(
             `

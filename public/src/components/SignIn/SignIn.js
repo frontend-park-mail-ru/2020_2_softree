@@ -15,13 +15,18 @@ export default class SignIn extends Component {
             { title: 'Email', type: 'email', name: 'email' },
             { title: 'Пароль', type: 'password', name: 'password' },
         ];
-        this.data = {
+    }
+
+    initState() {
+        return {
+            errors: null,
+        };
+    }
+
+    initData() {
+        return {
             email: '',
             password: '',
-        };
-
-        this.state = {
-            errors: null,
         };
     }
 

@@ -10,6 +10,7 @@ import Page404 from './Page404/Page404.js';
 import { useDispatch } from '../modules/Softer/softer-softex.js';
 import { fetchUserData } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
+import Styler from '../modules/Styler.js';
 
 export default class App extends Component {
     constructor() {
@@ -19,6 +20,10 @@ export default class App extends Component {
 
         const dispatch = useDispatch();
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
+    }
+
+    initState() {
+        return {headerIsOpen: false};
     }
 
     printTree(node, level) {
@@ -33,18 +38,33 @@ export default class App extends Component {
         }
     }
 
+    togglePage() {
+        if (this.state.headerIsOpen) {
+            document.querySelector('#page').style.top = '';
+            setTimeout(() => this.setState({headerIsOpen: !this.state.headerIsOpen}), 200);
+        } else {
+            document.querySelector('#page').style.top = '160px';
+            setTimeout(() => this.setState({headerIsOpen: !this.state.headerIsOpen}), 200);
+        }
+
+    }
+
     render() {
-        return this.create(
-            `
+
+        const pageStyle = {
+            top: this.state.headerIsOpen ? '160px' : '',
+        }
+
+        return this.create( `
         <div>
             <Header/>
-            <div class='page'>
+            <div class='page' id='page' style='${Styler(pageStyle)}'>
                 <MainContent/>
             </div>
         </div>
         `,
             {
-                Header,
+                Header : [Header, {isOpen: this.state.headerIsOpen, toggle: this.togglePage.bind(this)}],
                 MainContent: [
                     Switch,
                     {

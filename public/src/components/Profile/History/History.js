@@ -5,7 +5,11 @@ export default class History extends Component {
     constructor() {
         super();
 
-        this.state = {
+        this.interval = false;
+    }
+
+    initState() {
+        return {
             rates: [
                 {
                     time: '13:50',
@@ -27,8 +31,6 @@ export default class History extends Component {
                 },
             ],
         };
-
-        this.interval = false;
     }
 
     // fetchRates() {
