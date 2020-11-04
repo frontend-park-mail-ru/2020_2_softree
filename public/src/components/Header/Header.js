@@ -2,6 +2,7 @@ import {Component} from '../../modules/Softer/Softer.js';
 import {pageMain, pageProfile, pageSettings} from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
+import {checkAuth} from "../../utils/utils.js";
 
 export class Header extends Component {
     constructor(props) {
@@ -26,26 +27,35 @@ export class Header extends Component {
     render() {
         const data = this.useSelector(store => store.user.userData);
 
+        const isAuth = checkAuth(data);
+
         const nonInvertStyle = {
             filter: 'none',
         }
 
+        const containerStyle = {
+            justifyContent: isAuth ? '' : 'center',
+        }
+
         const header = this.create(`
             <header class='header'> 
-                <div class='container'>
-                    <div class ='bag__btn'>
+                <div class='container' style='${Styler(containerStyle)}'>
+                    ${isAuth ? 
+                    `<div class ='bag__btn'>
                         <img class='header__bag_img' src='/src/images/bag.svg' alt='Bag'/>
-                    </div>
+                    </div>` : 
+                    ''}
                     <div class='header__logo'>
                         <img class='header__logo_img' src='/src/images/cat.svg' alt='Logo'/>
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
-                    <div class='header__control'>
+                    ${isAuth ?
+                    `<div class='header__control'>
                         <img class='header__control_avatar' 
                         style='${data.avatar ? Styler(nonInvertStyle) : ''}' 
                         src=${data.avatar || '/src/images/avatar.svg'} 
                         alt='Avatar'/>
-                    </div>
+                    </div>` : ''}
                 </div>
                 <div class='container drop-menu'>
                     ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}

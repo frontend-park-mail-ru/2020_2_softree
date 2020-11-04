@@ -3,9 +3,10 @@ export const changeHandler = (e, setState) => {
 };
 
 export function checkAuth(userData) {
-    if (userData) {
+    if (userData.email) {
         return true;
     }
+    return false;
 }
 
 export function setUploadedImage(event, imgHandler) {
