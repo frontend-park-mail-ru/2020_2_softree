@@ -12,7 +12,7 @@ export default class DropDownMenu extends Component {
 
     logOut(e) {
         e.preventDefault();
-        // this.props.close();
+        this.props.close();
         jpost(apiLogOut()).catch(({status}) => {
             if (status === 302) {
                 useDispatch()(dropUserData());
@@ -30,7 +30,7 @@ export default class DropDownMenu extends Component {
         `);
 
         this.listen('#drop-down-settings-btn', 'click', () => {
-            // this.props.close();
+            this.props.close();
             this.redirect(...pageSettings())
         });
         this.listen('#drop-down-exit-btn', 'click', this.logOut.bind(this));
