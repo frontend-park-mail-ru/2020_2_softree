@@ -16,15 +16,18 @@ export class SignUp extends Component {
             { title: 'Пароль', type: 'password', name: 'password1' },
             { title: 'Повторите пароль', type: 'password', name: 'password2' },
         ];
-        this.data = {
+    }
+
+    initState() {
+        return {errors: {}}
+    }
+
+    initData() {
+        return {
             email: '',
             password1: '',
             password2: '',
-        };
-
-        this.state = {
-            errors: {},
-        };
+        }
     }
 
     submit(e) {
@@ -44,7 +47,6 @@ export class SignUp extends Component {
 
     render() {
         const { errors } = this.state;
-
         const signUp = this.create(
             `
         <div>
@@ -53,7 +55,7 @@ export class SignUp extends Component {
                     <h2 class='modal__title'>Добро пожаловать!</h2>
                     <form class='grid-form'>
                         <GridFields/>
-                        ${errors.non_field_errors ? '<FieldError/>' : ''}
+                        ${errors.non_field_errors ? '<ErrorField/>' : ''}
                         <SubmitButton/>
                     </form> 
                     <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
@@ -73,7 +75,7 @@ export class SignUp extends Component {
                     })),
                 ],
                 SubmitButton: [Submit, 'Зарегистрироваться'],
-                FieldError: [ErrorField, errors.non_field_errors],
+                ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );
 

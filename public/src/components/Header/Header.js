@@ -1,10 +1,26 @@
-import { Component } from '../../modules/Softer/Softer.js';
-import { pageMain, pageProfile, pageSettings } from '../../pages.js';
+import {Component} from '../../modules/Softer/Softer.js';
+import {pageMain, pageProfile, pageSettings} from '../../pages.js';
 import Styler from '../../modules/Styler.js';
+import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 
 export class Header extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        this.doNotReset = true;
+    }
+
+    initState() {
+        return {dropDownMenuIsOpen: false}
+    }
+
+    openMenu() {
+        if (this.state.dropDownMenuIsOpen) {
+            setTimeout(() => this.setState({dropDownMenuIsOpen: !this.state.dropDownMenuIsOpen}), 200);
+        } else {
+            this.setState({dropDownMenuIsOpen: !this.state.dropDownMenuIsOpen})
+        }
+        this.props.toggle();
     }
 
     render() {
@@ -25,17 +41,23 @@ export class Header extends Component {
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     <div class='header__control'>
-                        <img class='header__control_avatar' style='${data.avatar ? Styler(nonInvertStyle) : ''}' src=${
-                            data.avatar || '/src/images/avatar.svg'
-                        } alt='Avatar'/>
+                        <img class='header__control_avatar' 
+                        style='${data.avatar ? Styler(nonInvertStyle) : ''}' 
+                        src=${data.avatar || '/src/images/avatar.svg'} 
+                        alt='Avatar'/>
                     </div>
                 </div>
+                <div class='container drop-menu'>
+                    ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}
+                </div>
             </header>
-        `);
+        `, {
+            DropDownMenu: [DropDownMenu, {close: this.openMenu.bind(this)}]
+        });
 
         this.link('.header__logo', ...pageMain());
-        this.link('.header__control_avatar', ...pageSettings());
         this.link('.header__bag_img', ...pageProfile());
+        this.listen('.header__control_avatar', 'click', this.openMenu.bind(this));
 
         return header;
     }

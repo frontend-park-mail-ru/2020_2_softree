@@ -18,58 +18,49 @@ export class Component {
     constructor(props = {}) {
         this.props = props;
         this.children = [];
-        this.state = {};
-        this.data = {};
-        this.node = null;
         this.id = id();
+        this.state = this.initState();
+        this.data = this.initData();
+        this.node = null;
         this.isRoot = false;
+        this.doNotReset = false;
+        this.key = 0;
     }
 
-    __includes(component) {
-        for (let idx = 0; idx < this.children.length; idx++) {
-            if (this.children[idx].constructor.name === component.name) {
-                return idx;
-            }
-        }
-        return -1;
+    initState() {
+        return {};
+    }
+
+    initData() {
+        return {};
     }
 
     /**
-     *
-     * @param {} component
-     * @param {Object} props
-     * @param {any} key
-     * @return {*}
+     * Создает и возвращает HTML элемент компоненты.
+     * @return {HTMLElement}
      */
-    place(component, props = {}) {
-        const idx = this.__includes(component);
-        if (this.children.length === 0 || idx === -1) {
-            const newComponent = new component(props);
-            newComponent.parent = this;
-            this.children.push(newComponent);
-            return newComponent;
-        }
-
-        this.children[idx].props = props;
-        return this.children[idx];
-    }
+    render() {}
 
     clear() {
         this.node = null;
     }
 
-    useSelector(selector) {
-        return useSelector(this, selector);
+    /**
+     * Создает HTMLElement, а так же Replacer и Listener для него
+     * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
+     * Listener - среди элемента можем найти интересующий элемент и повесить на него событие
+     * @param {string} tag - тег элемента
+     * @param content - содержимое элемента * @param {Object} options - параметры тэга
+     * @return {HTMLElement}
+     */
+    create(content = '', components = {}) {
+        const element = createElement(content);
+        this.__replaceComponents(element, components);
+        this.listen = (selector, event, clb) => listen(element, selector, event, clb);
+        return element;
     }
 
-    rerender() {
-        if (this.node == null) {
-            return;
-        }
-
-        this.__clearChildren(this);
-        this.node.replaceWith(this.render());
-    }
+    listen(selector, event, clb) {}
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
@@ -82,7 +73,53 @@ export class Component {
         } else {
             this.state = { ...this.state, ...state };
         }
-        this.rerender();
+        this.__rerender();
+    }
+
+    useSelector(selector) {
+        return useSelector(this, selector);
+    }
+
+    /**
+     *
+     * @param {} component
+     * @param {Object} props
+     * @return {*}
+     */
+    __place(component, props = {}) {
+        const idx = this.__includes(component);
+        if (idx === -1) {
+            const newComponent = new component(props);
+            newComponent.parent = this;
+            this.children.push(newComponent);
+            return newComponent;
+        }
+
+        this.children[idx].props = props;
+        return this.children[idx];
+    }
+
+    __resetState() {
+        if (!this.doNotReset) {
+            this.state = this.initState();
+            this.data = this.initData();
+        }
+    }
+
+    __includes(component) {
+        for (let idx = 0; idx < this.children.length; idx++) {
+            if (this.children[idx].constructor.name === component.name) {
+                return idx;
+            }
+        }
+        return -1;
+    }
+
+    __rerender() {
+        this.__clearChildren(this);
+        const node = this.render();
+        this.node.replaceWith(node);
+        this.node = node;
     }
 
     /**
@@ -93,25 +130,8 @@ export class Component {
         this.data = { ...this.data, ...state };
     }
 
-    listen(selector, event, clb) {console.error("Функция listen не определена ", this)}
-
-    /**
-     * Создает HTMLElement, а так же Replacer и Listener для него
-     * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
-     * Listener - среди элемента можем найти интересующий элемент и повесить на него событие
-     * @param {string} tag - тег элемента
-     * @param content - содержимое элемента * @param {Object} options - параметры тэга
-     * @return {HTMLElement}
-     */
-    create(content = '', components = {}) {
-        this.node = createElement(content);
-        this.__replaceComponents(components);
-        this.listen = ListenerFor(this.node);
-        return this.node;
-    }
-
     link(selector, title, href) {
-        listen(this.node, selector, 'click', e => {
+        this.listen(selector, 'click', e => {
             e.preventDefault();
             this.__historyPushState(title, href);
         });
@@ -121,13 +141,7 @@ export class Component {
         this.__historyPushState(title, href);
     }
 
-    /**
-     * Создает и возвращает HTML элемент компоненты.
-     * @return {HTMLElement}
-     */
-    render() {}
-
-    __replaceComponents(components) {
+    __replaceComponents(element, components) {
         for (let component in components) {
             const config = components[component];
             let input;
@@ -138,13 +152,8 @@ export class Component {
             } else {
                 input = [config];
             }
-            this.__replaceComponent(component, ...input);
+            this.__replaceComponent(element, component, ...input);
         }
-    }
-
-    __placeClearClbToClearList(clb) {
-        const root = this.__findRoot();
-        root.clearList.push(clb);
     }
 
     __findRoot() {
@@ -184,21 +193,25 @@ export class Component {
         return node;
     }
 
-    __replaceComponent(selector, ...nodes) {
-        const query = this.node.querySelectorAll(selector);
+    __replaceComponent(element, selector, ...nodes) {
+        const query = element.querySelectorAll(selector);
         if (!query) {
             return;
         }
-        query.forEach(element =>
-            element.replaceWith(
-                ...nodes.map(node => this.place(node[0], node[1]).render()),
+        query.forEach(foundElement =>
+            foundElement.replaceWith(
+                ...nodes.map(node => {
+                    const component = this.__place(node[0], node[1]);
+                    component.node = component.render();
+                    return component.node;
+                }),
             ),
         );
     }
 
     __rerenderSwitch(path) {
         const node = this.__findSwitch(path);
-        node.rerender();
+        node.__rerender();
     }
 
     __historyPushState(title, href) {
@@ -216,17 +229,18 @@ export class Component {
     }
 
     __clearChildren(root) {
-        const del = element => {
+        const clear = element => {
             if (element.children) {
-                element.children.forEach(child => del(child));
+                element.children.forEach(child => clear(child));
             }
             if (element !== root) {
                 if (element.clear) {
+                    element.__resetState();
                     element.clear();
                 }
             }
         };
-        del(root);
+        clear(root);
     }
 }
 
@@ -255,34 +269,42 @@ export class Softer {
         newApp.isRoot = true;
         newApp.clearList = [];
 
-        Render(element, newApp.render());
+        Render(element, newApp);
     }
 }
+
+const listen = (node, selector, event, clb) => {
+    const query = node.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.addEventListener(event, e => clb(e)));
+};
 
 /**
  * Рендерит дерево элементов в указаном элементе
  * @param {HTMLElement} element - элемент, в котором будет генерироваться приложение
- * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
+ * @param {Component} app - компонента
  */
 export const Render = (element, app) => {
     element.innerHTML = '';
-    element.appendChild(app);
+    const node = app.render();
+    app.node = node;
+    element.appendChild(app.node);
 };
 
 /**
  * Маршрутизатор, который выбирает на основании пути (window.location.pathname) подходящий роутер.
  */
 export class Switch extends Component {
-    constructor({ path = '', routers }) {
-        super();
-        this.path = path;
-        this.routers = routers;
+    constructor(props) {
+        super(props);
     }
 
     checkPathFor(router) {
         const currentPathName = window.location.pathname;
         if (router.exact) {
-            return this.path + router.path === currentPathName;
+            return this.props.path || '' + router.path === currentPathName;
         }
         const match = currentPathName.match(router.path);
         return !!match;
@@ -294,12 +316,12 @@ export class Switch extends Component {
      * @return {[]}
      */
     renderRouter() {
-        for (let i = 0; i < this.routers.length; i++) {
-            if (this.checkPathFor(this.routers[i])) {
-                return [Router, this.routers[i]];
+        for (let i = 0; i < this.props.routers.length; i++) {
+            if (this.checkPathFor(this.props.routers[i])) {
+                return [Router, this.props.routers[i]];
             }
         }
-        return [Router, this.routers[this.routers.length - 1]];
+        return [Router, this.props.routers[this.props.routers.length - 1]];
     }
 
     render() {
@@ -320,17 +342,13 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({ path, component, exact, componentProps, authRequired }) {
-        super();
-        this.component = [component, componentProps];
-        this.path = path;
-        this.exact = exact;
-        this.authRequired = authRequired;
+    constructor(props) {
+        super(props);
     }
 
     clear() {
-        if (this.component.clear) {
-            this.component.clear.bind(this.component)();
+        if (this.props.component.clear) {
+            this.props.component.clear.bind(this.component)();
         }
     }
 
@@ -343,7 +361,7 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
-        if (this.authRequired && !this.authCheck()) {
+        if (this.props.authRequired && !this.authCheck()) {
             const loading = this.useSelector(store => store.user.loading);
             if (loading) {
                 return this.create('<h2>Загрузка...</h2>');
@@ -358,79 +376,8 @@ export class Router extends Component {
         </div>
         `,
             {
-                Component: this.component,
+                Component: [this.props.component, this.props.componentProps],
             },
         );
     }
 }
-
-/**
- * Заменяет тег в HTML элементе на указанный (ые) элементы
- * @param {HTMLElement} element
- * @param {string} selector
- * @param {Node} nodes
- */
-export const replace = (element, selector, ...nodes) => {
-    const query = element.querySelectorAll(selector);
-    if (!query) {
-        return;
-    }
-    query.forEach(element => element.replaceWith(...nodes));
-};
-
-export const listen = (element, selector, event, clb) => {
-    const query = element.querySelectorAll(selector);
-    if (!query) {
-        return;
-    }
-    query.forEach(element => element.addEventListener(event, e => clb(e)));
-};
-
-/**
- *
- * @param {HTMLElement, Node, Component} node
- */
-export const renderNode = node => {
-    if (node instanceof HTMLElement) {
-        return node;
-    } else if (typeof node === 'string') {
-        return node;
-    } else {
-        return node.render();
-    }
-};
-
-export function ReplacerTo(element) {
-    return (context, ...nodes) => {
-        if (nodes.length !== 0) {
-            if (!(context instanceof String)) {
-                throw new TypeError(
-                    'Неверное использование. Первым аргументом должен быть селектором',
-                );
-            }
-            replace(element, context, ...nodes.map(node => renderNode(node)));
-        }
-
-        let selector;
-        for (selector in context) {
-            if (context[selector] instanceof Array) {
-                replace(
-                    element,
-                    selector,
-                    ...context[selector].map(node => renderNode(node)),
-                );
-            } else {
-                replace(element, selector, renderNode(context[selector]));
-            }
-        }
-    };
-}
-
-export const ListenerFor = element => {
-    return (selector, event, clb) => listen(element, selector, event, clb);
-};
-
-export const setupNode = (node, content) => {
-    node.innerHTML = content;
-    return;
-};
