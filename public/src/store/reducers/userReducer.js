@@ -1,9 +1,9 @@
 import {
-    userEndLoading,
-    userStartLoading,
-    userDropData,
-    userSetAvatar,
-    userSetData,
+    USER_END_LOADING,
+    USER_START_LOADING,
+    USER_DROP_DATA,
+    USER_SET_AVATAR,
+    USER_SET_DATA,
 } from '../types.js';
 
 const initState = {
@@ -16,18 +16,18 @@ const initState = {
 
 const userReducer = (state = initState, action) => {
     switch (action.type) {
-        case userSetData:
+        case USER_SET_DATA:
             return { ...state, userData: action.payload };
-        case userSetAvatar:
+        case USER_SET_AVATAR:
             return {
                 ...state,
                 userData: { ...state.userData, avatar: action.payload },
             };
-        case userDropData:
+        case USER_DROP_DATA:
             return { ...state, userData: {email: null, avatar: null} };
-        case userStartLoading:
+        case USER_START_LOADING:
             return { ...state, loading: true };
-        case userEndLoading:
+        case USER_END_LOADING:
             return { ...state, loading: false };
         default:
             return state;

@@ -1,13 +1,14 @@
 // APP reducer
-export const appStartLoading = 'app/start-loading';
-export const appEndLoading = 'app/end-loading';
+export const APP_START_LOADING = 'app/start-loading';
+export const APP_END_LOADING = 'app/end-loading';
+export const APP_TOGGLE_CONVERTER = 'app/toggle_converter';
 
 // USER
-export const userSetData = 'user/set-data';
-export const userDropData = 'user/drop-data';
-export const userSetAvatar = 'user/set-avatar';
-export const userStartLoading = 'user/start-loading';
-export const userEndLoading = 'user/end-loading';
+export const USER_SET_DATA = 'user/set-data';
+export const USER_DROP_DATA = 'user/drop-data';
+export const USER_SET_AVATAR = 'user/set-avatar';
+export const USER_START_LOADING = 'user/start-loading';
+export const USER_END_LOADING = 'user/end-loading';
 
 //MESSAGE
 export const MESSAGE_HIDE = 'message/hide';
