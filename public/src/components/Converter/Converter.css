@@ -8,7 +8,7 @@
     padding: 15px;
     border-radius: 15px 15px 0 0;
     transition: bottom 200ms;
-    width: 250px;
+    width: 270px;
 }
 
 .converter__title {
@@ -44,6 +44,13 @@
     border: #dbdbdb solid 1px;
     padding: 5px;
     border-radius: 10px;
+}
+
+.converter__inputs_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .converter__inputs_container select {
