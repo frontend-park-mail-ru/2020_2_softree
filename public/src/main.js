@@ -14,3 +14,8 @@ softer.connectStore(applyMiddlewares(createStore(rootReducer), logger, thunk));
 softer.initApp(document.getElementById('root'), App);
 softer.initApp(document.getElementById('message'), Message);
 softer.initApp(document.getElementById('converter'), Converter);
+
+const socket = io.connect("http://localhost:3000");
+socket.on("browserReload", function() {
+    document.location.reload(true);
+});
