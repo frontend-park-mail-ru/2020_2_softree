@@ -1,10 +1,4 @@
-import {
-    USER_END_LOADING,
-    USER_START_LOADING,
-    USER_DROP_DATA,
-    USER_SET_AVATAR,
-    USER_SET_DATA,
-} from '../types.js';
+import { USER_END_LOADING, USER_START_LOADING, USER_DROP_DATA, USER_SET_AVATAR, USER_SET_DATA } from '../types.js';
 
 const initState = {
     userData: {

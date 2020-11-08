@@ -12,8 +12,6 @@ const parser = (matcher, replacer) => {
 const camelToKebab = parser(/[A-Z]/, match => `-${match.toLowerCase()}`);
 
 export default function Styler(style) {
-    const lines = Object.keys(style).map(
-        property => `${camelToKebab(property)}: ${style[property]};`,
-    );
+    const lines = Object.keys(style).map(property => `${camelToKebab(property)}: ${style[property]};`);
     return lines.join(' ');
 }

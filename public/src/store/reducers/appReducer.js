@@ -1,8 +1,4 @@
-import {
-    APP_END_LOADING,
-    APP_START_LOADING,
-    APP_TOGGLE_CONVERTER,
-} from '../types.js';
+import { APP_END_LOADING, APP_START_LOADING, APP_TOGGLE_CONVERTER } from '../types.js';
 
 const initState = {
     loading: false,

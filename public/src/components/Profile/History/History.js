@@ -54,11 +54,7 @@ export default class History extends Component {
         <div class="container">
             <h2 class='block-title'>История</h2>
             <div class='rates-wrapper'>
-                ${
-                    this.state.rates.length === 0
-                        ? '<h1>Котировки подгружаются...</h1>'
-                        : '<Rates></Rates>'
-                }
+                ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
             </div>
         </div>
         `,

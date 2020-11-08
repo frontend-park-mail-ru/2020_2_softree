@@ -4,6 +4,10 @@ import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import { checkAuth } from '../../utils/utils.js';
 import MainDropDownMenu from './MainDropDownMenu/MainDropDownMenu.js';
+import './Header.css';
+import defaultAvatar from '../../images/avatar.svg';
+import logo from '../../images/cat.svg';
+import bag from '../../images/bag.svg';
 
 export class Header extends Component {
     constructor(props) {
@@ -35,10 +39,7 @@ export class Header extends Component {
         if (isOpen) {
             setTimeout(toggle, 200);
         } else {
-            if (
-                this.state.dropDownMenuIsOpen ||
-                this.state.mainDropDownMenuIsOpen
-            ) {
+            if (this.state.dropDownMenuIsOpen || this.state.mainDropDownMenuIsOpen) {
                 setTimeout(() => {
                     this.closeAll();
                     setTimeout(this.props.toggle, 10);
@@ -67,6 +68,7 @@ export class Header extends Component {
     }
 
     render() {
+        console.log('avatar', defaultAvatar);
         const data = this.useSelector(store => store.user.userData);
 
         const isAuth = checkAuth(data);
@@ -86,12 +88,12 @@ export class Header extends Component {
                     ${
                         isAuth
                             ? `<div class ='bag__btn'>
-                        <img class='header__bag_img' src='/src/images/bag.svg' alt='Bag'/>
+                        <img class='header__bag_img' src='${bag}' alt='Bag'/>
                     </div>`
                             : ''
                     }
                     <div class='header__logo'>
-                        <img class='header__logo_img' src='/src/images/cat.svg' alt='Logo'/>
+                        <img class='header__logo_img' src='${logo}' alt='Logo'/>
                         <p class='header__logo_text'>MoneyCat</p>
                     </div>
                     ${
@@ -99,7 +101,7 @@ export class Header extends Component {
                             ? `<div class='header__control'>
                         <img class='header__control_avatar' 
                         style='${data.avatar ? Styler(nonInvertStyle) : ''}' 
-                        src=${data.avatar || '/src/images/avatar.svg'} 
+                        src="${data.avatar || defaultAvatar}"
                         alt='Avatar'/>
                     </div>`
                             : ''
@@ -107,23 +109,13 @@ export class Header extends Component {
                 </div>
                 <div class='container drop-menu'>
                     ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}
-                    ${
-                        this.state.mainDropDownMenuIsOpen
-                            ? `<MainDropDownMenu/>`
-                            : ''
-                    }
+                    ${this.state.mainDropDownMenuIsOpen ? `<MainDropDownMenu/>` : ''}
                 </div>
             </header>
         `,
             {
-                DropDownMenu: [
-                    DropDownMenu,
-                    { close: () => this.toggleMenu.bind(this)(isAuth) },
-                ],
-                MainDropDownMenu: [
-                    MainDropDownMenu,
-                    { close: () => this.toggleMainMenu.bind(this)(isAuth) },
-                ],
+                DropDownMenu: [DropDownMenu, { close: () => this.toggleMenu.bind(this)(isAuth) }],
+                MainDropDownMenu: [MainDropDownMenu, { close: () => this.toggleMainMenu.bind(this)(isAuth) }],
             },
         );
 
@@ -134,12 +126,8 @@ export class Header extends Component {
             setTimeout(this.closeAll.bind(this), 200);
         });
         this.link('.header__bag_img', ...pageProfile());
-        this.listen('.header__control_avatar', 'click', () =>
-            this.toggleMenu.bind(this)(isAuth),
-        );
-        this.listen('.header__logo', 'click', () =>
-            this.toggleMainMenu.bind(this)(isAuth),
-        );
+        this.listen('.header__control_avatar', 'click', () => this.toggleMenu.bind(this)(isAuth));
+        this.listen('.header__logo', 'click', () => this.toggleMainMenu.bind(this)(isAuth));
 
         return header;
     }

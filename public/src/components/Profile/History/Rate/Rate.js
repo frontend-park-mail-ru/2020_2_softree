@@ -1,4 +1,5 @@
 import { Component } from '../../../../modules/Softer/Softer.js';
+import './Rate.css';
 
 export default class Rate extends Component {
     constructor(props) {

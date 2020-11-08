@@ -30,14 +30,15 @@ const filename = ext => (isDev ? `[name].${ext}` : `[name].[fullhash].${ext}`);
 
 const cssLoaders = extra => {
     const loaders = [
-        {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-                hmr: isDev,
-                reloadAll: true,
-            },
-        },
+        'style-loader',
         'css-loader',
+        // {
+            // loader: MiniCssExtractPlugin.loader,
+            // options: {
+                // hmr: isDev,
+                // reloadAll: true,
+            // },
+        // },
     ];
 
     if (extra) {
@@ -50,7 +51,7 @@ const cssLoaders = extra => {
 const babelOptions = preset => {
     const opts = {
         presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-class-properties'],
+        plugins: ['@babel/plugin-transform-runtime'],
     };
 
     if (preset) {
@@ -121,8 +122,10 @@ module.exports = {
     },
     optimization: optimization(),
     devServer: {
-        port: 4200,
+        contentBase: path.join(__dirname, 'dist'),
+        port: 3000,
         hot: isDev,
+        historyApiFallback: true,
     },
     devtool: isDev ? 'source-map' : false,
     plugins: plugins(),

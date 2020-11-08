@@ -25,8 +25,7 @@ export default function diff(lhs, rhs) {
 
         const difference = diff(l[key], r[key]);
 
-        if (isObject(difference) && isEmpty(difference) && !isDate(difference))
-            return acc; // return no diff
+        if (isObject(difference) && isEmpty(difference) && !isDate(difference)) return acc; // return no diff
 
         return { ...acc, [key]: difference }; // return updated key
     }, deletedValues);

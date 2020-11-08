@@ -1,4 +1,5 @@
 import { Component } from '../../modules/Softer/Softer.js';
+import './Page404.css';
 
 export default class Page404 extends Component {
     constructor() {
