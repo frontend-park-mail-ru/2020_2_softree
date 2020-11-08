@@ -20,14 +20,14 @@
 .drop-down-menu div {
     cursor: pointer;
     padding: 5px 10px;
-    border: solid 1px #dbdbdb;
+    border: solid 1px #f1f1f1;
     margin: 5px 0;
     border-radius: 10px;
     transition: box-shadow 200ms, background 200ms;
 }
 
 #drop-down-settings-btn:hover {
-    background: #dbdbdb;
+    background: #f1f1f1;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 

@@ -1,11 +1,11 @@
 import {
-    appStartLoading,
-    appEndLoading,
-    userSetData,
-    userDropData,
-    userStartLoading,
-    userEndLoading,
-    userSetAvatar,
+    APP_START_LOADING,
+    APP_END_LOADING,
+    USER_SET_DATA,
+    USER_DROP_DATA,
+    USER_START_LOADING,
+    USER_END_LOADING,
+    USER_SET_AVATAR, APP_TOGGLE_CONVERTER,
 } from './types.js';
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
@@ -13,15 +13,16 @@ import { MESSAGE_HIDE, MESSAGE_SHOW } from './types.js';
 import { msgTypeFail, msgTypeSuccess } from '../messages/types.js';
 
 // APP
-export const startLoading = () => ({ type: appStartLoading });
-export const endLoading = () => ({ type: appEndLoading });
+export const startLoading = () => ({ type: APP_START_LOADING });
+export const endLoading = () => ({ type: APP_END_LOADING });
+export const toggleConverter = () => ({type: APP_TOGGLE_CONVERTER});
 
 // USER
-export const setUserData = data => ({ type: userSetData, payload: data });
-export const dropUserData = () => ({ type: userDropData });
-export const setAvatar = src => ({ type: userSetAvatar, payload: src });
-export const startUserDataLoading = () => ({ type: userStartLoading });
-export const endUserDataLoading = () => ({ type: userEndLoading });
+export const setUserData = data => ({ type: USER_SET_DATA, payload: data });
+export const dropUserData = () => ({ type: USER_DROP_DATA });
+export const setAvatar = src => ({ type: USER_SET_AVATAR, payload: src });
+export const startUserDataLoading = () => ({ type: USER_START_LOADING });
+export const endUserDataLoading = () => ({ type: USER_END_LOADING });
 
 export const fetchUserData = redirectToAuth => {
     return async dispatch => {

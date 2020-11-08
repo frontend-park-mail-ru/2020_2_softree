@@ -1,0 +1,84 @@
+.converter {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0);
+    background: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    transition: bottom 200ms;
+    width: 270px;
+}
+
+.converter__title {
+    color: gray;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.converter__control-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.converter__control-wrapper h3 {
+    cursor: pointer;
+}
+
+.converter__close, .converter__hide {
+    cursor: pointer;
+}
+
+.converter__hide img {
+    transition: transform 200ms;
+}
+
+.converter__inputs_container {
+    margin: 10px 0;
+}
+
+.converter__inputs_container input, select {
+    font-size: 16px;
+    border: #dbdbdb solid 1px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.converter__inputs_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.converter__inputs_container select {
+    cursor: pointer;
+}
+
+.converter__inputs_container select:focus {
+    outline: none;
+}
+
+.converter__inputs_container input {
+    width: 150px;
+    -moz-appearance: textfield;
+}
+
+.converter__inputs_container input::-webkit-outer-spin-button,
+.converter__inputs_container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.converter__inputs_container input:focus {
+    outline: none;
+    border-color: gray;
+}
+
+.converter__last_update {
+    color: gray;
+    font-size: 11px;
+    text-align: center;
+}

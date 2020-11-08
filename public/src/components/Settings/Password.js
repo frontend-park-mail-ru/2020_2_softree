@@ -29,10 +29,10 @@ export default class ProfileSettings extends Component {
             newPassword: '',
             repeatPassword: '',
         };
+    }
 
-        this.state = {
-            errors: {},
-        };
+    initState() {
+        return {errors: {}}
     }
 
     resetData() {
