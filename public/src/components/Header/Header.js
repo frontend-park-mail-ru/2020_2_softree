@@ -81,6 +81,9 @@ export class Header extends Component {
             justifyContent: !isAuth && 'center',
         };
 
+        const toggleMenu = () => this.toggleMenu.bind(this)(isAuth);
+        const toggleMainMenu = () => this.toggleMainMenu.bind(this)(isAuth);
+
         const header = this.create(
             `
       <header class='header'>
@@ -115,8 +118,8 @@ export class Header extends Component {
         </div>
       </header>`,
             {
-                DropDownMenu: [DropDownMenu, { close: () => this.toggleMenu.bind(this)(isAuth) }],
-                MainDropDownMenu: [MainDropDownMenu, { close: () => this.toggleMainMenu.bind(this)(isAuth) }],
+                DropDownMenu: [DropDownMenu, { close: toggleMenu }],
+                MainDropDownMenu: [MainDropDownMenu, { close: toggleMainMenu }],
             },
         );
 
@@ -127,8 +130,8 @@ export class Header extends Component {
             setTimeout(this.closeAll.bind(this), 200);
         });
         this.link('.header__bag-btn', ...pageProfile());
-        this.listen('.header__control-avatar', 'click', () => this.toggleMenu.bind(this)(isAuth));
-        this.listen('.header__logo', 'click', () => this.toggleMainMenu.bind(this)(isAuth));
+        this.listen('.header__control-avatar', 'click', toggleMenu);
+        this.listen('.header__logo', 'click', toggleMainMenu);
 
         return header;
     }
