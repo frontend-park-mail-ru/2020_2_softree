@@ -32,7 +32,7 @@ export default class ProfileSettings extends Component {
     }
 
     initState() {
-        return {errors: {}}
+        return { errors: {} };
     }
 
     resetData() {

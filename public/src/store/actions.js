@@ -5,7 +5,8 @@ import {
     USER_DROP_DATA,
     USER_START_LOADING,
     USER_END_LOADING,
-    USER_SET_AVATAR, APP_TOGGLE_CONVERTER,
+    USER_SET_AVATAR,
+    APP_TOGGLE_CONVERTER,
 } from './types.js';
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
@@ -15,7 +16,7 @@ import { msgTypeFail, msgTypeSuccess } from '../messages/types.js';
 // APP
 export const startLoading = () => ({ type: APP_START_LOADING });
 export const endLoading = () => ({ type: APP_END_LOADING });
-export const toggleConverter = () => ({type: APP_TOGGLE_CONVERTER});
+export const toggleConverter = () => ({ type: APP_TOGGLE_CONVERTER });
 
 // USER
 export const setUserData = data => ({ type: USER_SET_DATA, payload: data });
