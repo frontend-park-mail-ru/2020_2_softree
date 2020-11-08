@@ -19,7 +19,7 @@ export class SignUp extends Component {
     }
 
     initState() {
-        return {errors: {}}
+        return { errors: {} };
     }
 
     initData() {
@@ -27,7 +27,7 @@ export class SignUp extends Component {
             email: '',
             password1: '',
             password2: '',
-        }
+        };
     }
 
     submit(e) {

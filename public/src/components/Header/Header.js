@@ -1,5 +1,5 @@
-import {Component} from '../../modules/Softer/Softer.js';
-import {pageMain, pageProfile, pageSettings} from '../../pages.js';
+import { Component } from '../../modules/Softer/Softer.js';
+import { pageMain, pageProfile, pageSettings } from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import {checkAuth} from "../../utils/utils.js";
@@ -31,6 +31,7 @@ export class Header extends Component {
         if (!isAuth) {
             return
         }
+      
         this.props.toggle();
         if (isOpen) {
             setTimeout(toggle, 200)
@@ -63,13 +64,14 @@ export class Header extends Component {
 
         const nonInvertStyle = {
             filter: 'none',
-        }
+        };
 
         const containerStyle = {
             justifyContent: isAuth ? '' : 'center',
-        }
+        };
 
-        const header = this.create(`
+        const header = this.create(
+            `
             <header class='header'> 
                 <div class='container' style='${Styler(containerStyle)}'>
                     ${isAuth ?
@@ -87,7 +89,9 @@ export class Header extends Component {
                         style='${data.avatar ? Styler(nonInvertStyle) : ''}' 
                         src=${data.avatar || '/src/images/avatar.svg'} 
                         alt='Avatar'/>
-                    </div>` : ''}
+                    </div>`
+                            : ''
+                    }
                 </div>
                 <div class='container drop-menu'>
                     ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}
