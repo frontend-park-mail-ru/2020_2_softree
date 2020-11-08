@@ -6,5 +6,4 @@
 */images
 node_modules/
 *.css
-nginx.conf
 *.json
