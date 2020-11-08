@@ -56,7 +56,8 @@ export class Component {
     create(content = '', components = {}) {
         const element = createElement(content);
         this.__replaceComponents(element, components);
-        this.listen = (selector, event, clb) => listen(element, selector, event, clb);
+        this.listen = (selector, event, clb) =>
+            listen(element, selector, event, clb);
         return element;
     }
 

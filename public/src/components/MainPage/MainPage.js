@@ -12,7 +12,7 @@ export default class MainPage extends Component {
     }
 
     initState() {
-        return {rates: []}
+        return { rates: [] };
     }
 
     fetchRates() {
