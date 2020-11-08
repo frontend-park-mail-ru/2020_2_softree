@@ -11,7 +11,7 @@ export default class Settings extends Component {
     render() {
         return this.create(
             `
-            <div class="container-settings">
+            <div class="settings container">
                 <div class="settings-flexbox">
                     <div class="settings-ctrl__panel">
                         <ControlPanel/>
