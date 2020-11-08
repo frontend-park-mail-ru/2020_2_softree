@@ -1,10 +1,9 @@
 import {Component} from '../../modules/Softer/Softer.js';
-import {pageMain, pageProfile, pageSettings} from '../../pages.js';
+import {pageProfile} from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import {checkAuth} from "../../utils/utils.js";
 import MainDropDownMenu from "./MainDropDownMenu/MainDropDownMenu.js";
-import {useDispatch} from "../../modules/Softer/softer-softex.js";
 
 export class Header extends Component {
     constructor(props) {

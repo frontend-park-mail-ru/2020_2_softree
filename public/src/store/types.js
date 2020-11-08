@@ -13,3 +13,6 @@ export const USER_END_LOADING = 'user/end-loading';
 //MESSAGE
 export const MESSAGE_HIDE = 'message/hide';
 export const MESSAGE_SHOW = 'message/show';
+
+//currency
+export const SET_CURRENCY = 'currency/set';

@@ -6,13 +6,6 @@ import {toggleConverter} from "../../store/actions.js";
 export default class Converter extends Component {
     constructor() {
         super();
-
-        this.options = [
-            {title: 'RUB', value: 'RUB'},
-            {title: 'USD', value: 'USD'},
-            {title: 'EUR', value: 'EUR'},
-            {title: 'TAX', value: 'TAX'},
-        ]
     }
 
     initState() {
@@ -25,7 +18,8 @@ export default class Converter extends Component {
             rightCurrency: {
                 title: 'RUB',
                 value: 0.013
-            }
+            },
+            leftInput: true,
         }
     }
 
@@ -41,6 +35,8 @@ export default class Converter extends Component {
     }
 
     render() {
+        const currency = this.useSelector(store => store.currency);
+
         const isOpen = this.useSelector(store => store.app.converterIsOpen);
 
         const hideArrowStyle = {
@@ -51,25 +47,31 @@ export default class Converter extends Component {
             bottom: this.state.isHidden ? '-140px' : '',
         }
 
+        const options = [];
+
+        for (let title in currency) {
+            options.push({title, value: title});
+        }
+
         const component = this.create(isOpen ? `
         <div class='converter' style='${Styler(converterStyle)}'>
             <div class='converter__control-wrapper'>
                 <div class='converter__hide'><img src="/src/images/upArrow.svg" style='${Styler(hideArrowStyle)}' alt="hide"/></div>
                 <h3 class='converter__control-title'>конвертер</h3>
-                <div class='converter__close'><img src="/src/images/close.svg"alt="close"/></div>
+                <div class='converter__close'><img src="/src/images/close.svg" alt="close"/></div>
             </div>
             <p class='converter__title'>1 ${this.state.leftCurrency.title} = ${this.state.rightCurrency.value} ${this.state.rightCurrency.title}</p> 
             <div class='converter__inputs'>
                 <div class='converter__inputs_container'>
                     <input type='number' value="${this.state.leftCurrency.value}"/> 
                     <select>
-                        ${this.options.map(option => `<option value="${option.value}" ${option.title === this.state.leftCurrency.title ? "selected" : ""}>${option.title}</option>`)}
+                        ${options.map(option => `<option value="${option.value}" ${option.title === this.state.leftCurrency.title ? "selected" : ""}>${option.title}</option>`)}
                     </select>
                 </div>
                 <div class='converter__inputs_container'>
                     <input type='number' value="${this.state.rightCurrency.value}"/> 
                     <select>
-                        ${this.options.map(option => `<option value="${option.value}" ${option.title === this.state.rightCurrency.title ? "selected" : ""}>${option.title}</option>`)}
+                        ${options.map(option => `<option value="${option.value}" ${option.title === this.state.rightCurrency.title ? "selected" : ""}>${option.title}</option>`)}
                     </select>
                 </div>
             </div>
