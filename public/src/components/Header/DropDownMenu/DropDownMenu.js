@@ -1,9 +1,9 @@
-import {Component} from "../../../modules/Softer/Softer.js";
-import {pageSettings, pageSignIn} from "../../../pages.js";
-import {jpost} from "../../../modules/jfetch.js";
-import {apiLogOut} from "../../../api.js";
-import {useDispatch} from "../../../modules/Softer/softer-softex.js";
-import {dropUserData} from "../../../store/actions.js";
+import { Component } from '../../../modules/Softer/Softer.js';
+import { pageSettings, pageSignIn } from '../../../pages.js';
+import { jpost } from '../../../modules/jfetch.js';
+import { apiLogOut } from '../../../api.js';
+import { useDispatch } from '../../../modules/Softer/softer-softex.js';
+import { dropUserData } from '../../../store/actions.js';
 
 export default class DropDownMenu extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ export default class DropDownMenu extends Component {
     logOut(e) {
         e.preventDefault();
         this.props.close();
-        jpost(apiLogOut()).catch(({status}) => {
+        jpost(apiLogOut()).catch(({ status }) => {
             if (status === 302) {
                 useDispatch()(dropUserData());
                 this.redirect(...pageSignIn());
@@ -31,7 +31,7 @@ export default class DropDownMenu extends Component {
 
         this.listen('#drop-down-settings-btn', 'click', () => {
             this.props.close();
-            this.redirect(...pageSettings())
+            this.redirect(...pageSettings());
         });
         this.listen('#drop-down-exit-btn', 'click', this.logOut.bind(this));
 

@@ -23,7 +23,7 @@ export default class App extends Component {
     }
 
     initState() {
-        return {headerIsOpen: false};
+        return { headerIsOpen: false };
     }
 
     printTree(node, level) {
@@ -41,21 +41,26 @@ export default class App extends Component {
     togglePage() {
         if (this.state.headerIsOpen) {
             document.querySelector('#page').style.top = '';
-            setTimeout(() => this.setState({headerIsOpen: !this.state.headerIsOpen}), 200);
+            setTimeout(
+                () => this.setState({ headerIsOpen: !this.state.headerIsOpen }),
+                200,
+            );
         } else {
             document.querySelector('#page').style.top = '160px';
-            setTimeout(() => this.setState({headerIsOpen: !this.state.headerIsOpen}), 200);
+            setTimeout(
+                () => this.setState({ headerIsOpen: !this.state.headerIsOpen }),
+                200,
+            );
         }
-
     }
 
     render() {
-
         const pageStyle = {
             top: this.state.headerIsOpen ? '160px' : '',
-        }
+        };
 
-        return this.create( `
+        return this.create(
+            `
         <div>
             <Header/>
             <div class='page' id='page' style='${Styler(pageStyle)}'>
@@ -64,7 +69,13 @@ export default class App extends Component {
         </div>
         `,
             {
-                Header : [Header, {isOpen: this.state.headerIsOpen, toggle: this.togglePage.bind(this)}],
+                Header: [
+                    Header,
+                    {
+                        isOpen: this.state.headerIsOpen,
+                        toggle: this.togglePage.bind(this),
+                    },
+                ],
                 MainContent: [
                     Switch,
                     {
