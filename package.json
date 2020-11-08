@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest --collect-coverage",
-    "start": "node server.js",
+    "start": "cross-env NODE_ENV=development webpack serve --mode development",
     "build": "webpack --mode production",
     "build:dev": "cross-env NODE_ENV=development webpack --watch --mode development",
     "lint": "eslint public/src/",
@@ -26,30 +26,28 @@
     "webpack": "^5.3.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^26.6.1",
     "babel-loader": "^8.1.0",
-    "chokidar": "^3.4.3",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
     "cross-env": "^7.0.2",
+    "css-loader": "^5.0.1",
     "css-minimizer-webpack-plugin": "^1.1.5",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-formatter-pretty": "^4.0.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "^3.1.4",
-    "express": "^4.17.1",
-    "express-formidable": "^1.2.0",
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.6.1",
     "mini-css-extract-plugin": "^1.2.1",
     "prettier": "^2.1.2",
-    "regenerator-runtime": "^0.13.7",
-    "socket.io": "^3.0.0",
-    "webpack-cli": "^4.1.0"
+    "style-loader": "^2.0.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }
