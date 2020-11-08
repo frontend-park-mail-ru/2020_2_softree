@@ -1,4 +1,8 @@
-import {APP_END_LOADING, APP_START_LOADING, APP_TOGGLE_CONVERTER} from '../types.js';
+import {
+    APP_END_LOADING,
+    APP_START_LOADING,
+    APP_TOGGLE_CONVERTER,
+} from '../types.js';
 
 const initState = {
     loading: false,
@@ -8,7 +12,7 @@ const initState = {
 const appReducer = (state = initState, action) => {
     switch (action.type) {
         case APP_TOGGLE_CONVERTER:
-            return {...state, converterIsOpen: !state.converterIsOpen};
+            return { ...state, converterIsOpen: !state.converterIsOpen };
         case APP_START_LOADING:
             return { ...state, loading: true };
         case APP_END_LOADING:
