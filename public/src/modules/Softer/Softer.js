@@ -56,8 +56,7 @@ export class Component {
     create(content = '', components = {}) {
         const element = createElement(content);
         this.__replaceComponents(element, components);
-        this.listen = (selector, event, clb) =>
-            listen(element, selector, event, clb);
+        this.listen = (selector, event, clb) => listen(element, selector, event, clb);
         return element;
     }
 
@@ -160,12 +159,7 @@ export class Component {
     __findRoot() {
         let root = this;
         while (!root.isRoot) {
-            console.assert(
-                root.parent !== undefined,
-                'У компоненты',
-                root,
-                'нет родителя',
-            );
+            console.assert(root.parent !== undefined, 'У компоненты', root, 'нет родителя');
             root = root.parent;
         }
         return root;
@@ -173,15 +167,8 @@ export class Component {
 
     __findSwitch(path) {
         let node = this;
-        while (
-            !(node.isRoot || (node instanceof Switch && node.path === path))
-        ) {
-            console.assert(
-                node.parent !== undefined,
-                'У компоненты',
-                node,
-                'нет родителя',
-            );
+        while (!(node.isRoot || (node instanceof Switch && node.path === path))) {
+            console.assert(node.parent !== undefined, 'У компоненты', node, 'нет родителя');
             node = node.parent;
         }
         if (node.isRoot) {
@@ -220,11 +207,7 @@ export class Component {
         if (currentPath === href) {
             return;
         }
-        window.history.pushState(
-            { path: currentPath, title: document.title },
-            title,
-            href,
-        );
+        window.history.pushState({ path: currentPath, title: document.title }, title, href);
         document.title = title;
         this.__rerenderSwitch(overallPath(currentPath, href));
     }

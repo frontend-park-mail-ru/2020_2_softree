@@ -1,4 +1,5 @@
 import { Component } from '../../../modules/Softer/Softer.js';
+import './Submit.css';
 
 export default class Submit extends Component {
     constructor(title) {
@@ -7,8 +8,6 @@ export default class Submit extends Component {
     }
 
     render() {
-        return this.create(
-            `<input type='submit' class='submit-button' value='${this.title}'/>`,
-        );
+        return this.create(`<input type='submit' class='submit-button' value='${this.title}'/>`);
     }
 }

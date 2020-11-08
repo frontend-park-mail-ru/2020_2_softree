@@ -22,9 +22,7 @@ export default class User extends Component {
 
         const userSettings = this.create(`
             <div class='avatar-container'>
-                <img class='avatar' src='${
-                    data.avatar || '/src/images/avatar.svg'
-                }' alt='avatar'/>
+                <img class='avatar' src='${data.avatar || '/src/images/avatar.svg'}' alt='avatar'/>
                 <div class='avatar-btn submit-button' btn'>
                     <p>Выбрать фото</p>
                     <input class='avatar-input' id='upload-file' type='file' accept='image/*' hidden='true'/>

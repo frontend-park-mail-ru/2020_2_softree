@@ -1,5 +1,6 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
+import './Rate.css';
 
 export default class Rate extends Component {
     constructor(props) {
@@ -16,9 +17,7 @@ export default class Rate extends Component {
         <div class="rate-card">
             <div class="rate-card__header" style="${Styler(headerStyle)}">
                 <p class="rate-card__header_title">${props.title}</p> 
-                <p class="rate-card__header_change">${
-                    props.change >= 0 ? `+${props.change}` : props.change
-                }%</p> 
+                <p class="rate-card__header_change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
             </div> 
             <div class="rate-card__body">
                 <div class="rate-card__body_field">

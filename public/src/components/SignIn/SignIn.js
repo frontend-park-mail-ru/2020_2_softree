@@ -7,6 +7,7 @@ import { pageForgotPassword, pageMain, pageSignUp } from '../../pages.js';
 import ErrorField from '../Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
+import './SignIn.css';
 
 export default class SignIn extends Component {
     constructor() {
@@ -37,9 +38,7 @@ export default class SignIn extends Component {
                 useDispatch()(setUserData(data));
                 this.redirect(...pageMain());
             })
-            .catch(() =>
-                this.setState({ errors: ['Пароль или Email не подходит'] }),
-            );
+            .catch(() => this.setState({ errors: ['Пароль или Email не подходит'] }));
     }
 
     render() {

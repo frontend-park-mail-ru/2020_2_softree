@@ -52,9 +52,7 @@ export default class ProfileSettings extends Component {
                 if (status === 200) {
                     this.resetData();
                     this.setState({ errors: {} });
-                    useDispatch()(
-                        showMessage('Пароль успешно обновлен!', msgTypeSuccess),
-                    );
+                    useDispatch()(showMessage('Пароль успешно обновлен!', msgTypeSuccess));
                 }
             })
             .catch(({ data }) => {

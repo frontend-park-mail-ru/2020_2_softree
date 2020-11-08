@@ -7,6 +7,7 @@ import { pageMain, pageSignIn } from '../../pages.js';
 import ErrorField from '../Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
+import './SignUp.css';
 
 export class SignUp extends Component {
     constructor() {
@@ -34,9 +35,7 @@ export class SignUp extends Component {
         e.preventDefault();
         jpost(apiSignUp(), this.data)
             .then(() => {
-                useDispatch()(
-                    setUserData({ ...this.data, password1: '', password2: '' }),
-                );
+                useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
                 this.redirect(...pageMain());
             })
             .catch(({ data }) => {

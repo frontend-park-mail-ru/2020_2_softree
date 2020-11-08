@@ -43,11 +43,7 @@ export const setPhoto = src => {
         try {
             const response = await jpatch(apiUpdateUser(), { avatar: src });
             dispatch(setAvatar(src));
-            syncShowMessage(
-                dispatch,
-                'Фотография успешно обновлена!',
-                msgTypeSuccess,
-            );
+            syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypeSuccess);
         } catch (e) {
             syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypeFail);
         }

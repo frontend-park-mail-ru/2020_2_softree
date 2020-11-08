@@ -29,11 +29,7 @@ export default class App extends Component {
     printTree(node, level) {
         console.log('\t'.repeat(level) + node.constructor.name);
         if (node.children) {
-            console.log(
-                '\t'.repeat(level),
-                'children: ',
-                node.children.map(node => node.constructor.name).join(', '),
-            );
+            console.log('\t'.repeat(level), 'children: ', node.children.map(node => node.constructor.name).join(', '));
             node.children.forEach(node => this.printTree(node, level + 1));
         }
     }
@@ -41,16 +37,10 @@ export default class App extends Component {
     togglePage() {
         if (this.state.headerIsOpen) {
             document.querySelector('#page').style.top = '';
-            setTimeout(
-                () => this.setState({ headerIsOpen: !this.state.headerIsOpen }),
-                200,
-            );
+            setTimeout(() => this.setState({ headerIsOpen: !this.state.headerIsOpen }), 200);
         } else {
             document.querySelector('#page').style.top = '160px';
-            setTimeout(
-                () => this.setState({ headerIsOpen: !this.state.headerIsOpen }),
-                200,
-            );
+            setTimeout(() => this.setState({ headerIsOpen: !this.state.headerIsOpen }), 200);
         }
     }
 

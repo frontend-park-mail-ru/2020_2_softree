@@ -1,6 +1,7 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 import { changeHandler } from '../../../utils/utils.js';
 import ErrorField from '../ErrorField.js';
+import './GridField.css';
 
 export default class GridField extends Component {
     constructor(props) {
@@ -8,26 +9,15 @@ export default class GridField extends Component {
     }
 
     render() {
-        const {
-            title,
-            type,
-            name,
-            value,
-            required,
-            gridTemplate,
-            dataHandler,
-            errors,
-        } = this.props;
+        const { title, type, name, value, required, gridTemplate, dataHandler, errors } = this.props;
         const field = this.create(
             `
         <div class="field">
-            <div class='grid-field' style='grid-template-columns: ${
-                gridTemplate || ''
-            }'> 
+            <div class='grid-field' style='grid-template-columns: ${gridTemplate || ''}'> 
                 <label style='color: ${errors ? 'red' : ''}'>${title}</label>
-                <input class='grid-field__input' type='${type}' ${
-                required ? 'required' : ''
-            } name='${name}' value='${value || ''}'/>
+                <input class='grid-field__input' type='${type}' ${required ? 'required' : ''} name='${name}' value='${
+                value || ''
+            }'/>
             </div>
             ${errors ? '<ErrorField/>' : ''}
         </div>

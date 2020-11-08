@@ -2,6 +2,7 @@ import { Component } from '../../modules/Softer/Softer.js';
 import Styler from '../../modules/Styler.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { toggleConverter } from '../../store/actions.js';
+import './Converter.css';
 
 export default class Converter extends Component {
     constructor() {
@@ -11,32 +12,32 @@ export default class Converter extends Component {
     initState() {
         return {
             isHidden: false,
-            leftCurrency: {
-                title: 'USD',
-                value: 1,
-            },
-            rightCurrency: {
-                title: 'RUB',
-                value: 0.013,
-            },
-            leftInput: true,
+            leftCurrency: 'USD',
+            rightCurrency: 'RUB',
+            leftValue: 1,
+            rightValue: 0.013,
+            leftInputFocus: true,
         };
     }
 
     toggleHide() {
         if (this.state.isHidden) {
             this.node.style.bottom = '';
-            this.node.querySelector('.converter__hide img').style.transform =
-                'rotate(180deg)';
+            this.node.querySelector('.converter__hide img').style.transform = 'rotate(180deg)';
         } else {
             this.node.style.bottom = '-140px';
-            this.node.querySelector('.converter__hide img').style.transform =
-                '';
+            this.node.querySelector('.converter__hide img').style.transform = '';
         }
-        setTimeout(
-            () => this.setState({ isHidden: !this.state.isHidden }),
-            200,
-        );
+        setTimeout(() => this.setState({ isHidden: !this.state.isHidden }), 200);
+    }
+
+    focus(id) {
+        document.querySelector(`#${id}`).focus();
+    }
+
+    change(event) {
+        const leftInputFocus = event.target.id === 'leftCurrency';
+        this.setState({ leftInputFocus });
     }
 
     render() {
@@ -69,38 +70,30 @@ export default class Converter extends Component {
                 <h3 class='converter__control-title'>конвертер</h3>
                 <div class='converter__close'><img src="/src/images/close.svg" alt="close"/></div>
             </div>
-            <p class='converter__title'>1 ${this.state.leftCurrency.title} = ${
-                      this.state.rightCurrency.value
-                  } ${this.state.rightCurrency.title}</p> 
+            <p class='converter__title'>1 ${this.state.leftCurrency.title} = ${this.state.rightCurrency.value} ${
+                      this.state.rightCurrency.title
+                  }</p> 
             <div class='converter__inputs'>
                 <div class='converter__inputs_container'>
-                    <input type='number' value="${
-                        this.state.leftCurrency.value
-                    }"/> 
+                    <input type='number' id='leftCurrency' 
+                        value="${this.state.leftCurrency.value}" /> 
                     <select>
                         ${options.map(
                             option =>
                                 `<option value="${option.value}" ${
-                                    option.title ===
-                                    this.state.leftCurrency.title
-                                        ? 'selected'
-                                        : ''
+                                    option.title === this.state.leftCurrency.title ? 'selected' : ''
                                 }>${option.title}</option>`,
                         )}
                     </select>
                 </div>
                 <div class='converter__inputs_container'>
-                    <input type='number' value="${
-                        this.state.rightCurrency.value
-                    }"/> 
+                    <input type='number' id='rightCurrency'
+                        value="${this.state.rightCurrency.value}"/> 
                     <select>
                         ${options.map(
                             option =>
                                 `<option value="${option.value}" ${
-                                    option.title ===
-                                    this.state.rightCurrency.title
-                                        ? 'selected'
-                                        : ''
+                                    option.title === this.state.rightCurrency.title ? 'selected' : ''
                                 }>${option.title}</option>`,
                         )}
                     </select>
@@ -115,14 +108,8 @@ export default class Converter extends Component {
         const dispatch = useDispatch();
 
         this.listen('.converter__hide', 'click', this.toggleHide.bind(this));
-        this.listen('.converter__close', 'click', () =>
-            dispatch(toggleConverter()),
-        );
-        this.listen(
-            '.converter__control-title',
-            'click',
-            this.toggleHide.bind(this),
-        );
+        this.listen('.converter__close', 'click', () => dispatch(toggleConverter()));
+        this.listen('.converter__control-title', 'click', this.toggleHide.bind(this));
 
         return component;
     }
