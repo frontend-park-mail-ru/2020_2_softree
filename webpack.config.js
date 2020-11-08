@@ -17,27 +17,24 @@ const optimization = () => {
     };
 
     if (isProd) {
-        config.minimizer = [
-            new CssMinimizerWebpackPlugin(),
-            new TerserWebpackPlugin(),
-        ];
+        config.minimizer = [new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin()];
     }
 
     return config;
 };
 
-const filename = ext => (isDev ? `[name].${ext}` : `[name].[fullhash].${ext}`);
+const filename = ext => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
 
 const cssLoaders = extra => {
     const loaders = [
         'style-loader',
         'css-loader',
         // {
-            // loader: MiniCssExtractPlugin.loader,
-            // options: {
-                // hmr: isDev,
-                // reloadAll: true,
-            // },
+        // loader: MiniCssExtractPlugin.loader,
+        // options: {
+        // hmr: isDev,
+        // reloadAll: true,
+        // },
         // },
     ];
 
@@ -88,10 +85,7 @@ const plugins = () => {
         new CopyWebpackPlugin({
             patterns: [
                 {
-                    from: path.resolve(
-                        __dirname,
-                        'public/src/images/favicon.ico',
-                    ),
+                    from: path.resolve(__dirname, 'public/src/images/favicon.ico'),
                     to: path.resolve(__dirname, 'dist'),
                 },
             ],
@@ -108,7 +102,7 @@ module.exports = {
     context: path.resolve(__dirname, 'public/src'),
     mode: 'development',
     entry: {
-        main: ['/main.js'],
+        main: path.resolve(__dirname, 'public/src/main.js'),
     },
     output: {
         filename: filename('js'),

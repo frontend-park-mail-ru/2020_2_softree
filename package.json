@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2020_2_softree#readme",
   "dependencies": {
-    "webpack": "^5.3.2"
+    "webpack": "^4.0.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
