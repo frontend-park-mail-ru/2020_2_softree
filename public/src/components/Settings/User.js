@@ -3,6 +3,8 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setPhoto } from '../../store/actions.js';
 import { setUploadedImage } from '../../utils/utils.js';
 
+import avatar from '../../images/avatar.svg';
+
 export default class User extends Component {
     constructor() {
         super();
@@ -21,9 +23,9 @@ export default class User extends Component {
         const data = this.useSelector(state => state.user.userData);
 
         const userSettings = this.create(`
-            <div class='avatar-container'>
-                <img class='avatar' src='${data.avatar || '/src/images/avatar.svg'}' alt='avatar'/>
-                <div class='avatar-btn submit-button' btn'>
+            <div class='user-container'>
+                <img class='avatar' src='${data.avatar || avatar}' alt='avatar'/>
+                <div class='avatar-btn submit-button'>
                     <p>Выбрать фото</p>
                     <input class='avatar-input' id='upload-file' type='file' accept='image/*' hidden='true'/>
                 </div>
@@ -31,6 +33,7 @@ export default class User extends Component {
                     <p>E-mail</p>
                     <p>${data.email}</p>
                 </div>
+            </div>
                 `);
 
         this.listen('.avatar-btn', 'click', () => {

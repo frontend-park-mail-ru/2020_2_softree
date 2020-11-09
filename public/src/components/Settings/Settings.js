@@ -1,7 +1,9 @@
-import { Component, Switch } from '../../modules/Softer/Softer.js';
-import ControlPanel from './ControlPanel.js';
-import User from './User.js';
-import Password from './Password.js';
+import { Component, Switch } from '../../modules/Softer/Softer';
+import ControlPanel from './ControlPanel';
+import User from './User';
+import Password from './Password';
+
+import './Settings.css';
 
 export default class Settings extends Component {
     constructor() {
@@ -11,14 +13,12 @@ export default class Settings extends Component {
     render() {
         return this.create(
             `
-            <div class="settings container">
-                <div class="settings-flexbox">
-                    <div class="settings-ctrl__panel">
-                        <ControlPanel/>
-                    </div>
-                    <div class="settings-payload">
-                        <Content/>
-                    </div>
+            <div class="settings-flexbox container">
+                <div class="settings-ctrl__panel">
+                    <ControlPanel/>
+                </div>
+                <div class="settings-payload__window">
+                    <Content/>
                 </div>
             </div>`,
             {
