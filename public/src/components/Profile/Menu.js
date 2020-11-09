@@ -3,10 +3,6 @@ import { pageProfile, pageHistory } from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 
 export default class Menu extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const pushedStyle = {
             boxShadow: `inset 0 0 10px rgba(0, 0, 0, 0.2)`,

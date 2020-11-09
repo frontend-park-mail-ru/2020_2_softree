@@ -6,10 +6,6 @@ import Password from './Password.js';
 import './Settings.css';
 
 export default class Settings extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return this.create(
             `

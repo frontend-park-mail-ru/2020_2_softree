@@ -4,10 +4,6 @@ import Rates from '../../MainPage/Rate/Rate.js';
 import './Bag.css';
 
 export default class Bag extends Component {
-    constructor() {
-        super();
-    }
-
     initState() {
         return {
             rates: [

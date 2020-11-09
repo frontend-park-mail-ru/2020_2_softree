@@ -8,10 +8,6 @@ import upArrow from '../../images/upArrow.svg';
 import close from '../../images/close.svg';
 
 export default class Converter extends Component {
-    constructor() {
-        super();
-    }
-
     initState() {
         return {
             isHidden: false,

@@ -6,10 +6,6 @@ import { setUploadedImage } from '../../utils/utils.js';
 import avatar from '../../images/avatar.svg';
 
 export default class User extends Component {
-    constructor() {
-        super();
-    }
-
     changePhoto(e) {
         e.preventDefault();
         const dispatch = useDispatch();

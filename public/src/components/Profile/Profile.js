@@ -4,10 +4,6 @@ import History from './History/History.js';
 import Bag from './Bag/Bag.js';
 
 export default class Profile extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return this.create(
             `

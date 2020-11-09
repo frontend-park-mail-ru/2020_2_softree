@@ -2,10 +2,6 @@ import { Component } from '../../modules/Softer/Softer.js';
 import './Page404.css';
 
 export default class Page404 extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const page = this.create(`
         <div class='hidden-wrapper'>
