@@ -62,6 +62,8 @@ export class Component {
 
     listen(selector, event, clb) {}
 
+    afterRerender() {}
+
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
      * или добавить. Другие поля останутся нетронутыми. Вызов этой функции влечет за собой ререндер компоненты.
@@ -120,6 +122,9 @@ export class Component {
         const node = this.render();
         this.node.replaceWith(node);
         this.node = node;
+        try {
+            this.afterRerender();
+        } catch (e) {}
     }
 
     /**
