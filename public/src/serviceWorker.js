@@ -26,7 +26,6 @@ self.addEventListener('fetch', event => {
         caches
             .match(event.request)
             .then(cachedResponse => {
-                // выдаём кэш, если он есть
                 if (cachedResponse) {
                     return cachedResponse;
                 }
