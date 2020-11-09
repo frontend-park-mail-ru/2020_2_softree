@@ -15,7 +15,7 @@ export default class Menu extends Component {
 
         const menu = this.create(`
         <div>
-            <div class="flex-menu">
+            <div class="flex-menu container">
                 <div class="flex-left">
                     <div class='b1-link action-btn' style='${
                         window.location.pathname === '/profile' ? Styler(pushedStyle) : ''

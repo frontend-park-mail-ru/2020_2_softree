@@ -2,7 +2,6 @@ const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 
@@ -26,17 +25,7 @@ const optimization = () => {
 const filename = ext => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
 
 const cssLoaders = extra => {
-    const loaders = [
-        'style-loader',
-        'css-loader',
-        // {
-        // loader: MiniCssExtractPlugin.loader,
-        // options: {
-        // hmr: isDev,
-        // reloadAll: true,
-        // },
-        // },
-    ];
+    const loaders = ['style-loader', 'css-loader'];
 
     if (extra) {
         loaders.push(extra);
@@ -73,6 +62,20 @@ const jsLoaders = () => {
     return loaders;
 };
 
+const fileLoaders = () => {
+    const loaders = [
+        {
+            loader: 'file-loader',
+            options: {
+                limit: 8192,
+                name: filename,
+            },
+        },
+    ];
+
+    return loaders;
+};
+
 const plugins = () => {
     const base = [
         new HTMLWebpackPlugin({
@@ -86,12 +89,9 @@ const plugins = () => {
             patterns: [
                 {
                     from: path.resolve(__dirname, 'public/src/images/favicon.ico'),
-                    to: path.resolve(__dirname, 'dist'),
+                    to: path.join(__dirname, 'dist'),
                 },
             ],
-        }),
-        new MiniCssExtractPlugin({
-            filename: filename('css'),
         }),
     ];
 
@@ -99,19 +99,20 @@ const plugins = () => {
 };
 
 module.exports = {
-    context: path.resolve(__dirname, 'public/src'),
+    context: path.join(__dirname, 'public/src'),
     mode: 'development',
     entry: {
         main: path.resolve(__dirname, 'public/src/main.js'),
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, 'dist'),
+        path: path.join(__dirname, 'dist'),
+        publicPath: '/',
     },
     resolve: {
-        extensions: ['.js', '.json', '.png'],
+        extensions: ['.js', '.json', '.png', '.svg'],
         alias: {
-            '@': path.resolve(__dirname, 'src'),
+            '@': path.join(__dirname, 'src'),
         },
     },
     optimization: optimization(),
@@ -139,15 +140,15 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
-                use: ['file-loader'],
+                use: fileLoaders(),
             },
             {
                 test: /\.(ttf|woff|woff2|eot)$/,
-                use: ['file-loader'],
+                use: fileLoaders(),
             },
             {
                 test: /\.xml$/,
-                use: ['xml-loader'],
+                use: fileLoaders(),
             },
             {
                 test: /\.csv$/,
