@@ -1,6 +1,7 @@
 import { Component } from '../modules/Softer/Softer.js';
 import Styler from '../modules/Styler.js';
 import { msgTypeFail, msgTypeNeutral, msgTypeSuccess } from './types.js';
+import './Message.css';
 
 export class Message extends Component {
     constructor() {
