@@ -137,6 +137,7 @@ input[type=email], input[type=password] {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     transition: top 200ms;
+    overflow-y: scroll;
 }
 
 .container {
