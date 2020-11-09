@@ -33,11 +33,12 @@ export default class MainPage extends Component {
     }
 
     subscribe() {
-        if (!this.interval) {
-            if (this.useSelector(store => store.user.userData)) {
-                this.fetchRates();
-                this.interval = setInterval(() => this.fetchRates(), 2000);
-            }
+        if (this.interval) {
+            return;
+        }
+        if (this.useSelector(store => store.user.userData)) {
+            this.fetchRates();
+            this.interval = setInterval(() => this.fetchRates(), 2000);
         }
     }
 
