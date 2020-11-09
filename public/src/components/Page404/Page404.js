@@ -1,12 +1,9 @@
 import { Component } from '../../modules/Softer/Softer.js';
+import './Page404.css';
 
 export default class Page404 extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        const [page] = this.create('div', `
+        const page = this.create(`
         <div class='hidden-wrapper'>
             <p class='code-404'>404</p>
             <div class='modal fix'>

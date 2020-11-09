@@ -1,25 +1,23 @@
 export const createStore = (rootReducer, initialStore = {}) => {
     let state = rootReducer(initialStore, { type: '__INIT__' });
-    const subscribers = [];
+    let subscribers = [];
 
     return {
         dispatch(action) {
             const was = state;
             state = rootReducer(state, action);
-            subscribers.forEach(sub => sub(was, state));
+            subscribers = subscribers.filter(sub => !sub(was, state));
         },
         subscribe(clb) {
-            if (!subscribers.includes(clb)) {
-                subscribers.push(clb);
-            }
+            subscribers.push(clb);
         },
         getState() {
             return state;
-        }
+        },
     };
 };
 
-export const combineReducer = (reducers) => {
+export const combineReducer = reducers => {
     return (state = {}, action) => {
         const newState = {};
         for (const reducer in reducers) {

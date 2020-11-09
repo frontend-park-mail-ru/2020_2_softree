@@ -1,0 +1,33 @@
+.main-drop-down-menu img {
+    filter: none;
+    width: 40px;
+}
+
+.main-drop-down-menu__action-card {
+    border: #f1f1f1 solid 1px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+    transition: box-shadow 200ms
+}
+
+
+.main-drop-down-menu__action-card:hover {
+    border: white solid 1px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.main-drop-down-menu__action-card p {
+    color: gray;
+    font-size: 14px;
+}
+
+.main-drop-down-menu {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+}

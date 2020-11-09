@@ -4,33 +4,25 @@ export function select(selector) {
     return selector(window.Softer.store.getState());
 }
 
-export function useSelector(component, selector) {
+export function useSelector(component, selector, id = null) {
     const { store } = window.Softer;
     if (store === null) {
         throw new Error('Store не подключен');
     }
 
-    if (!window.Softer.subscribers) {
-        window.Softer.subscribers = [];
-    }
-
-    const { subscribers } = window.Softer;
     const result = selector(store.getState());
-    if (subscribers.includes(component.key)) {
-        return result;
-    } else {
-        subscribers.push(component.key);
-    }
 
     store.subscribe((was, become) => {
-        if (!component.node) {
-            return result;
+        if (!component || !component.node) {
+            return true;
         }
 
-        try {
-            selector(diff(was, become));
-            component.rerender();
-        } catch (e) {}
+        // try {
+        //    if (selector(diff(was, become)) !== undefined) {
+        //        component.rerender();
+        //    }
+        // } catch (e) {}
+        component.__rerender();
     });
     return result;
 }

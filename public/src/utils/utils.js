@@ -2,14 +2,11 @@ export const changeHandler = (e, setState) => {
     setState({ [e.target.name]: e.target.value });
 };
 
-export const id = () => {
-    return Math.round(Math.random() * Date.now());
-};
-
 export function checkAuth(userData) {
-    if (userData) {
+    if (userData.email) {
         return true;
     }
+    return false;
 }
 
 export function setUploadedImage(event, imgHandler) {
@@ -17,7 +14,7 @@ export function setUploadedImage(event, imgHandler) {
     if (input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             imgHandler(e.target.result);
         };
 

@@ -21,3 +21,9 @@
     color: red;
     font-size: 12px;
 }
+
+.grid-field__input {
+    border-radius: 10px;
+    border: 1px #c5c5c5 solid;
+    background: #ffffff;
+}

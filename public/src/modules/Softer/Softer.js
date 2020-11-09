@@ -3,9 +3,9 @@
  * Модуль, в котором находятся необходимые элементы для отоброжения контента
  */
 
-import {id} from '../../utils/utils.js';
-import {select, useSelector} from './softer-softex.js';
-import {pageSignUp} from '../../pages.js';
+import { id, createElement, overallPath } from './utils.js';
+import { select, useSelector } from './softer-softex.js';
+import { pageSignUp } from '../../pages.js';
 
 /** Класс компоненты. От него нужно наследоваться при создании компоненты. */
 export class Component {
@@ -15,41 +15,54 @@ export class Component {
      * Изменение этих свойств произовдится через метод setState и ведет за собой ререндер страницы
      * @param {Object} initData - свойства объекта, которые отвечают за состояние компоненты с точки зрения данных.
      * Изменение производится через setDataState, ререндер не последует. Удобно при заполнении форм*/
-    constructor({props = {}, initState = {}, initData = {}, appId = null} = {}) {
+    constructor(props = {}) {
         this.props = props;
-        this.state = initState;
-        this.data = initData;
+        this.children = [];
+        this.id = id();
+        this.state = this.initState();
+        this.data = this.initData();
         this.node = null;
-
-        this.appId = appId;
+        this.isRoot = false;
+        this.doNotReset = false;
+        this.key = 0;
     }
 
-    appId = null;
-    key = null;
+    initState() {
+        return {};
+    }
+
+    initData() {
+        return {};
+    }
 
     /**
-     *
-     * @param {} component
-     * @param {Object} props
-     * @param {any} key
-     * @return {*}
+     * Создает и возвращает HTML элемент компоненты.
+     * @return {HTMLElement}
      */
-    place(component, props = {}) {
-        const newComponent = new component({...props, appId: this.appId});
-        newComponent.key = id();
-        return newComponent
+    render() {}
+
+    clear() {
+        this.node = null;
     }
 
-    useSelector(selector) {
-        return useSelector(this, selector);
+    /**
+     * Создает HTMLElement, а так же Replacer и Listener для него
+     * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
+     * Listener - среди элемента можем найти интересующий элемент и повесить на него событие
+     * @param {string} tag - тег элемента
+     * @param content - содержимое элемента * @param {Object} options - параметры тэга
+     * @return {HTMLElement}
+     */
+    create(content = '', components = {}) {
+        const element = createElement(content);
+        this.__replaceComponents(element, components);
+        this.listen = (selector, event, clb) => listen(element, selector, event, clb);
+        return element;
     }
 
-    rerender() {
-        if (!this.node) {
-            window.Softer.rerenderApp(this.appId);
-        }
-        this.node.replaceWith(this.render());
-    }
+    listen(selector, event, clb) {}
+
+    afterRerender() {}
 
     /**
      * Обновляет состояние this.state новыми пармаетрами из state. Указывается объект с полями, которые хотим изменить
@@ -57,8 +70,61 @@ export class Component {
      * @param {Object} state
      */
     setState(state) {
-        this.state = {...this.state, ...state};
-        this.rerender();
+        if (state instanceof Function) {
+            this.state = state(this.state);
+        } else {
+            this.state = { ...this.state, ...state };
+        }
+        this.__rerender();
+    }
+
+    useSelector(selector) {
+        return useSelector(this, selector);
+    }
+
+    /**
+     *
+     * @param {} component
+     * @param {Object} props
+     * @return {*}
+     */
+    __place(component, props = {}) {
+        const idx = this.__includes(component);
+        if (idx === -1) {
+            const newComponent = new component(props);
+            newComponent.parent = this;
+            this.children.push(newComponent);
+            return newComponent;
+        }
+
+        this.children[idx].props = props;
+        return this.children[idx];
+    }
+
+    __resetState() {
+        if (!this.doNotReset) {
+            this.state = this.initState();
+            this.data = this.initData();
+        }
+    }
+
+    __includes(component) {
+        for (let idx = 0; idx < this.children.length; idx++) {
+            if (this.children[idx].constructor.name === component.name) {
+                return idx;
+            }
+        }
+        return -1;
+    }
+
+    __rerender() {
+        this.__clearChildren(this);
+        const node = this.render();
+        this.node.replaceWith(node);
+        this.node = node;
+        try {
+            this.afterRerender();
+        } catch (e) {}
     }
 
     /**
@@ -66,104 +132,168 @@ export class Component {
      * @param {Object} state
      */
     setData(state) {
-        this.data = {...this.data, ...state};
-    }
-
-    /**
-     * Создает HTMLElement, а так же Replacer и Listener для него
-     * Replacer - среди элемента можем найти интересующий элемент и заменить его на тот, что необходим нам
-     * Listener - среди элемента можем найти интересующий элемени и повесить на него событие
-     * @param {string} tag - тег элемента
-     * @param content - содержимое элемента * @param {Object} options - параметры тэга
-     * @return {[*, function(*=, ...[*]): void, function(*=, *=, *=): void]}
-     */
-    create(tag, content = '', options = {}) {
-        if (!this.node) {
-            this.node = document.createElement(tag);
-            for (let option in options) {
-                this.node[option] = options[option];
-            }
-        }
-        return setupNode(this.node, content);
+        this.data = { ...this.data, ...state };
     }
 
     link(selector, title, href) {
-        listen(this.node, selector, 'click', e => {
+        this.listen(selector, 'click', e => {
             e.preventDefault();
             this.__historyPushState(title, href);
-        })
+        });
     }
 
     redirect(title, href) {
         this.__historyPushState(title, href);
     }
 
-    __historyPushState(title, href) {
-        window.history.pushState({path: window.location.pathname, title: document.title}, title, href);
-        document.title = title;
-        window.Softer.rerenderApp(this.appId);
+    __replaceComponents(element, components) {
+        for (let component in components) {
+            const config = components[component];
+            let input;
+            if (config.__proto__.name === 'Component') {
+                input = [[config]];
+            } else if (config[1] instanceof Array) {
+                input = config[1].map(props => [config[0], props]);
+            } else {
+                input = [config];
+            }
+            this.__replaceComponent(element, component, ...input);
+        }
     }
 
-    /**
-     * Создает и возвращает HTML элемент компоненты.
-     * @return {HTMLElement}
-     */
-    render() {
+    __findRoot() {
+        let root = this;
+        while (!root.isRoot) {
+            console.assert(root.parent !== undefined, 'У компоненты', root, 'нет родителя');
+            root = root.parent;
+        }
+        return root;
+    }
+
+    __findSwitch(path) {
+        let node = this;
+        while (!(node.isRoot || (node instanceof Switch && node.path === path))) {
+            console.assert(node.parent !== undefined, 'У компоненты', node, 'нет родителя');
+            node = node.parent;
+        }
+        if (node.isRoot) {
+            for (let idx = 0; idx < node.children.length; idx++) {
+                if (node.children[idx] instanceof Switch) {
+                    return node.children[idx];
+                }
+            }
+        }
+        return node;
+    }
+
+    __replaceComponent(element, selector, ...nodes) {
+        const query = element.querySelectorAll(selector);
+        if (!query) {
+            return;
+        }
+        query.forEach(foundElement =>
+            foundElement.replaceWith(
+                ...nodes.map(node => {
+                    const component = this.__place(node[0], node[1]);
+                    component.node = component.render();
+                    return component.node;
+                }),
+            ),
+        );
+    }
+
+    __rerenderSwitch(path) {
+        const node = this.__findSwitch(path);
+        node.__rerender();
+    }
+
+    __historyPushState(title, href) {
+        const currentPath = window.location.pathname;
+        if (currentPath === href) {
+            return;
+        }
+        window.history.pushState({ path: currentPath, title: document.title }, title, href);
+        document.title = title;
+        this.__rerenderSwitch(overallPath(currentPath, href));
+    }
+
+    __clearChildren(root) {
+        const clear = element => {
+            if (element.children) {
+                element.children.forEach(child => clear(child));
+            }
+            if (element !== root) {
+                if (element.clear) {
+                    element.__resetState();
+                    element.clear();
+                }
+            }
+        };
+        clear(root);
     }
 }
 
 export class Softer {
     constructor() {
-        this.apps = {};
         this.store = null;
 
-        window.Softer = this;
+        this.init();
     }
 
     connectStore(store) {
         this.store = store;
     }
 
-    initApp(element, app, props = {}) {
-        const appId = id();
-        const newApp = new app({props, appId});
-        newApp.key = appId;
-        const render = () => Render(element, newApp.render());
-        this.apps[appId] = {render, components: {}};
+    init() {
+        window.Softer = this;
+
         window.addEventListener('popstate', e => {
             e.preventDefault();
-            render();
-        })
-        render();
+        });
     }
 
-    rerenderApp(appId) {
-        this.apps[appId].render();
+    initApp(element, app) {
+        const newApp = new app();
+        newApp.parent = this;
+        newApp.isRoot = true;
+        newApp.clearList = [];
+
+        Render(element, newApp);
     }
 }
+
+const listen = (node, selector, event, clb) => {
+    const query = node.querySelectorAll(selector);
+    if (!query) {
+        return;
+    }
+    query.forEach(element => element.addEventListener(event, e => clb(e)));
+};
 
 /**
  * Рендерит дерево элементов в указаном элементе
  * @param {HTMLElement} element - элемент, в котором будет генерироваться приложение
- * @param {HTMLElement[], Switch} tree - дерево элементов, которое представляет из себя приложение
+ * @param {Component} app - компонента
  */
 export const Render = (element, app) => {
-    element.innerHTML = ''
-    element.appendChild(app);
-}
+    element.innerHTML = '';
+    const node = app.render();
+    app.node = node;
+    element.appendChild(app.node);
+};
 
 /**
  * Маршрутизатор, который выбирает на основании пути (window.location.pathname) подходящий роутер.
  */
-export class Switch {
-    constructor(...routers) {
-        this.routers = routers;
+export class Switch extends Component {
+    constructor(props) {
+        super(props);
     }
 
     checkPathFor(router) {
         const currentPathName = window.location.pathname;
         if (router.exact) {
-            return router.path === currentPathName;
+            return this.props.path || '' + router.path === currentPathName;
         }
         const match = currentPathName.match(router.path);
         return !!match;
@@ -172,15 +302,21 @@ export class Switch {
     /**
      * Выбирает и рендерит роутер в соответствии с window.location.pathname === router.path. Если не нашлось подходящего,
      * выбирает последний. В качестве последнего удобно поставить страницу 404
-     * @return {HTMLElement}
+     * @return {[]}
      */
-    render() {
-        for (let i = 0; i < this.routers.length; i++) {
-            if (this.checkPathFor(this.routers[i])) {
-                return this.routers[i].render();
+    renderRouter() {
+        for (let i = 0; i < this.props.routers.length; i++) {
+            if (this.checkPathFor(this.props.routers[i])) {
+                return [Router, this.props.routers[i]];
             }
         }
-        return this.routers[this.routers.length - 1].render();
+        return [Router, this.props.routers[this.props.routers.length - 1]];
+    }
+
+    render() {
+        return this.create('<div><Router/></div>', {
+            Router: this.renderRouter(),
+        });
     }
 }
 
@@ -195,16 +331,18 @@ export class Router extends Component {
      * @param {Component} component - компонента, которая будет генерироваться
      * @param {Object} props - Опции компоненты
      */
-    constructor({path, component, exact, componentProps, authRequired, appId}) {
-        super({appId});
-        this.path = path;
-        this.exact = exact;
-        this.component = this.place(component, componentProps);
-        this.authRequired = authRequired;
+    constructor(props) {
+        super(props);
+    }
+
+    clear() {
+        if (this.props.component.clear) {
+            this.props.component.clear.bind(this.component)();
+        }
     }
 
     authCheck() {
-        return select(state => state.user.userData);
+        return select(state => state.user.userData.email);
     }
 
     /**
@@ -212,54 +350,23 @@ export class Router extends Component {
      * @return {HTMLElement}
      */
     render() {
-        if (this.authRequired && !this.authCheck()) {
-                this.redirect(...pageSignUp());
-                return document.createElement('div');
-        }
-
-        return this.component.render();
-    }
-}
-
-/**
- * Заменяет тег в HTML элементе на указанный (ые) элементы
- * @param {HTMLElement} element
- * @param {string} selector
- * @param {Node} nodes
- */
-export const replace = (element, selector, ...nodes) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.replaceWith(...nodes));
-}
-
-export const listen = (element, selector, event, clb) => {
-    [...element.querySelectorAll(selector)].forEach(element => element.addEventListener(event, e => clb(e)));
-}
-
-export const ReplacerTo = (element) => {
-    return (context, ...nodes) => {
-        if (nodes.length !== 0) {
-            if (!(context instanceof String)) {
-                throw new TypeError('Неверное использование. Первым аргументом должен быть селектором');
-            }
-            replace(element, context, ...nodes);
-        }
-
-        let selector;
-        for (selector in context) {
-            if (context[selector] instanceof Array) {
-                replace(element, selector, ...context[selector]);
+        if (this.props.authRequired && !this.authCheck()) {
+            const loading = this.useSelector(store => store.user.loading);
+            if (loading) {
+                return this.create('<h2>Загрузка...</h2>');
             } else {
-                replace(element, selector, context[selector]);
+                this.redirect(...pageSignUp());
             }
         }
+        return this.create(
+            `
+        <div>
+            <Component/> 
+        </div>
+        `,
+            {
+                Component: [this.props.component, this.props.componentProps],
+            },
+        );
     }
-}
-
-export const ListenerFor = (element) => {
-    return (selector, event, clb) => listen(element, selector, event, clb);
-}
-
-export const setupNode = (node, content) => {
-    node.innerHTML = content;
-    return [node, ReplacerTo(node), ListenerFor(node)];
 }

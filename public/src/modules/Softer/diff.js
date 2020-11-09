@@ -1,7 +1,7 @@
 const isDate = d => d instanceof Date;
 const isEmpty = o => Object.keys(o).length === 0;
 const isObject = o => o != null && typeof o === 'object';
-const properObject = o => isObject(o) && !o.hasOwnProperty ? { ...o } : o;
+const properObject = o => (isObject(o) && !o.hasOwnProperty ? { ...o } : o);
 
 export default function diff(lhs, rhs) {
     if (lhs === rhs) return {}; // Объекты равны, возвращаем пустой объект
@@ -29,4 +29,4 @@ export default function diff(lhs, rhs) {
 
         return { ...acc, [key]: difference }; // return updated key
     }, deletedValues);
-};
+}

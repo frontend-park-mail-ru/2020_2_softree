@@ -1,0 +1,29 @@
+.bag-info {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    padding: 20px;
+    max-width: 80%;
+}
+
+.bag-info__container {
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    max-width: 100%;
+    margin: 15px;
+}
+
+.modal {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background: #ffffff;
+    box-shadow: 5px 5px 10px #b5b5b5,
+    -5px -5px 10px #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    width: max-content;
+    max-width: 450px;
+    margin: 0 15px;
+}

@@ -1,9 +1,26 @@
 // APP reducer
-export const appStartLoading = 'app/start-loading';
-export const appEndLoading = 'app/end-loading';
+export const appTypes = {
+    START_LOADING: 'app/start-loading',
+    END_LOADING: 'app/end-loading',
+    TOGGLE_CONVERTER: 'app/toggle_converter',
+};
 
-export const userSetData = 'user/set-data';
-export const userDropData = 'user/drop-data';
-export const userSetAvatar = 'user/set-avatar';
-export const userStartLoading = 'user/start-loading';
-export const userEndLoading = 'user/end-loading';
+// USER
+export const userTypes = {
+    SET_DATA: 'user/set-data',
+    DROP_DATA: 'user/drop-data',
+    SET_AVATAR: 'user/set-avatar',
+    START_LOADING: 'user/start-loading',
+    END_LOADING: 'user/end-loading',
+};
+
+//MESSAGE
+export const messageTypes = {
+    HIDE: 'message/hide',
+    SHOW: 'message/show',
+};
+
+//currency
+export const currency = {
+    SET: 'currency/set',
+};
