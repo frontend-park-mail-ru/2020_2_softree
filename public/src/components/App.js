@@ -16,22 +16,12 @@ export default class App extends Component {
     constructor() {
         super();
 
-        window.app = this;
-
         const dispatch = useDispatch();
         dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
     }
 
     initState() {
         return { headerIsOpen: false };
-    }
-
-    printTree(node, level) {
-        console.log('\t'.repeat(level) + node.constructor.name);
-        if (node.children) {
-            console.log('\t'.repeat(level), 'children: ', node.children.map(node => node.constructor.name).join(', '));
-            node.children.forEach(node => this.printTree(node, level + 1));
-        }
     }
 
     togglePage() {
