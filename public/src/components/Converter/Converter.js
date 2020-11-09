@@ -4,6 +4,9 @@ import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { toggleConverter } from '../../store/actions.js';
 import './Converter.css';
 
+import upArrow from '../../images/upArrow.svg';
+import close from '../../images/close.svg';
+
 export default class Converter extends Component {
     constructor() {
         super();
@@ -12,10 +15,9 @@ export default class Converter extends Component {
     initState() {
         return {
             isHidden: false,
-            leftCurrency: 'USD',
-            rightCurrency: 'RUB',
-            leftValue: 1,
-            rightValue: 0.013,
+            leftCurrency: 'RUB',
+            rightCurrency: 'USD',
+            inputValue: 1,
             leftInputFocus: true,
         };
     }
@@ -32,12 +34,45 @@ export default class Converter extends Component {
     }
 
     focus(id) {
-        document.querySelector(`#${id}`).focus();
+        const element = document.querySelector(`#${id}`);
+        element.focus();
+        const strLength = element.value.length * 2;
+        element.setSelectionRange(strLength, strLength);
     }
 
     change(event) {
         const leftInputFocus = event.target.id === 'leftCurrency';
-        this.setState({ leftInputFocus });
+        this.setState({ leftInputFocus, inputValue: +event.target.value });
+        this.focus(event.target.id);
+    }
+
+    calcForInput(isLeft, currencyStore) {
+        const { leftInputFocus, inputValue } = this.state;
+        if (leftInputFocus) {
+            if (isLeft) {
+                return inputValue;
+            }
+            return inputValue * this.calc(currencyStore);
+        }
+        if (isLeft) {
+            return inputValue / this.calc(currencyStore);
+        }
+        return inputValue;
+    }
+
+    options(options, selectedTitle) {
+        return options.map(
+            option =>
+                `<option value='${option.value}' 
+              ${option.title === selectedTitle ? 'selected' : ''}
+             >
+              ${option.title}
+             </option>`,
+        );
+    }
+
+    calc(currencyStore) {
+        return currencyStore[this.state.leftCurrency].value / currencyStore[this.state.rightCurrency].value;
     }
 
     render() {
@@ -64,42 +99,30 @@ export default class Converter extends Component {
                 ? `
         <div class='converter' style='${Styler(converterStyle)}'>
             <div class='converter__control-wrapper'>
-                <div class='converter__hide'><img src="/src/images/upArrow.svg" style='${Styler(
-                    hideArrowStyle,
-                )}' alt="hide"/></div>
+                <div class='converter__hide'><img src='${upArrow}' style='${Styler(hideArrowStyle)}' alt='hide'/></div>
                 <h3 class='converter__control-title'>конвертер</h3>
-                <div class='converter__close'><img src="/src/images/close.svg" alt="close"/></div>
+                <div class='converter__close'><img src='${close}' alt='close'/></div>
             </div>
-            <p class='converter__title'>1 ${this.state.leftCurrency.title} = ${this.state.rightCurrency.value} ${
-                      this.state.rightCurrency.title
-                  }</p> 
+            <p class='converter__title'>
+              1 ${this.state.leftCurrency} = ${this.calc(currency)} ${this.state.rightCurrency}
+            </p> 
             <div class='converter__inputs'>
-                <div class='converter__inputs_container'>
-                    <input type='number' id='leftCurrency' 
-                        value="${this.state.leftCurrency.value}" /> 
+                <div class='converter__inputs-container'>
+                    <input type='text' id='leftCurrency' 
+                        value='${this.calcForInput(true, currency)}' /> 
                     <select>
-                        ${options.map(
-                            option =>
-                                `<option value="${option.value}" ${
-                                    option.title === this.state.leftCurrency.title ? 'selected' : ''
-                                }>${option.title}</option>`,
-                        )}
+                        ${this.options(options, this.state.leftCurrency)}
                     </select>
                 </div>
-                <div class='converter__inputs_container'>
-                    <input type='number' id='rightCurrency'
-                        value="${this.state.rightCurrency.value}"/> 
+                <div class='converter__inputs-container'>
+                    <input type='text' id='rightCurrency'
+                        value='${this.calcForInput(false, currency)}'/> 
                     <select>
-                        ${options.map(
-                            option =>
-                                `<option value="${option.value}" ${
-                                    option.title === this.state.rightCurrency.title ? 'selected' : ''
-                                }>${option.title}</option>`,
-                        )}
+                        ${this.options(options, this.state.rightCurrency)}
                     </select>
                 </div>
             </div>
-            <p class='converter__last_update'>Последнее обновление: 18:30</p>
+            <p class='converter__last-update'>Последнее обновление: 18:30</p>
         </div>
         `
                 : '<div></div>',
@@ -110,7 +133,13 @@ export default class Converter extends Component {
         this.listen('.converter__hide', 'click', this.toggleHide.bind(this));
         this.listen('.converter__close', 'click', () => dispatch(toggleConverter()));
         this.listen('.converter__control-title', 'click', this.toggleHide.bind(this));
-
+        this.listen('input', 'keyup', this.change.bind(this));
+        this.listen('input', 'keypress', e => {
+            if (isNaN(e.key)) {
+                e.preventDefault();
+                return false;
+            }
+        });
         return component;
     }
 }
