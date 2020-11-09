@@ -70,7 +70,6 @@ export class Header extends Component {
     }
 
     render() {
-        console.log('avatar', defaultAvatar);
         const data = this.useSelector(store => store.user.userData);
 
         const isAuth = checkAuth(data);
