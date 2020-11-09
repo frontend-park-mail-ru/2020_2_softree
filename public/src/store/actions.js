@@ -1,8 +1,7 @@
-
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
-import { msgTypeFail, msgTypeSuccess } from '../messages/types.js';
-import { appTypes, messageTypes, userTypes } from "./types";
+import { appTypes, messageTypes, userTypes } from './types';
+import { msgTypes } from '../messages/types';
 
 // APP
 export const startLoading = () => ({ type: appTypes.START_LOADING });
@@ -34,9 +33,9 @@ export const setPhoto = src => {
         try {
             const response = await jpatch(apiUpdateUser(), { avatar: src });
             dispatch(setAvatar(src));
-            syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypeSuccess);
+            syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypes.SUCCESS);
         } catch (e) {
-            syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypeFail);
+            syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypes.FAIL);
         }
     };
 };

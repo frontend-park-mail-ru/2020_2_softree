@@ -1,7 +1,7 @@
 import { Component } from '../modules/Softer/Softer.js';
 import Styler from '../modules/Styler.js';
-import { msgTypeFail, msgTypeNeutral, msgTypeSuccess } from './types.js';
 import './Message.css';
+import { msgTypes } from './types';
 
 export class Message extends Component {
     constructor() {
@@ -13,13 +13,13 @@ export class Message extends Component {
 
         let color;
         switch (message.type) {
-            case msgTypeFail:
+            case msgTypes.FAIL:
                 color = '#ff7575';
                 break;
-            case msgTypeSuccess:
+            case msgTypes.SUCCESS:
                 color = '#99ff7c';
                 break;
-            case msgTypeNeutral:
+            case msgTypes.NEUTRAL:
                 color = 'white';
         }
 

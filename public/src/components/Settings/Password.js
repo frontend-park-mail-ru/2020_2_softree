@@ -2,6 +2,11 @@ import { Component } from '../../modules/Softer/Softer.js';
 import GridField from '../Form/GridField/GridField.js';
 import Submit from '../Form/Submit/Submit.js';
 import ErrorField from '../Form/ErrorField.js';
+import { msgTypes } from '../../messages/types';
+import { showMessage } from '../../store/actions';
+import { useDispatch } from '../../modules/Softer/softer-softex';
+import { apiChangePass } from '../../api';
+import { jpatch } from '../../modules/jfetch';
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -52,7 +57,7 @@ export default class ProfileSettings extends Component {
                 if (status === 200) {
                     this.resetData();
                     this.setState({ errors: {} });
-                    useDispatch()(showMessage('Пароль успешно обновлен!', msgTypeSuccess));
+                    useDispatch()(showMessage('Пароль успешно обновлен!', msgTypes.SUCCESS));
                 }
             })
             .catch(({ data }) => {
