@@ -3,17 +3,15 @@
     justify-content: space-between;
     margin: 10px;
     padding: 10px;
+    max-width: 350px;
 }
 
 .bag-info__container {
-    margin: 20px;
-    align-items: center;
     background: #ffffff;
-    box-shadow: 5px 5px 10px #b5b5b5,
-    -5px -5px 10px #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    max-width: 350px;
-
+    max-width: 100%;
+    margin: 15px;
 }
 
 .modal {
