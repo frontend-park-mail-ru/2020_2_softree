@@ -22,6 +22,14 @@ export default class Converter extends Component {
         };
     }
 
+    afterRerender() {
+        if (this.state.leftInputFocus) {
+            this.focus('leftCurrency');
+        } else {
+            this.focus('rightCurrency');
+        }
+    }
+
     toggleHide() {
         if (this.state.isHidden) {
             this.node.style.bottom = '';
@@ -43,7 +51,6 @@ export default class Converter extends Component {
     change(event) {
         const leftInputFocus = event.target.id === 'leftCurrency';
         this.setState({ leftInputFocus, inputValue: +event.target.value });
-        this.focus(event.target.id);
     }
 
     calcForInput(isLeft, currencyStore) {
@@ -52,12 +59,16 @@ export default class Converter extends Component {
             if (isLeft) {
                 return inputValue;
             }
-            return inputValue * this.calc(currencyStore);
+            return (inputValue * this.calc(currencyStore)).toFixed(3);
         }
         if (isLeft) {
-            return inputValue / this.calc(currencyStore);
+            return (inputValue / this.calc(currencyStore)).toFixed(3);
         }
         return inputValue;
+    }
+
+    changeCurrency(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     options(options, selectedTitle) {
@@ -72,7 +83,9 @@ export default class Converter extends Component {
     }
 
     calc(currencyStore) {
-        return currencyStore[this.state.leftCurrency].value / currencyStore[this.state.rightCurrency].value;
+        return (currencyStore[this.state.leftCurrency].value / currencyStore[this.state.rightCurrency].value).toFixed(
+            3,
+        );
     }
 
     render() {
@@ -110,14 +123,14 @@ export default class Converter extends Component {
                 <div class='converter__inputs-container'>
                     <input type='text' id='leftCurrency' 
                         value='${this.calcForInput(true, currency)}' /> 
-                    <select>
+                    <select name="leftCurrency">
                         ${this.options(options, this.state.leftCurrency)}
                     </select>
                 </div>
                 <div class='converter__inputs-container'>
                     <input type='text' id='rightCurrency'
                         value='${this.calcForInput(false, currency)}'/> 
-                    <select>
+                    <select name="rightCurrency">
                         ${this.options(options, this.state.rightCurrency)}
                     </select>
                 </div>
@@ -140,6 +153,8 @@ export default class Converter extends Component {
                 return false;
             }
         });
+        this.listen('select', 'change', this.changeCurrency.bind(this));
+
         return component;
     }
 }
