@@ -4,14 +4,10 @@
     padding: 15px 0 0;
 }
 
-.header .container {
+.header__container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.header img{
-    filter: invert();
 }
 
 .header__logo {
@@ -22,14 +18,14 @@
     background: white;
 }
 
-.header__logo_text {
+.header__logo-text {
     margin-left: 10px;
     color: black;
     font-size: 28px;
     font-weight: 900;
 }
 
-.header__control_avatar {
+.header__control-avatar {
     cursor: pointer;
     height: 43px;
     object-fit: cover;
@@ -37,7 +33,7 @@
     border-radius: 50%;
 }
 
-.bag__btn {
+.header__bag-btn {
     cursor: pointer;
     height: 43px;
     width: 43px;

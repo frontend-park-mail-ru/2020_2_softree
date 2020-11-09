@@ -78,56 +78,60 @@ export class Header extends Component {
         };
 
         const containerStyle = {
-            justifyContent: isAuth ? '' : 'center',
+            justifyContent: !isAuth && 'center',
         };
+
+        const toggleMenu = () => this.toggleMenu.bind(this)(isAuth);
+        const toggleMainMenu = () => this.toggleMainMenu.bind(this)(isAuth);
 
         const header = this.create(
             `
-            <header class='header'> 
-                <div class='container' style='${Styler(containerStyle)}'>
-                    ${
-                        isAuth
-                            ? `<div class ='bag__btn'>
-                        <img class='header__bag_img' src='${bag}' alt='Bag'/>
-                    </div>`
-                            : ''
-                    }
-                    <div class='header__logo'>
-                        <img class='header__logo_img' src='${logo}' alt='Logo'/>
-                        <p class='header__logo_text'>MoneyCat</p>
-                    </div>
-                    ${
-                        isAuth
-                            ? `<div class='header__control'>
-                        <img class='header__control_avatar' 
-                        style='${data.avatar ? Styler(nonInvertStyle) : ''}' 
-                        src="${data.avatar || defaultAvatar}"
-                        alt='Avatar'/>
-                    </div>`
-                            : ''
-                    }
-                </div>
-                <div class='container drop-menu'>
-                    ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}
-                    ${this.state.mainDropDownMenuIsOpen ? `<MainDropDownMenu/>` : ''}
-                </div>
-            </header>
-        `,
+      <header class='header'>
+        <div class='container header__container' style='${Styler(containerStyle)}'>
+          ${
+              isAuth
+                  ? `
+            <div class ='header__bag-btn'>
+              <img class='header__bag-btn-img' src='${bag}' alt='Bag'/>
+            </div>`
+                  : ''
+          }
+          <div class='header__logo'>
+            <img class='header__logo-img' src='${logo}' alt='Logo'/>
+            <p class='header__logo-text'>MoneyCat</p>
+          </div>
+          ${
+              isAuth
+                  ? `
+            <div class='header__control'>
+              <img class='header__control-avatar'
+                style='${data.avatar ? Styler(nonInvertStyle) : ''}'
+                src="${data.avatar || defaultAvatar}" 
+                alt='Avatar'/> 
+            </div>`
+                  : ''
+          }
+        </div>
+        <div class='container header__drop-menu'>
+          ${this.state.dropDownMenuIsOpen ? `<DropDownMenu/>` : ''}
+          ${this.state.mainDropDownMenuIsOpen ? `<MainDropDownMenu/>` : ''}
+        </div>
+      </header>`,
             {
-                DropDownMenu: [DropDownMenu, { close: () => this.toggleMenu.bind(this)(isAuth) }],
-                MainDropDownMenu: [MainDropDownMenu, { close: () => this.toggleMainMenu.bind(this)(isAuth) }],
+                DropDownMenu: [DropDownMenu, { close: toggleMenu }],
+                MainDropDownMenu: [MainDropDownMenu, { close: toggleMainMenu }],
             },
         );
 
-        this.listen('.header__bag_img', 'click', () => {
+        this.listen('.header__bag-btn', 'click', () => {
             if (this.props.isOpen) {
                 this.props.toggle();
             }
             setTimeout(this.closeAll.bind(this), 200);
         });
-        this.link('.header__bag_img', ...pageProfile());
-        this.listen('.header__control_avatar', 'click', () => this.toggleMenu.bind(this)(isAuth));
-        this.listen('.header__logo', 'click', () => this.toggleMainMenu.bind(this)(isAuth));
+        this.link('.header__bag-btn', ...pageProfile());
+        this.listen('.header__control-avatar', 'click', toggleMenu);
+        this.listen('.header__logo', 'click', toggleMainMenu);
 
         return header;
     }

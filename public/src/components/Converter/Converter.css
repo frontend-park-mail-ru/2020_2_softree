@@ -35,49 +35,49 @@
     transition: transform 200ms;
 }
 
-.converter__inputs_container {
+.converter__inputs-container {
     margin: 10px 0;
 }
 
-.converter__inputs_container input, select {
+.converter__inputs-container input, select {
     font-size: 16px;
     border: #dbdbdb solid 1px;
     padding: 5px;
     border-radius: 10px;
 }
 
-.converter__inputs_container {
+.converter__inputs-container {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.converter__inputs_container select {
+.converter__inputs-container select {
     cursor: pointer;
 }
 
-.converter__inputs_container select:focus {
+.converter__inputs-container select:focus {
     outline: none;
 }
 
-.converter__inputs_container input {
+.converter__inputs-container input {
     width: 150px;
     -moz-appearance: textfield;
 }
 
-.converter__inputs_container input::-webkit-outer-spin-button,
-.converter__inputs_container input::-webkit-inner-spin-button {
+.converter__inputs-container input::-webkit-outer-spin-button,
+.converter__inputs-container input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.converter__inputs_container input:focus {
+.converter__inputs-container input:focus {
     outline: none;
     border-color: gray;
 }
 
-.converter__last_update {
+.converter__last-update {
     color: gray;
     font-size: 11px;
     text-align: center;

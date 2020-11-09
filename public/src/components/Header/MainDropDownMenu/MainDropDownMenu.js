@@ -3,6 +3,8 @@ import { pageMain } from '../../../pages.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import { toggleConverter } from '../../../store/actions.js';
 import Styler from '../../../modules/Styler.js';
+import calc from '../../../images/calc.svg';
+import rates from '../../../images/rates.svg';
 import './MainDropDownMenu.css';
 
 export default class MainDropDownMenu extends Component {
@@ -24,12 +26,12 @@ export default class MainDropDownMenu extends Component {
         <div class="main-drop-down-menu">
             <div class='main-drop-down-menu__action-card' id='show-rates-action'
             style='${window.location.pathname === '/' ? Styler(pushedStyle) : ''}' >
-                <img src='/src/images/rates.svg' alt='Котировки'>
+                <img src='${rates}' alt='Котировки'>
                 <p>Котировки</p>
             </div> 
             <div class='main-drop-down-menu__action-card' id='toggle-converter-action'
                 style='${converterIsOpen ? Styler(pushedStyle) : ''}'>
-                <img src='/src/images/calc.svg' alt='Конвертер'>
+                <img src='${calc}' alt='Конвертер'>
                 <p>Конвертер</p>
             </div> 
         </div>
