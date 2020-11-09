@@ -1,7 +1,7 @@
-import { Component, Switch } from '../../modules/Softer/Softer';
-import ControlPanel from './ControlPanel';
-import User from './User';
-import Password from './Password';
+import { Component, Switch } from '../../modules/Softer/Softer.js';
+import ControlPanel from './ControlPanel.js';
+import User from './User.js';
+import Password from './Password.js';
 
 import './Settings.css';
 

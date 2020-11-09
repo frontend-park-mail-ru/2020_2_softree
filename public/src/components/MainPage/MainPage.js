@@ -47,7 +47,7 @@ export default class MainPage extends Component {
         return this.create(
             `
         <div class="container">
-            <h2 class='block-title'>Валюты</h2>
+            <h2 class='block-title'>Валюта</h2>
             <div class='rates-wrapper'>
                 ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
             </div>

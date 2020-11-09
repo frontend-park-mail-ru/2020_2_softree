@@ -33,16 +33,6 @@ export default class History extends Component {
         };
     }
 
-    // fetchRates() {
-    // jget(apiRates())
-    // .then(({ data }) => {
-    // this.setState({ rates: data });
-    // })
-    // .catch(() => {
-    // this.setState({ error: 'Что-то пошло не так(' });
-    // });
-    // }
-
     clear() {
         super.clear();
         clearInterval(this.interval);
