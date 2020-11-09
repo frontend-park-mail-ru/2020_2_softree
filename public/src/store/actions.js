@@ -1,29 +1,20 @@
-import {
-    APP_START_LOADING,
-    APP_END_LOADING,
-    USER_SET_DATA,
-    USER_DROP_DATA,
-    USER_START_LOADING,
-    USER_END_LOADING,
-    USER_SET_AVATAR,
-    APP_TOGGLE_CONVERTER,
-} from './types.js';
+
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
 import { jget, jpatch } from '../modules/jfetch.js';
-import { MESSAGE_HIDE, MESSAGE_SHOW } from './types.js';
 import { msgTypeFail, msgTypeSuccess } from '../messages/types.js';
+import { appTypes, messageTypes, userTypes } from "./types";
 
 // APP
-export const startLoading = () => ({ type: APP_START_LOADING });
-export const endLoading = () => ({ type: APP_END_LOADING });
-export const toggleConverter = () => ({ type: APP_TOGGLE_CONVERTER });
+export const startLoading = () => ({ type: appTypes.START_LOADING });
+export const endLoading = () => ({ type: appTypes.END_LOADING });
+export const toggleConverter = () => ({ type: appTypes.TOGGLE_CONVERTER });
 
 // USER
-export const setUserData = data => ({ type: USER_SET_DATA, payload: data });
-export const dropUserData = () => ({ type: USER_DROP_DATA });
-export const setAvatar = src => ({ type: USER_SET_AVATAR, payload: src });
-export const startUserDataLoading = () => ({ type: USER_START_LOADING });
-export const endUserDataLoading = () => ({ type: USER_END_LOADING });
+export const setUserData = data => ({ type: userTypes.SET_DATA, payload: data });
+export const dropUserData = () => ({ type: userTypes.DROP_DATA });
+export const setAvatar = src => ({ type: userTypes.SET_AVATAR, payload: src });
+export const startUserDataLoading = () => ({ type: userTypes.START_LOADING });
+export const endUserDataLoading = () => ({ type: userTypes.END_LOADING });
 
 export const fetchUserData = redirectToAuth => {
     return async dispatch => {
@@ -50,15 +41,15 @@ export const setPhoto = src => {
     };
 };
 
-export const hideMessage = () => ({ type: MESSAGE_HIDE });
+export const hideMessage = () => ({ type: messageTypes.HIDE });
 export const showMessage = (message, type, timeout = 2000) => {
     return async dispatch => {
-        dispatch({ type: MESSAGE_SHOW, payload: { message, type } });
+        dispatch({ type: messageTypes.SHOW, payload: { message, type } });
         setTimeout(() => dispatch(hideMessage()), timeout);
     };
 };
 
 const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
-    dispatch({ type: MESSAGE_SHOW, payload: { message, type } });
+    dispatch({ type: messageTypes.SHOW, payload: { message, type } });
     setTimeout(() => dispatch(hideMessage()), timeout);
 };
