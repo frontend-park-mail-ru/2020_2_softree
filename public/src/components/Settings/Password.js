@@ -70,7 +70,9 @@ export default class ProfileSettings extends Component {
                 <form class="password-form">
                     <GridFields/>
                     ${errors['non_field_errors'] ? '<ErrorField/>' : ''}
-                    <SubmitButton/>
+                    <div class="password-btn">
+                        <SubmitButton/>
+                    </div>
                 </form>
             </div>`,
             {
@@ -81,7 +83,7 @@ export default class ProfileSettings extends Component {
                         errors: errors[field.name],
                         required: true,
                         value: this.data[field.name],
-                        gridTemplate: '80px 200px',
+                        gridTemplate: '150px 200px',
                         dataHandler: this.setData.bind(this),
                     })),
                 ],

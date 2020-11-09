@@ -10,10 +10,26 @@
     height: 300px;
     display: flex;
     justify-content: center;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.grid-field {
+    margin: 10px;
+}
+
+.password-form {
+    margin-left: 30px;
 }
 
 .avatar-btn {
     text-align: center;
+}
+
+.password-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px;
 }
 
 .email-flexbox {
@@ -23,6 +39,27 @@
     justify-content: space-between;
 }
 
-.grid-field {
-    margin: 5px;
+@media screen and (max-width: 768px) {
+    .settings-flexbox {
+        display: block;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .control-panel {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .settings-payload__window {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .password-form {
+        margin: auto;
+        max-width: 100%;
+    }
 }
