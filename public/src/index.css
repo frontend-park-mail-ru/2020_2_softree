@@ -31,7 +31,7 @@ input {
     position: fixed;
 }
 
-.modal, .settings-payload {
+.modal {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -47,10 +47,6 @@ input {
 
 .email-flexbox {
     display: flex;
-}
-
-.control-panel {
-    width: max-content;
 }
 
 .modal.auth {
@@ -75,19 +71,8 @@ input {
 
 input[type=email], input[type=password] {
     font-size: 16px;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.btn {
-    background: rgba(230, 230, 230, 100);
     border-radius: 10px;
-    text-align: center;
-    font-size: 16px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    max-width: 300px;
+    padding: 5px;
 }
 
 .exit-btn {
@@ -101,32 +86,30 @@ input[type=email], input[type=password] {
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
 }
 
-.control-panel {
-    position: absolute;
-    left: 0;
-}
-
-.settings-flexbox {
-    display: flex;
-    justify-content: center;
-}
-
 .avatar {
     border: black;
     border-radius: 50%;
     height: 200px;
     width: 200px;
-    background: black;
+    background: white;
     object-fit: cover;
 }
 
-.btn.overal, .btn.password {
-    margin: 10px auto;
+.action-btn {
+    border: #f1f1f1 solid 1px;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+    transition: box-shadow 200ms
 }
 
-.btn:hover {
-    background: #bbb;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+
+.action-btn:hover {
+    border: white solid 1px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .flex-menu {
@@ -189,7 +172,7 @@ input[type=email], input[type=password] {
 }
 
 @media screen and (max-width: 400px) {
-    .btn {
+    .action-btn {
         font-size: 14px;
     }
 }

@@ -3,6 +3,8 @@ import ControlPanel from './ControlPanel.js';
 import User from './User.js';
 import Password from './Password.js';
 
+import './Settings.css';
+
 export default class Settings extends Component {
     constructor() {
         super();
@@ -11,14 +13,12 @@ export default class Settings extends Component {
     render() {
         return this.create(
             `
-            <div class="container-settings">
-                <div class="settings-flexbox">
-                    <div class="settings-ctrl__panel">
-                        <ControlPanel/>
-                    </div>
-                    <div class="settings-payload">
-                        <Content/>
-                    </div>
+            <div class="settings-flexbox container">
+                <div class="settings-ctrl__panel">
+                    <ControlPanel/>
+                </div>
+                <div class="settings-payload__window">
+                    <Content/>
                 </div>
             </div>`,
             {

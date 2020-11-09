@@ -4,7 +4,9 @@ import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import { checkAuth } from '../../utils/utils.js';
 import MainDropDownMenu from './MainDropDownMenu/MainDropDownMenu.js';
+
 import './Header.css';
+
 import defaultAvatar from '../../images/avatar.svg';
 import logo from '../../images/cat.svg';
 import bag from '../../images/bag.svg';

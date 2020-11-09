@@ -1,5 +1,4 @@
 .eslintrc.js
-.eslintignore
 .prettierrc
 .eslint-plugin-prettier.js
 .babelrc
