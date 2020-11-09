@@ -4,10 +4,6 @@ import './Message.css';
 import { msgTypes } from './types';
 
 export class Message extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const message = this.useSelector(store => store.message);
 
