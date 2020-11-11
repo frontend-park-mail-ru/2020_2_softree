@@ -17,9 +17,8 @@ export const jfetch = async (path, options) => {
 
     if (ok) {
         return resp;
-    } else {
-        throw resp;
     }
+    throw resp;
 };
 
 export const jpost = (path, data, options = {}) => {

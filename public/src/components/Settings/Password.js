@@ -61,10 +61,10 @@ export default class ProfileSettings extends Component {
                     useDispatch()(showMessage('Пароль успешно обновлен!', msgTypes.SUCCESS));
                 }
             })
-            .catch(({ data }) => {
+            .catch(data => {
                 console.log('CATCH', data);
-                this.data = {};
-                this.setState({ errors: data });
+                // this.data = {};
+                // this.setState({ errors: data });
             });
     }
 
