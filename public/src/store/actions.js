@@ -1,7 +1,7 @@
 import { apiCheckAuth, apiUpdateUser } from '../api.js';
-import { jget, jpatch } from '../modules/jfetch.js';
 import { appTypes, messageTypes, userTypes } from './types';
 import { msgTypes } from '../messages/types';
+import { jget, jput } from '../modules/jfetch';
 
 // APP
 export const startLoading = () => ({ type: appTypes.START_LOADING });
@@ -31,7 +31,7 @@ export const fetchUserData = redirectToAuth => {
 export const setPhoto = src => {
     return async dispatch => {
         try {
-            const response = await jpatch(apiUpdateUser(), { avatar: src });
+            const response = await jput(apiUpdateUser(), { avatar: src });
             dispatch(setAvatar(src));
             syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypes.SUCCESS);
         } catch (e) {

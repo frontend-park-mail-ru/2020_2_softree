@@ -8,9 +8,9 @@ export const jfetch = async (path, options) => {
         ...options,
     });
 
-    const { ok, status } = response;
+    const { ok, status, headers } = response;
 
-    const resp = { status };
+    const resp = { status, headers };
     try {
         resp.data = await response.json();
     } catch (err) {}
