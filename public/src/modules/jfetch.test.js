@@ -54,44 +54,4 @@ describe('jfetch', () => {
         delete global.fetch;
         done();
     });
-
-    it('jpost - successful response', async done => {
-        const mockSuccessResponse = {
-            test: 'good',
-        };
-        const mockJsonPromise = Promise.resolve(mockSuccessResponse);
-        const mockFetchPromise = Promise.resolve({
-            json: () => mockJsonPromise,
-            ok: true,
-            status: 200,
-        });
-
-        global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-
-        // const resp = await jpost('/');
-        // expect(resp).toEqual({
-        // status: 200,
-        // data: {
-        // test: 'good',
-        // },
-        // });
-
-        jfetch('/')
-            .then(({ data }) => {
-                console.log('THEN', data);
-                expect(data).toEqual({
-                    status: 200,
-                    data: {
-                        test: 'good',
-                    },
-                });
-            })
-            .catch(({ data }) => {
-                console.log('CATCH', data);
-            });
-
-        global.fetch.mockClear();
-        delete global.fetch;
-        done();
-    });
 });
