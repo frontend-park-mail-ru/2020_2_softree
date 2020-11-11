@@ -60,7 +60,6 @@ export default class ProfileSettings extends Component {
                 }
             })
             .catch(response => {
-                console.log('error', response.data);
                 this.setState({ errors: response.data });
             });
     }
