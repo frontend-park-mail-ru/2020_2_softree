@@ -1,5 +1,5 @@
-const hostname = 'https://api.softree.group';
-// const hostname = 'http://localhost:8000';
+// const hostname = 'https://api.softree.group';
+const hostname = 'http://localhost:8000';
 
 export const jfetch = async (path, options) => {
     const response = await fetch(`${hostname}${path}`, {
@@ -9,16 +9,19 @@ export const jfetch = async (path, options) => {
     });
 
     const { ok, status } = response;
-
+    console.log(ok, status);
     const resp = { status };
     try {
         resp.data = await response.json();
-    } catch (err) {}
-
-    if (ok) {
+        console.log('JFETCH', resp);
         return resp;
+    } catch (err) {
+        console.log('EXCEPTION');
+        if (ok) {
+            return resp;
+        }
+        throw resp;
     }
-    throw resp;
 };
 
 export const jpost = (path, data, options = {}) => {

@@ -1,6 +1,6 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 import { pageSettings, pageSignIn } from '../../../pages.js';
-import { jpost } from '../../../modules/jfetch.js';
+import { jdelete, jpost } from '../../../modules/jfetch.js';
 import { apiLogOut } from '../../../api.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import { dropUserData } from '../../../store/actions.js';
@@ -14,7 +14,7 @@ export default class DropDownMenu extends Component {
     logOut(e) {
         e.preventDefault();
         this.props.close();
-        jpost(apiLogOut()).catch(({ status }) => {
+        jdelete(apiLogOut()).catch(({ status }) => {
             if (status === 302) {
                 useDispatch()(dropUserData());
                 this.redirect(...pageSignIn());

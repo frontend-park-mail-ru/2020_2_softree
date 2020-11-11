@@ -1,4 +1,4 @@
-import { jfetch } from './jfetch.js';
+import { jfetch, jput, jpost } from './jfetch.js';
 
 describe('jfetch', () => {
     it('fetches data - successful response', async done => {
@@ -50,6 +50,31 @@ describe('jfetch', () => {
             });
         });
 
+        global.fetch.mockClear();
+        delete global.fetch;
+        done();
+    });
+
+    it('jpost - successful response', async done => {
+        const mockSuccessResponse = {
+            test: 'good',
+        };
+        const mockJsonPromise = Promise.resolve(mockSuccessResponse);
+        const mockFetchPromise = Promise.resolve({
+            json: () => mockJsonPromise,
+            ok: true,
+            status: 200,
+        });
+
+        global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+
+        const resp = await jpost('/');
+        expect(resp).toEqual({
+            status: 200,
+            data: {
+                test: 'good',
+            },
+        });
         global.fetch.mockClear();
         delete global.fetch;
         done();

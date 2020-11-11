@@ -33,7 +33,7 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
-        jpost(apiSignUp(), this.data)
+        jpost(apiSignUp(), { email: this.data.email, password: this.data.password1 })
             .then(() => {
                 useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
                 this.redirect(...pageMain());

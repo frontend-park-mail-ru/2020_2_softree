@@ -2,6 +2,8 @@ import { Component } from '../../modules/Softer/Softer.js';
 import GridField from '../Form/GridField/GridField.js';
 import Submit from '../Form/Submit/Submit.js';
 import ErrorField from '../Form/ErrorField.js';
+import { jput } from '../../modules/jfetch.js';
+import { apiChangePass } from '../../api.js';
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -47,7 +49,7 @@ export default class ProfileSettings extends Component {
             return;
         }
 
-        jpatch(apiChangePass(), this.data)
+        jput(apiChangePass(), { old_password: this.data.oldPassword, new_password: this.data.newPassword })
             .then(({ status }) => {
                 if (status === 200) {
                     this.resetData();
@@ -56,6 +58,7 @@ export default class ProfileSettings extends Component {
                 }
             })
             .catch(({ data }) => {
+                console.log('DATA', data);
                 this.data = {};
                 this.setState({ errors: data });
             });
