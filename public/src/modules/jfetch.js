@@ -9,17 +9,15 @@ export const jfetch = async (path, options) => {
     });
 
     const { ok, status } = response;
-    console.log(ok, status);
+
     const resp = { status };
     try {
         resp.data = await response.json();
-        console.log('JFETCH', resp);
+    } catch (err) {}
+
+    if (ok) {
         return resp;
-    } catch (err) {
-        console.log('EXCEPTION');
-        if (ok) {
-            return resp;
-        }
+    } else {
         throw resp;
     }
 };

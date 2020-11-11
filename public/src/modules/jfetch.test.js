@@ -68,13 +68,28 @@ describe('jfetch', () => {
 
         global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
 
-        const resp = await jpost('/');
-        expect(resp).toEqual({
-            status: 200,
-            data: {
-                test: 'good',
-            },
-        });
+        // const resp = await jpost('/');
+        // expect(resp).toEqual({
+        // status: 200,
+        // data: {
+        // test: 'good',
+        // },
+        // });
+
+        jfetch('/')
+            .then(({ data }) => {
+                console.log('THEN', data);
+                expect(data).toEqual({
+                    status: 200,
+                    data: {
+                        test: 'good',
+                    },
+                });
+            })
+            .catch(({ data }) => {
+                console.log('CATCH', data);
+            });
+
         global.fetch.mockClear();
         delete global.fetch;
         done();

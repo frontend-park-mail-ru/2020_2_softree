@@ -54,6 +54,7 @@ export default class ProfileSettings extends Component {
 
         jput(apiChangePass(), { old_password: this.data.oldPassword, new_password: this.data.newPassword })
             .then(({ status }) => {
+                console.log('THEN', status);
                 if (status === 200) {
                     this.resetData();
                     this.setState({ errors: {} });
@@ -61,7 +62,7 @@ export default class ProfileSettings extends Component {
                 }
             })
             .catch(({ data }) => {
-                console.log('DATA', data);
+                console.log('CATCH', data);
                 this.data = {};
                 this.setState({ errors: data });
             });
