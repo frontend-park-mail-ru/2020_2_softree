@@ -1,3 +1,5 @@
-export const msgTypeSuccess = 'success';
-export const msgTypeNeutral = 'neutral';
-export const msgTypeFail = 'fail';
+export const msgTypes = {
+    SUCCESS: 'success',
+    NEUTRAL: 'neutral',
+    FAIL: 'fail',
+};

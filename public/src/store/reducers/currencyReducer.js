@@ -1,4 +1,4 @@
-import { SET_CURRENCY } from '../types.js';
+import { currencyTypes } from '../types.js';
 
 const localValue = localStorage.getItem('currency');
 const init = localValue
@@ -20,7 +20,7 @@ const init = localValue
 
 export const currencyReducer = (state = init, action) => {
     switch (action.type) {
-        case SET_CURRENCY:
+        case currencyTypes.SET:
             const newState = getNewState(state, action.payload);
             localStorage.setItem('currency', JSON.stringify(newState));
             return newState;
