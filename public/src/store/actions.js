@@ -31,8 +31,8 @@ export const fetchUserData = redirectToAuth => {
 export const setPhoto = src => {
     return async dispatch => {
         try {
-            const response = await jput(apiUpdateUser(), { avatar: src });
             dispatch(setAvatar(src));
+            const response = await jput(apiUpdateUser(), { avatar: src });
             syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypes.SUCCESS);
         } catch (e) {
             syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypes.FAIL);
