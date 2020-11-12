@@ -15,14 +15,14 @@ const optimization = () => {
         },
     };
 
-    if (isProd) {
-        config.minimizer = [new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin()];
-    }
+    // if (isProd) {
+        // config.minimizer = [new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin()];
+    // }
 
     return config;
 };
 
-const filename = ext => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
+const filename = ext => (isDev ? `[name].${ext}` : `[name].[fullhash].${ext}`);
 
 const cssLoaders = extra => {
     const loaders = ['style-loader', 'css-loader'];
@@ -55,10 +55,6 @@ const jsLoaders = () => {
         },
     ];
 
-    if (isDev) {
-        loaders.push('eslint-loader');
-    }
-
     return loaders;
 };
 
@@ -68,7 +64,7 @@ const fileLoaders = () => {
             loader: 'file-loader',
             options: {
                 limit: 8192,
-                name: filename,
+                name: filename('[ext]'),
             },
         },
     ];
@@ -131,28 +127,12 @@ module.exports = {
                 use: cssLoaders(),
             },
             {
-                test: /\.less$/,
-                use: cssLoaders('less-loader'),
-            },
-            {
                 test: /\.s[ac]ss$/,
                 use: cssLoaders('sass-loader'),
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
                 use: fileLoaders(),
-            },
-            {
-                test: /\.(ttf|woff|woff2|eot)$/,
-                use: fileLoaders(),
-            },
-            {
-                test: /\.xml$/,
-                use: fileLoaders(),
-            },
-            {
-                test: /\.csv$/,
-                use: ['csv-loader'],
             },
             {
                 test: /\.js/,
