@@ -14,12 +14,12 @@ export default class DropDownMenu extends Component {
     logOut(e) {
         e.preventDefault();
         this.props.close();
-        jdelete(apiLogOut()).catch(({ status }) => {
-            if (status === 302) {
-                useDispatch()(dropUserData());
-                this.redirect(...pageSignIn());
-            }
-        });
+        const dropAndRedirect = () => {
+            useDispatch()(dropUserData());
+            this.redirect(...pageSignIn());
+        };
+
+        jdelete(apiLogOut()).then(dropAndRedirect).catch(dropAndRedirect);
     }
 
     render() {

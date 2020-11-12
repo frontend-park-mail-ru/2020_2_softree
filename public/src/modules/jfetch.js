@@ -1,12 +1,29 @@
-// const hostname = 'https://api.softree.group';
-const hostname = 'http://localhost:8000';
+import { useDispatch } from './Softer/softer-softex';
+import { showMessage } from '../store/actions';
+import { msgTypes } from '../messages/types';
+
+const hostname = 'https://api.softree.group';
+// const hostname = 'http://localhost:8000';
 
 export const jfetch = async (path, options) => {
-    const response = await fetch(`${hostname}${path}`, {
-        mode: 'cors',
-        credentials: 'include',
-        ...options,
-    });
+    let response;
+    try {
+        response = await fetch(`${hostname}${path}`, {
+            mode: 'cors',
+            credentials: 'include',
+            ...options,
+        });
+    } catch (e) {
+        const dispatch = useDispatch();
+        dispatch(
+            showMessage(
+                'Запрос не выполнился :( Что-то с сервером не так. Уже ругаем бекендеров...',
+                msgTypes.FAIL,
+                3000,
+            ),
+        );
+        return;
+    }
 
     const { ok, status, headers } = response;
 

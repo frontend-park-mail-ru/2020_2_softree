@@ -67,7 +67,7 @@ export const setCurrency = list => {
     };
 };
 
-export const setMarkets = markets => ({ type: marketsTypes.SET, payload: [markets] });
+export const setMarkets = markets => ({ type: marketsTypes.SET, payload: markets });
 export const fetchMarkets = () => {
     return async dispatch => {
         try {

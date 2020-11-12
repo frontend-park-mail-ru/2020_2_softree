@@ -39,8 +39,7 @@ export class SignUp extends Component {
                 this.redirect(...pageMain());
             })
             .catch(({ data }) => {
-                console.log(data);
-                this.setState({ errors: data });
+                this.setState({ errors: data || {} });
             });
     }
 
