@@ -28,13 +28,14 @@ export const fetchUserData = redirectToAuth => {
     };
 };
 
-export const setPhoto = src => {
+export const setPhoto = (src, old) => {
     return async dispatch => {
         try {
             dispatch(setAvatar(src));
             const response = await jput(apiUpdateUser(), { avatar: src });
             syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypes.SUCCESS);
         } catch (e) {
+            dispatch(setAvatar(old));
             syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypes.FAIL);
         }
     };

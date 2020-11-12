@@ -6,11 +6,11 @@ import { setUploadedImage } from '../../utils/utils.js';
 import avatar from '../../images/avatar.svg';
 
 export default class User extends Component {
-    changePhoto(e) {
+    changePhoto(e, oldAvatar) {
         e.preventDefault();
         const dispatch = useDispatch();
         const imgHandler = src => {
-            dispatch(setPhoto(src));
+            dispatch(setPhoto(src, oldAvatar));
         };
         setUploadedImage(e, imgHandler);
     }
@@ -36,7 +36,7 @@ export default class User extends Component {
             document.querySelector('#upload-file').click();
         });
 
-        this.listen('.avatar-input', 'change', e => this.changePhoto(e));
+        this.listen('.avatar-input', 'change', e => this.changePhoto(e, data.avatar));
         return userSettings;
     }
 }
