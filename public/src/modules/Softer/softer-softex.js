@@ -23,7 +23,7 @@ export function useSelector(component, selector, id = null) {
         //    }
         // } catch (e) {}
         component.__rerender();
-    });
+    }, component.id);
     return result;
 }
 

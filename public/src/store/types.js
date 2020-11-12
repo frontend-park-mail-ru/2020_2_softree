@@ -24,3 +24,7 @@ export const messageTypes = {
 export const currencyTypes = {
     SET: 'currency/set',
 };
+
+export const marketsTypes = {
+    SET: 'markets/set',
+};

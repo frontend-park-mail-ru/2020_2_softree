@@ -1,5 +1,5 @@
-import { apiCheckAuth, apiUpdateUser } from '../api.js';
-import { appTypes, messageTypes, userTypes } from './types';
+import { apiCheckAuth, apiMarkets, apiUpdateUser } from '../api.js';
+import { appTypes, currencyTypes, marketsTypes, messageTypes, userTypes } from './types';
 import { msgTypes } from '../messages/types';
 import { jget, jput } from '../modules/jfetch';
 
@@ -51,4 +51,29 @@ export const showMessage = (message, type, timeout = 2000) => {
 const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
     dispatch({ type: messageTypes.SHOW, payload: { message, type } });
     setTimeout(() => dispatch(hideMessage()), timeout);
+};
+
+//Currency
+
+export const setCurrency = list => {
+    return async dispatch => {
+        let store = {};
+        list.forEach(currency => {
+            const { title, value, updated_at } = currency;
+            store = { ...store, [title]: { value, updated_at } };
+        });
+        dispatch({ type: currencyTypes.SET, payload: store });
+    };
+};
+
+export const setMarkets = markets => ({ type: marketsTypes.SET, payload: [markets] });
+export const fetchMarkets = () => {
+    return async dispatch => {
+        try {
+            const response = await jget(apiMarkets());
+            dispatch(setMarkets(response.data));
+        } catch (e) {
+            syncShowMessage(dispatch, 'Не удалось получить котировки (', msgTypes.FAIL);
+        }
+    };
 };

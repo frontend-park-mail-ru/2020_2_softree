@@ -13,6 +13,8 @@ import './index.css';
 const softer = new Softer();
 softer.connectStore(applyMiddlewares(createStore(rootReducer), logger, thunk));
 
+window.softer = softer;
+
 softer.initApp(document.getElementById('root'), App);
 softer.initApp(document.getElementById('message'), Message);
 softer.initApp(document.getElementById('converter'), Converter);

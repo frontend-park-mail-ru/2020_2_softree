@@ -8,16 +8,44 @@ import SignIn from './SignIn/SignIn.js';
 import Settings from './Settings/Settings.js';
 import Page404 from './Page404/Page404.js';
 import { useDispatch } from '../modules/Softer/softer-softex.js';
-import { fetchUserData } from '../store/actions.js';
+import { fetchUserData, setCurrency } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
 import Styler from '../modules/Styler.js';
+import { jget } from '../modules/jfetch';
+import { apiRates } from '../api';
 
 export default class App extends Component {
     constructor() {
         super();
+        this.dispatch = useDispatch();
+        this.dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
+        this.interval = false;
+    }
 
-        const dispatch = useDispatch();
-        dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
+    fetchRates() {
+        jget(apiRates())
+            .then(response => {
+                this.dispatch(setCurrency(response.data));
+            })
+            .catch(() => {
+                this.setState({ error: 'Что-то пошло не так(' });
+            });
+    }
+
+    subscribe() {
+        if (this.interval) {
+            return;
+        }
+        if (this.useSelector(store => store.user.userData)) {
+            this.fetchRates();
+            this.interval = setInterval(() => this.fetchRates(), 60000);
+        }
+    }
+
+    clear() {
+        super.clear();
+        clearInterval(this.interval);
+        this.interval = null;
     }
 
     initState() {
@@ -35,6 +63,8 @@ export default class App extends Component {
     }
 
     render() {
+        this.subscribe();
+
         const pageStyle = {
             top: this.state.headerIsOpen ? '160px' : '',
         };
