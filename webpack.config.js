@@ -15,9 +15,16 @@ const optimization = () => {
         },
     };
 
-    // if (isProd) {
-        // config.minimizer = [new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin()];
-    // }
+    if (isProd) {
+        config.minimizer = [
+            new CssMinimizerWebpackPlugin(),
+            new TerserWebpackPlugin({
+                terserOptions: {
+                    mangle: false,
+                },
+            }),
+        ];
+    }
 
     return config;
 };
@@ -64,7 +71,9 @@ const fileLoaders = () => {
             loader: 'file-loader',
             options: {
                 limit: 8192,
-                name: filename('[ext]'),
+                name() {
+                    return isDev ? '[path][name].[ext]' : '[contenthash].[ext]';
+                },
             },
         },
     ];
