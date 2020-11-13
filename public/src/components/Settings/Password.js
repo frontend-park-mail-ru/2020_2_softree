@@ -52,9 +52,7 @@ export default class ProfileSettings extends Component {
         e.preventDefault();
         const errors = this.validator.validatePassword(this.data.newPassword, this.data.repeatPassword);
         if (errors.length > 0) {
-            errors.forEach(error => {
-                this.setState({ errors: error });
-            });
+            this.setState({ errors: { non_field_errors: errors } });
             return;
         }
 
@@ -76,7 +74,7 @@ export default class ProfileSettings extends Component {
         const password = this.create(
             `
             <div>
-                <form class="password-form">
+                <form class="password-form" novalidate>
                     <GridFields/>
                     ${errors['non_field_errors'] ? '<ErrorField/>' : ''}
                     <div class="password-btn">
@@ -97,7 +95,7 @@ export default class ProfileSettings extends Component {
                     })),
                 ],
                 SubmitButton: [Submit, 'Подтвердить'],
-                ErrorField: [ErrorField, errors.non_field_errors],
+                ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );
 
