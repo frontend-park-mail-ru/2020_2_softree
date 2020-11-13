@@ -1,4 +1,4 @@
-import { jfetch, jput, jpost } from './jfetch.js';
+import { jfetch } from './jfetch.js';
 
 describe('jfetch', () => {
     it('fetches data - successful response', async done => {

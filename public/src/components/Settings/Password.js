@@ -7,6 +7,7 @@ import { showMessage } from '../../store/actions';
 import { useDispatch } from '../../modules/Softer/softer-softex';
 import { apiChangePass } from '../../api';
 import { jput } from '../../modules/jfetch';
+import Validator from '../../modules/validator/validator.js';
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -34,6 +35,8 @@ export default class ProfileSettings extends Component {
             newPassword: '',
             repeatPassword: '',
         };
+
+        this.validator = new Validator();
     }
 
     initState() {
@@ -47,8 +50,11 @@ export default class ProfileSettings extends Component {
 
     changePass(e) {
         e.preventDefault();
-        if (e.newPassword1 !== e.newPassword2) {
-            this.setState({ errors: { errors: ['Пароли не совпадают'] } });
+        const errors = this.validator.validatePassword(this.data.newPassword, this.data.repeatPassword);
+        if (errors.length > 0) {
+            errors.forEach(error => {
+                this.setState({ errors: error });
+            });
             return;
         }
 
