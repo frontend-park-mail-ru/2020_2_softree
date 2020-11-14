@@ -4,9 +4,10 @@ import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
 import { apiTransactions } from '../../../../api';
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
-import { showMessage } from '../../../../store/actions';
+import { dropUserData, showMessage } from "../../../../store/actions";
 import { msgTypes } from '../../../../messages/types';
 import { jpost } from '../../../../modules/jfetch';
+import { pageSignUp } from "../../../../pages";
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -34,9 +35,16 @@ export default class OpenedRate extends Component {
             .then(resp => {
                 useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
             })
-            .then(resp => {
-              console.log("FAIL")
-                useDispatch()(showMessage('Не хватает денег на счету :(', msgTypes.FAIL));
+            .catch(resp => {
+                const dispatch = useDispatch();
+                if (resp.status === 401) {
+                    dispatch(showMessage('Нет авторизации :(', msgTypes.FAIL))
+                    dispatch(dropUserData())
+                    this.redirect(...pageSignUp())
+                } else {
+                    dispatch(showMessage('Недостаточно средств' +
+                      ' для совершения операции :(', msgTypes.FAIL))
+                }
             });
     }
 
