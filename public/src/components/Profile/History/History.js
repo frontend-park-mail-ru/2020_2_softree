@@ -54,7 +54,7 @@ export default class History extends Component {
                         key: idx,
                         date: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[0],
                         time: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[1],
-                        value: (+history.value).toFixed(2),
+                        value: (+history.value).toFixed(3),
                     })),
                 ],
             },

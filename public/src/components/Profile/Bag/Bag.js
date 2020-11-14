@@ -45,7 +45,7 @@ export default class Bag extends Component {
                 <h2 class='block-title'>Счет</h2>
                     <div class='bag-info__container'>
                         <p>ВСЕГО</p>
-                        <p>${total}</p>
+                        <p>${total} </p>
                     </div>
                 <h2 class='block-title'>Валюта</h2>
                 <div>
@@ -59,7 +59,7 @@ export default class Bag extends Component {
                     currencies.map((element, idx) => ({
                         ...element,
                         key: idx,
-                        value: (+element.value).toFixed(2),
+                        value: (+element.value).toFixed(3),
                     })),
                 ],
             },
