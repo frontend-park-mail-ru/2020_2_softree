@@ -4,10 +4,10 @@ import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
 import { apiTransactions } from '../../../../api';
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
-import { dropUserData, showMessage } from "../../../../store/actions";
+import { dropUserData, showMessage } from '../../../../store/actions';
 import { msgTypes } from '../../../../messages/types';
 import { jpost } from '../../../../modules/jfetch';
-import { pageSignUp } from "../../../../pages";
+import { pageSignUp } from '../../../../pages';
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ export default class OpenedRate extends Component {
             from = this.props.currency;
             to = this.props.base;
         }
-        const { amount } = this.data;
+        const amount = +document.querySelector('#rate-amount-input').value;
 
         jpost(apiTransactions(), { from, to, amount })
             .then(resp => {
@@ -38,12 +38,11 @@ export default class OpenedRate extends Component {
             .catch(resp => {
                 const dispatch = useDispatch();
                 if (resp.status === 401) {
-                    dispatch(showMessage('Нет авторизации :(', msgTypes.FAIL))
-                    dispatch(dropUserData())
-                    this.redirect(...pageSignUp())
+                    dispatch(showMessage('Нет авторизации :(', msgTypes.FAIL));
+                    dispatch(dropUserData());
+                    this.redirect(...pageSignUp());
                 } else {
-                    dispatch(showMessage('Недостаточно средств' +
-                      ' для совершения операции :(', msgTypes.FAIL))
+                    dispatch(showMessage('Недостаточно средств' + ' для совершения операции :(', msgTypes.FAIL));
                 }
             });
     }
