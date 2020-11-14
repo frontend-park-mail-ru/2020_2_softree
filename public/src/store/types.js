@@ -12,6 +12,8 @@ export const userTypes = {
     SET_AVATAR: 'user/set-avatar',
     START_LOADING: 'user/start-loading',
     END_LOADING: 'user/end-loading',
+    SET_ACCOUNTS: 'user/set-accounts',
+    SET_HISTORIES: 'user/set-history',
 };
 
 //MESSAGE
