@@ -1,0 +1,78 @@
+.opened-rate {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 800px;
+    cursor: initial;
+}
+
+.opened-rate__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.opened-rate__chart {
+    width: 100%;
+    height: 350px;
+    margin: 10px auto;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.opened-rate__control-panel {
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
+    justify-content: space-around;
+}
+
+.opened-rate__amount-input {
+    font-size: 16px;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    border: 1px rgba(0, 0, 0, 0.4) solid;
+    border-radius: 5px;
+}
+
+.opened-rate__btn {
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.7);
+    transition: box-shadow 200ms;
+    cursor: pointer;
+}
+
+.opened-rate__close-btn {
+    cursor: pointer;
+}
+
+.opened-rate__btn.buy {
+    background: #2ecd2e;
+}
+
+.opened-rate__btn.buy:hover {
+    box-shadow: 5px 5px 10px #73d473;
+}
+
+.opened-rate__btn.sell {
+    background: #dc2222;
+}
+
+.opened-rate__btn.sell:hover {
+    box-shadow: 5px 5px 10px #dc5d5d;
+}

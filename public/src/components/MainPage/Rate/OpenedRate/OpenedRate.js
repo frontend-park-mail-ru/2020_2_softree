@@ -1,0 +1,80 @@
+import './OpenedRate.css';
+import { Component } from '../../../../modules/Softer/Softer';
+import close from '../../../../images/close.svg';
+import { changeHandler } from '../../../../utils/utils';
+import { apiTransactions } from '../../../../api';
+import { useDispatch } from '../../../../modules/Softer/softer-softex';
+import { showMessage } from '../../../../store/actions';
+import { msgTypes } from '../../../../messages/types';
+import { jpost } from '../../../../modules/jfetch';
+
+export default class OpenedRate extends Component {
+    constructor(props) {
+        super(props);
+
+        this.doNotReset = true;
+    }
+
+    initData() {
+        return {
+            amount: '',
+        };
+    }
+
+    action(action) {
+        let from = this.props.base;
+        let to = this.props.currency;
+        if (action === 'buy') {
+            from = this.props.currency;
+            to = this.props.base;
+        }
+        const { amount } = this.data;
+
+        jpost(apiTransactions(), { from, to, amount })
+            .then(resp => {
+                useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
+            })
+            .then(resp => {
+              console.log("FAIL")
+                useDispatch()(showMessage('Не хватает денег на счету :(', msgTypes.FAIL));
+            });
+    }
+
+    render() {
+        const { base, currency, toggle } = this.props;
+
+        const element = this.create(`
+    <div class="wrapper">
+      <div class="opened-rate"> 
+        <header class="opened-rate__header">
+          <h2>${base}/${currency}</h2> 
+          <img src="${close}" class="opened-rate__close-btn" alt="close"/>
+        </header>
+        <div class="opened-rate__chart">График</div>
+        <input class="opened-rate__amount-input"
+               id="rate-amount-input"
+               value="${this.data.amount}"
+               name="amount"
+               type="number"
+               placeholder="Введите сумму"/>
+        <div class="opened-rate__control-panel">
+           <div class="opened-rate__btn buy">BUY</div>
+           <div class="opened-rate__btn sell">SELL</div>
+        </div>
+      </div> 
+    </div>
+    `);
+
+        this.listen('.opened-rate__amount-input', 'keydown', e => {
+            changeHandler(e, this.setData.bind(this));
+        });
+
+        this.listen('.opened-rate', 'click', e => e.stopPropagation());
+        this.listen('.opened-rate__close-btn', 'click', toggle);
+
+        this.listen('.opened-rate__btn.buy', 'click', () => this.action.bind(this)('buy'));
+        this.listen('.opened-rate__btn.sell', 'click', () => this.action.bind(this)('sell'));
+
+        return element;
+    }
+}

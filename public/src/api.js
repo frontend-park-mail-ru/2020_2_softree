@@ -7,3 +7,4 @@ export const apiRates = () => '/api/rates'; // get: [{title: str, change: float,
 export const apiRate = id => `/api/rates/${id}`; // get: {title: str, change: float, buy: float, sell: float} -> 200 | 400
 export const apiChangePass = () => '/api/users/change-password'; // put: {old_password: str, new_password: str} -> 200 | 400
 export const apiMarkets = () => '/api/markets';
+export const apiTransactions = () => '/api/transactions';
