@@ -29,7 +29,7 @@ export default class Rate extends Component {
         const { state } = this;
         props.change = 1;
         const headerStyle = {
-            background: props.change >= 0 ? '#60992D' : '#E71D36',
+            background: props.change >= 0 ? '#73d473' : '#E71D36',
         };
 
         const element = this.create(

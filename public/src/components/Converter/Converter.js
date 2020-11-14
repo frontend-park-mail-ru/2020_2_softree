@@ -131,7 +131,6 @@ export default class Converter extends Component {
                     </select>
                 </div>
             </div>
-            <p class='converter__last-update'>Последнее обновление: 18:30</p>
         </div>
         `
                 : '<div></div>',
