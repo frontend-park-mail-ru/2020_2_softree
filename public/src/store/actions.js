@@ -14,6 +14,8 @@ export const dropUserData = () => ({ type: userTypes.DROP_DATA });
 export const setAvatar = src => ({ type: userTypes.SET_AVATAR, payload: src });
 export const startUserDataLoading = () => ({ type: userTypes.START_LOADING });
 export const endUserDataLoading = () => ({ type: userTypes.END_LOADING });
+export const setUserAccount = data => ({ type: userTypes.SET_ACCOUNTS, payload: data });
+export const setUserHistory = data => ({ type: userTypes.SET_HISTORIES, payload: data });
 
 export const fetchUserData = redirectToAuth => {
     return async dispatch => {
@@ -54,8 +56,7 @@ const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
     setTimeout(() => dispatch(hideMessage()), timeout);
 };
 
-//Currency
-
+// Currency
 export const setCurrency = list => {
     return async dispatch => {
         let store = {};
@@ -67,6 +68,7 @@ export const setCurrency = list => {
     };
 };
 
+// Market
 export const setMarkets = markets => ({ type: marketsTypes.SET, payload: markets });
 export const fetchMarkets = () => {
     return async dispatch => {

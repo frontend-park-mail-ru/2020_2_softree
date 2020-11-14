@@ -6,6 +6,8 @@ const initState = {
         avatar: null,
     },
     loading: false,
+    accounts: [],
+    histories: [],
 };
 
 const userReducer = (state = initState, action) => {
@@ -23,6 +25,10 @@ const userReducer = (state = initState, action) => {
             return { ...state, loading: true };
         case userTypes.END_LOADING:
             return { ...state, loading: false };
+        case userTypes.SET_ACCOUNTS:
+            return { ...state, accounts: action.payload };
+        case userTypes.SET_HISTORIES:
+            return { ...state, histories: action.payload };
         default:
             return state;
     }

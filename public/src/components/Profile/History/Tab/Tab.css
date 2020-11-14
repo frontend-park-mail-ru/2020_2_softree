@@ -9,12 +9,13 @@
 }
 
 .history-card {
-    width: max-content;
+    width: 80%;
+    max-width: 350px;
+    margin: 20px auto;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     background: white;
     display: block;
-    margin: 10px;
 }
 
 .history-card__body {
