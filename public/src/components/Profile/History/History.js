@@ -4,6 +4,7 @@ import { apiHistory } from '../../../api.js';
 import { setUserHistory } from '../../../store/actions.js';
 import { jget } from '../../../modules/jfetch.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
+import Styler from "../../../modules/Styler";
 export default class History extends Component {
     constructor() {
         super();
@@ -19,6 +20,20 @@ export default class History extends Component {
         });
     }
 
+    resolve(histories) {
+        const style = {
+            color: 'gray'
+        }
+        if (!this.isFetched) {
+            return `<h3 style="${Styler(style)}">История подгружается...</h3>`;
+        }
+        if (histories.length === 0) {
+            return `<h3 style="${Styler(style)}">Вы еще не совершали операций :(</h3>`;
+        } else {
+            return '<Tabs></Tabs>';
+        }
+    }
+
     render() {
         const histories = this.useSelector(store => store.user.histories);
 
@@ -27,7 +42,7 @@ export default class History extends Component {
         <div class="container">
             <h2 class='block-title'>История</h2>
             <div class='rates-wrapper'>
-                ${!this.isFetched ? '<h1>История подгружается...</h1>' : '<Tabs></Tabs>'}
+                ${this.resolve(histories)}
             </div>
         </div>
         `,

@@ -2,11 +2,11 @@ import './OpenedRate.css';
 import { Component } from '../../../../modules/Softer/Softer';
 import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
-import { apiHistory, apiTransactions, apiUserAccounts } from "../../../../api";
+import { apiHistory, apiTransactions, apiUserAccounts } from '../../../../api';
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
-import { dropUserData, setUserAccount, setUserHistory, showMessage } from "../../../../store/actions";
+import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
 import { msgTypes } from '../../../../messages/types';
-import { jget, jpost } from "../../../../modules/jfetch";
+import { jget, jpost } from '../../../../modules/jfetch';
 import { pageSignUp } from '../../../../pages';
 
 export default class OpenedRate extends Component {
@@ -43,7 +43,7 @@ export default class OpenedRate extends Component {
             to = this.props.base;
         }
         const amount = +document.querySelector('#rate-amount-input').value;
-        this.setData({amount});
+        this.setData({ amount });
 
         jpost(apiTransactions(), { from, to, amount })
             .then(resp => {

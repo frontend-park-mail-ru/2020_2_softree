@@ -6,7 +6,7 @@ import Currency from './Currency.js';
 import { jget } from '../../../modules/jfetch.js';
 
 import './Bag.css';
-import { select } from "../../../modules/Softer/softer-softex";
+import { select } from '../../../modules/Softer/softer-softex';
 
 export default class Bag extends Component {
     constructor() {
@@ -27,16 +27,12 @@ export default class Bag extends Component {
         let sum = 0;
         accounts.forEach(account => {
             sum += this.calc(currencyStore, account.title, 'RUB') * account.value;
-        })
+        });
         return sum.toFixed(3);
     }
 
-
-
     calc(currencyStore, from, to) {
-        return (currencyStore[to].value / currencyStore[from].value).toFixed(
-            3,
-        );
+        return (currencyStore[to].value / currencyStore[from].value).toFixed(3);
     }
 
     render() {
