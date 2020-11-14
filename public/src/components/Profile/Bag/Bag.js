@@ -6,13 +6,13 @@ import Currency from './Currency.js';
 import { jget } from '../../../modules/jfetch.js';
 
 import './Bag.css';
+import { select } from "../../../modules/Softer/softer-softex";
 
 export default class Bag extends Component {
     constructor() {
         super();
 
         this.fetchAccounts();
-        this.total = this.getTotal();
     }
 
     fetchAccounts() {
@@ -22,23 +22,26 @@ export default class Bag extends Component {
         });
     }
 
-    getTotal() {
-        const currencies = this.useSelector(store => store.user.accounts);
-        const buf = 0;
-        // currencies.forEach(element => {
-            // 
-        // });
-
+    getTotal(accounts) {
+        const currencyStore = select(store => store.currency);
+        let sum = 0;
+        accounts.forEach(account => {
+            sum += this.calc(currencyStore, account.title, 'RUB') * account.value;
+        })
+        return sum.toFixed(3);
     }
 
-    calc(currencyStore) {
-        return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value).toFixed(
+
+
+    calc(currencyStore, from, to) {
+        return (currencyStore[to].value / currencyStore[from].value).toFixed(
             3,
         );
     }
 
     render() {
         const currencies = this.useSelector(store => store.user.accounts);
+        const total = this.getTotal(currencies);
 
         return this.create(
             `
@@ -46,7 +49,7 @@ export default class Bag extends Component {
                 <h2 class='block-title'>Счет</h2>
                     <div class='bag-info__container'>
                         <p>ВСЕГО</p>
-                        <p>${this.total < 0 ? '' : this.total}</p>
+                        <p>${total}</p>
                     </div>
                 <h2 class='block-title'>Валюта</h2>
                 <div>

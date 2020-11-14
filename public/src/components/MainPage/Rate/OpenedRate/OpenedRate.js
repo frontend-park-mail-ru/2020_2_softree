@@ -2,11 +2,11 @@ import './OpenedRate.css';
 import { Component } from '../../../../modules/Softer/Softer';
 import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
-import { apiTransactions } from '../../../../api';
+import { apiHistory, apiTransactions, apiUserAccounts } from "../../../../api";
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
-import { dropUserData, showMessage } from '../../../../store/actions';
+import { dropUserData, setUserAccount, setUserHistory, showMessage } from "../../../../store/actions";
 import { msgTypes } from '../../../../messages/types';
-import { jpost } from '../../../../modules/jfetch';
+import { jget, jpost } from "../../../../modules/jfetch";
 import { pageSignUp } from '../../../../pages';
 
 export default class OpenedRate extends Component {
