@@ -18,14 +18,17 @@ export default class Rate extends Component {
             <div class="history-card__body">
                 <div class="history-card__body_field">
                     <div class="history-card__body_field-title history-flexbox">
-                        <p class="history-text">Валютная пара</p>
                         <p class="history-text">${props.from}</p>
-                        <p class="history-text">/</p>
+                        <p class="history-text" style="font-size: 25px">☞</p>
                         <p class="history-text">${props.to}</p>
                     </div>
                     <div class="history-card__body_field-amount history-flexbox">
                         <p class="history-text">Объем</p>
                         <p class="history-text">${props.amount}</p>
+                    </div>
+                    <div class="history-card__body_field-amount history-flexbox">
+                        <p class="history-text">Цена</p>
+                        <p class="history-text">${props.value}</p>
                     </div>
                 </div>
             </div>

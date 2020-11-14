@@ -10,10 +10,9 @@ import './Bag.css';
 export default class Bag extends Component {
     constructor() {
         super();
-        this.total = -1;
 
         this.fetchAccounts();
-        this.getTotal();
+        this.total = this.getTotal();
     }
 
     fetchAccounts() {
@@ -25,10 +24,11 @@ export default class Bag extends Component {
 
     getTotal() {
         const currencies = this.useSelector(store => store.user.accounts);
-        
-        currencies.forEach(element => {
-            
-        });
+        const buf = 0;
+        // currencies.forEach(element => {
+            // 
+        // });
+
     }
 
     calc(currencyStore) {
@@ -39,6 +39,7 @@ export default class Bag extends Component {
 
     render() {
         const currencies = this.useSelector(store => store.user.accounts);
+
         return this.create(
             `
             <div class="container">
@@ -59,7 +60,7 @@ export default class Bag extends Component {
                     currencies.map((element, idx) => ({
                         ...element,
                         key: idx,
-                        value: parseFloat(element.value).toFixed(2),
+                        value: (+element.value).toFixed(2),
                     })),
                 ],
             },

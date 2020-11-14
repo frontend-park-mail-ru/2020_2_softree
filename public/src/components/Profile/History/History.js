@@ -7,10 +7,12 @@ import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 export default class History extends Component {
     constructor() {
         super();
+        this.isFetched = false;
         this.fetchHistory();
     }
 
     fetchHistory() {
+        this.isFetched = true;
         const dispatch = useDispatch();
         jget(apiHistory()).then(resp => {
             dispatch(setUserHistory(resp.data));
@@ -25,7 +27,7 @@ export default class History extends Component {
         <div class="container">
             <h2 class='block-title'>История</h2>
             <div class='rates-wrapper'>
-                ${histories.length === 0 ? '<h1>История подгружается...</h1>' : '<Tabs></Tabs>'}
+                ${!this.isFetched ? '<h1>История подгружается...</h1>' : '<Tabs></Tabs>'}
             </div>
         </div>
         `,
@@ -37,6 +39,7 @@ export default class History extends Component {
                         key: idx,
                         date: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[0],
                         time: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[1],
+                        value: (+history.value).toFixed(2),
                     })),
                 ],
             },

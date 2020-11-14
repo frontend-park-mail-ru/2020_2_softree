@@ -22,6 +22,19 @@ export default class OpenedRate extends Component {
         };
     }
 
+    fetchAccounts() {
+        const dispatch = useDispatch();
+        jget(apiUserAccounts()).then(resp => {
+            dispatch(setUserAccount(resp.data));
+        });
+    }
+    fetchHistory() {
+        const dispatch = useDispatch();
+        jget(apiHistory()).then(resp => {
+            dispatch(setUserHistory(resp.data));
+        });
+    }
+
     action(action) {
         let from = this.props.base;
         let to = this.props.currency;
@@ -34,6 +47,8 @@ export default class OpenedRate extends Component {
         jpost(apiTransactions(), { from, to, amount })
             .then(resp => {
                 useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
+                this.fetchAccounts();
+                this.fetchHistory();
             })
             .catch(resp => {
                 const dispatch = useDispatch();
