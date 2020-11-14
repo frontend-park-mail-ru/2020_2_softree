@@ -30,6 +30,7 @@ export default class OpenedRate extends Component {
             to = this.props.base;
         }
         const amount = +document.querySelector('#rate-amount-input').value;
+        this.setData({amount});
 
         jpost(apiTransactions(), { from, to, amount })
             .then(resp => {
