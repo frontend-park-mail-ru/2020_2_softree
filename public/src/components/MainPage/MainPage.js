@@ -42,10 +42,11 @@ export default class MainPage extends Component {
             {
                 Rates: [
                     Rate,
-                    markets.map(market => ({
+                    markets.map((market, idx) => ({
                         ...market,
                         left: currency[market.base].value,
                         right: currency[market.title].value,
+                        key: idx,
                     })),
                 ],
             },

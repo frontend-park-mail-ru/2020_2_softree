@@ -24,7 +24,7 @@ export class Component {
         this.node = null;
         this.isRoot = false;
         this.doNotReset = false;
-        this.key = 0;
+        this.key = props.key || 0;
     }
 
     initState() {
@@ -88,8 +88,8 @@ export class Component {
      * @param {Object} props
      * @return {*}
      */
-    __place(component, props = {}) {
-        const idx = this.__includes(component);
+    __place(component, props = { key: 0 }) {
+        const idx = this.__includes(component, props.key);
         if (idx === -1) {
             const newComponent = new component(props);
             newComponent.parent = this;
@@ -108,12 +108,13 @@ export class Component {
         }
     }
 
-    __includes(component) {
+    __includes(component, key = 0) {
         for (let idx = 0; idx < this.children.length; idx++) {
-            if (this.children[idx].constructor.name === component.name) {
+            if (this.children[idx].constructor.name === component.name && this.children[idx].key === key) {
                 return idx;
             }
         }
+
         return -1;
     }
 
@@ -263,6 +264,10 @@ export class Softer {
 }
 
 const listen = (node, selector, event, clb) => {
+    if (node.matches(selector)) {
+        node.addEventListener(event, e => clb(e));
+    }
+
     const query = node.querySelectorAll(selector);
     if (!query) {
         return;

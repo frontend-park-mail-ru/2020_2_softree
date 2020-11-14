@@ -13,6 +13,7 @@
     background: white;
     display: inline-block;
     margin: 5px;
+    cursor: pointer;
 }
 
 .rate-card__body {

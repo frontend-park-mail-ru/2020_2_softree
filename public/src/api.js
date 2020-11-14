@@ -9,3 +9,4 @@ export const apiChangePass = () => '/api/users/change-password';
 export const apiMarkets = () => '/api/markets';
 export const apiUserAccounts = () => '/api/accounts';
 export const apiHistory = () => '/api/transactions';
+export const apiTransactions = () => '/api/transactions';
