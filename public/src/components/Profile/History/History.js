@@ -4,7 +4,7 @@ import { apiHistory } from '../../../api.js';
 import { setUserHistory } from '../../../store/actions.js';
 import { jget } from '../../../modules/jfetch.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
-import Styler from "../../../modules/Styler";
+import Styler from '../../../modules/Styler';
 export default class History extends Component {
     constructor() {
         super();
@@ -22,8 +22,8 @@ export default class History extends Component {
 
     resolve(histories) {
         const style = {
-            color: 'gray'
-        }
+            color: 'gray',
+        };
         if (!this.isFetched) {
             return `<h3 style="${Styler(style)}">История подгружается...</h3>`;
         }
