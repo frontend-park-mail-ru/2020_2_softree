@@ -18,23 +18,27 @@ self.addEventListener('message', event => {
 });
 
 self.addEventListener('fetch', event => {
-  const { request } = event;
+    const { request } = event;
+    const url = new URL(request.url);
 
-  if (navigator.onLine) {
-    return fetch(request);
-  }
-
-  event.respondWith(
+    event.respondWith(
         caches
             .match(request)
-            .then(cachedResponse => {
-                if (cachedResponse) {
-                  return cachedResponse;
+            .then(async cachedResponse => {
+                if (navigator.onLine) {
+                    if (!url.href.includes('/api/')) {
+                        const response = await fetch(request);
+                        caches.open(KEY).then(cache => cache.put(request, response));
+                        return response;
+                    }
+                    return fetch(request);
                 }
 
-                const url = new URL(request.url);
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
 
-                if (url.href.includes('api')) {
+                if (url.href.includes('/api/')) {
                     const init = {
                         status: 418,
                         statusText: 'Offline Mode',
@@ -43,6 +47,16 @@ self.addEventListener('fetch', event => {
                     const data = { message: 'Контент недоступен в оффлайн режиме' };
                     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                     return new Response(blob, init);
+                } else {
+                    const baseUrl = url.toString().replace(url.pathname, '/');
+                    try {
+                        const cache = await caches.open(KEY);
+                        const keys = await cache.keys();
+                        const request = keys.find(key => key.url.toString() === baseUrl);
+                        return await caches.match(request);
+                    } catch (e) {
+                        console.dir(e);
+                    }
                 }
             })
             .catch(err => {

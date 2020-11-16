@@ -34,13 +34,7 @@ export const jfetch = async (path, options) => {
     } catch (err) {}
 
     if (status === 418) {
-        dispatch(
-          showMessage(
-            resp.data.message,
-            msgTypes.FAIL,
-            3000,
-          ),
-        );
+        dispatch(showMessage(resp.data.message, msgTypes.FAIL, 3000));
     }
 
     if (ok) {
