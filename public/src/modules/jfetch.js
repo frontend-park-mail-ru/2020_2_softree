@@ -7,6 +7,8 @@ const hostname = 'https://api.softree.group';
 
 export const jfetch = async (path, options) => {
     let response;
+    const dispatch = useDispatch();
+
     try {
         response = await fetch(`${hostname}${path}`, {
             mode: 'cors',
@@ -14,7 +16,6 @@ export const jfetch = async (path, options) => {
             ...options,
         });
     } catch (e) {
-        const dispatch = useDispatch();
         dispatch(
             showMessage(
                 'Запрос не выполнился :( Что-то с сервером не так. Уже ругаем бекендеров...',
@@ -31,6 +32,16 @@ export const jfetch = async (path, options) => {
     try {
         resp.data = await response.json();
     } catch (err) {}
+
+    if (status === 418) {
+        dispatch(
+          showMessage(
+            resp.data.message,
+            msgTypes.FAIL,
+            3000,
+          ),
+        );
+    }
 
     if (ok) {
         return resp;

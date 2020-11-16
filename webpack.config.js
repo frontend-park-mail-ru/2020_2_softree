@@ -96,6 +96,10 @@ const plugins = () => {
                     from: path.resolve(__dirname, 'public/src/images/favicon.ico'),
                     to: path.join(__dirname, 'dist'),
                 },
+                {
+                    from: path.resolve(__dirname, 'public/src/serviceWorker.js'),
+                    to: path.join(__dirname, 'dist'),
+                },
             ],
         }),
     ];
