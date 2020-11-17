@@ -1,4 +1,4 @@
-import './OpenedRate.css';
+import './OpenedRate.scss';
 import { Component } from '../../../../modules/Softer/Softer';
 import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';

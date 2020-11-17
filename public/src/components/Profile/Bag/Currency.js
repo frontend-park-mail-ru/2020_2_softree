@@ -1,6 +1,6 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 
-import './Bag.css';
+import './Bag.scss';
 
 export default class Currency extends Component {
     constructor(props) {

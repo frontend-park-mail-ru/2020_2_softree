@@ -28,7 +28,8 @@ self.addEventListener('fetch', event => {
                 if (navigator.onLine) {
                     if (!url.href.includes('/api/')) {
                         const response = await fetch(request);
-                        caches.open(KEY).then(cache => cache.put(request, response));
+                        const respClone = response.clone();
+                        caches.open(KEY).then(cache => cache.put(request, respClone));
                         return response;
                     }
                     return fetch(request);

@@ -1,5 +1,5 @@
-import { Component } from '../../../modules/Softer/Softer.js';
-import './Submit.css';
+import { Component } from '../../../../modules/Softer/Softer.js';
+import './Submit.scss';
 
 export default class Submit extends Component {
     constructor(title) {

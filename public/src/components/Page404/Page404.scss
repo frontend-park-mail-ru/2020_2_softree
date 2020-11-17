@@ -3,9 +3,15 @@
     margin-top: 20px;
 }
 
-.message-body {
-    margin: 15px 0;
+.page-message {
+    position: fixed;
+
+    &__body {
+        margin: 15px 0;
+    }
 }
+
+
 
 .code-404 {
     font-size: 50vw;

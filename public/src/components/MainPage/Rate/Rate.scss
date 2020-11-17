@@ -1,0 +1,38 @@
+@import "../../../globals";
+
+.rate-card {
+    width: 140px;
+    border-radius: $radius;
+    @include neo(100px, $black-shadow-color, $radius);
+    background: white;
+    display: inline-block;
+    margin: 5px;
+    @include clickable;
+
+    &__header {
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        &-change {
+            font-size: 13px;
+            color: white;
+        }
+
+        &-title {
+            font-weight: 700;
+            font-size: 16px;
+        }
+    }
+
+    &__body {
+        padding: 6px;
+
+        &-field {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}

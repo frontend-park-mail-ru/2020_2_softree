@@ -2,7 +2,7 @@ import { Component } from '../../modules/Softer/Softer.js';
 import Styler from '../../modules/Styler.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { toggleConverter } from '../../store/actions.js';
-import './Converter.css';
+import './Converter.scss';
 
 import upArrow from '../../images/upArrow.svg';
 import close from '../../images/close.svg';

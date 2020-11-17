@@ -223,11 +223,9 @@ export class Component {
             if (element.children) {
                 element.children.forEach(child => clear(child));
             }
-            if (element !== root) {
-                if (element.clear) {
-                    element.__resetState();
-                    element.clear();
-                }
+            if (element !== root && element.node !== null) {
+                element.__resetState();
+                element.clear();
             }
         };
         clear(root);

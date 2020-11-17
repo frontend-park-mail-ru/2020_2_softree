@@ -4,7 +4,7 @@ import { jdelete, jpost } from '../../../modules/jfetch.js';
 import { apiLogOut } from '../../../api.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import { dropUserData } from '../../../store/actions.js';
-import './DropDownMenu.css';
+import './DropDownMenu.scss';
 
 export default class DropDownMenu extends Component {
     constructor(props) {

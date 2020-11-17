@@ -9,41 +9,39 @@
     border-radius: 15px 15px 0 0;
     transition: bottom 200ms;
     width: 270px;
-}
+    &__title {
+        color: gray;
+        text-align: center;
+        padding-bottom: 10px;
+    }
 
-.converter__title {
-    color: gray;
-    text-align: center;
-    margin-bottom: 10px;
-}
+    &__control-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
 
-.converter__control-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+        h3 {
+            cursor: pointer;
+        }
+    }
 
-.converter__control-wrapper h3 {
-    cursor: pointer;
-}
+    &__close, &__hide {
+        cursor: pointer;
+    }
 
-.converter__close, .converter__hide {
-    cursor: pointer;
-}
+    &__hide img {
+        transition: transform 200ms;
+    }
 
-.converter__hide img {
-    transition: transform 200ms;
-}
+    &__inputs-container {
+        margin: 10px 0;
 
-.converter__inputs-container {
-    margin: 10px 0;
+
+    }
 }
 
 .converter__inputs-container input, select {
-    font-size: 16px;
-    border: #dbdbdb solid 1px;
-    padding: 5px;
-    border-radius: 10px;
+
 }
 
 .converter__inputs-container {

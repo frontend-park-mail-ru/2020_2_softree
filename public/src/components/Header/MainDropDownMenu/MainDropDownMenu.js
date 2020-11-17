@@ -1,11 +1,11 @@
 import { Component } from '../../../modules/Softer/Softer.js';
-import { pageMain } from '../../../pages.js';
+import { pageMain } from "../../../pages.js";
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import { toggleConverter } from '../../../store/actions.js';
-import Styler from '../../../modules/Styler.js';
 import calc from '../../../images/calc.svg';
 import rates from '../../../images/rates.svg';
-import './MainDropDownMenu.css';
+import './MainDropDownMenu.scss';
+import ActionButton from "../../UI/ActionButton/ActionButton";
 
 export default class MainDropDownMenu extends Component {
     constructor(props) {
@@ -16,32 +16,27 @@ export default class MainDropDownMenu extends Component {
 
     render() {
         const converterIsOpen = this.useSelector(store => store.app.converterIsOpen);
-
-        const pushedStyle = {
-            boxShadow: `inset 0 0 10px rgba(0, 0, 0, 0.2)`,
-            background: 'rgba(0, 0, 0, 0.01)',
-        };
-
-        const node = this.create(`
-        <div class="main-drop-down-menu">
-            <div class='main-drop-down-menu__action-card' id='show-rates-action'
-            style='${window.location.pathname === '/' ? Styler(pushedStyle) : ''}' >
-                <img src='${rates}' alt='Котировки'>
-                <p>Котировки</p>
-            </div> 
-            <div class='main-drop-down-menu__action-card' id='toggle-converter-action'
-                style='${converterIsOpen ? Styler(pushedStyle) : ''}'>
-                <img src='${calc}' alt='Конвертер'>
-                <p>Конвертер</p>
-            </div> 
-        </div>
-        `);
-
         const dispatch = useDispatch();
 
-        this.listen('.main-drop-down-menu__action-card', 'click', this.props.close);
-        this.listen('#toggle-converter-action', 'click', () => dispatch(toggleConverter()));
-        this.link('#show-rates-action', ...pageMain());
-        return node;
+        const buttons = [
+            {
+                content: `<img src='${rates}' alt='Котировки'><p>Котировки</p>`,
+                isPushed: () => window.location.pathname === '/',
+                clb: () => {this.redirect(...pageMain()); this.props.close()},
+            },
+            {
+                content: `<img src='${calc}' alt='Конвертер'><p>Конвертер</p>`,
+                isPushed: () => converterIsOpen,
+                clb: () => {dispatch(toggleConverter()); this.props.close()},
+            },
+        ];
+
+        return this.create(`
+        <div class="main-drop-down-menu">
+          <ActionButtons/> 
+        </div>
+        `, {
+            ActionButtons: [ActionButton, buttons.map((button, key) => ( {...button, key} ))]
+        });
     }
 }

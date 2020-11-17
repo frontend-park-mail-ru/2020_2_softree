@@ -5,7 +5,7 @@ import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import Currency from './Currency.js';
 import { jget } from '../../../modules/jfetch.js';
 
-import './Bag.css';
+import './Bag.scss';
 import { select } from '../../../modules/Softer/softer-softex';
 
 export default class Bag extends Component {
@@ -41,13 +41,13 @@ export default class Bag extends Component {
 
         return this.create(
             `
-            <div class="container">
-                <h2 class='block-title'>Счет</h2>
-                    <div class='bag-info__container'>
+            <div class="container bag">
+                <h2 class='bag__title'>Счет</h2>
+                    <div class='bag__info'>
                         <p>ВСЕГО</p>
                         <p>${total} </p>
                     </div>
-                <h2 class='block-title'>Валюта</h2>
+                <h2 class='bag__title'>Валюта</h2>
                 <div>
                     ${currencies.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Currency></Currency>'}
                 </div>
