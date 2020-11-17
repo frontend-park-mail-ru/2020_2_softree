@@ -46,7 +46,8 @@ export default class ProfileSettings extends Component {
     initState() {
         return {
             showPlaceholders: window.innerWidth < 430,
-            errors: {} };
+            errors: {},
+        };
     }
 
     resetData() {
@@ -54,31 +55,29 @@ export default class ProfileSettings extends Component {
         this.__resetState();
     }
 
-
     initWindowListener() {
         if (this.windowListener === null) {
             this.windowListener = e => {
                 if (this.state.showPlaceholders) {
                     if (window.innerWidth >= 430) {
-                        this.setState({showPlaceholders: false});
+                        this.setState({ showPlaceholders: false });
                     }
                 } else {
                     if (window.innerWidth < 430) {
-                        this.setState({showPlaceholders: true});
+                        this.setState({ showPlaceholders: true });
                     }
                 }
-            }
+            };
             window.addEventListener('resize', this.windowListener);
         }
     }
 
     clear() {
         super.clear();
-        console.log('fuck you clear')
+        console.log('fuck you clear');
         window.removeEventListener('resize', this.windowListener);
         this.windowListener = null;
     }
-
 
     changePass(e) {
         e.preventDefault();

@@ -19,7 +19,7 @@ export default class GridField extends Component {
                  type='${type}'
                  ${required ? 'required' : ''}
                  name='${name}'
-                 value='${ value || '' }'
+                 value='${value || ''}'
                  placeholder='${placeholder || ''}'
                  />
             </div>

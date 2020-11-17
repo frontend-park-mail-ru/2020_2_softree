@@ -5,7 +5,7 @@ import { setUploadedImage } from '../../../utils/utils.js';
 
 import avatar from '../../../images/avatar.svg';
 import './User.scss';
-import Submit from "../../UI/Form/Submit/Submit";
+import Submit from '../../UI/Form/Submit/Submit';
 
 export default class User extends Component {
     changePhoto(e, oldAvatar) {
@@ -20,7 +20,8 @@ export default class User extends Component {
     render() {
         const data = this.useSelector(state => state.user.userData);
 
-        const userSettings = this.create(`
+        const userSettings = this.create(
+            `
             <div class='user'>
                 <img class='user__avatar' src='${data.avatar || avatar}' alt='avatar'/>
                 <Submit/>
@@ -29,9 +30,11 @@ export default class User extends Component {
                     <p>E-mail</p> <p>${data.email}</p>
                 </div>
             </div>
-                `, {
-            Submit: [Submit, 'Выбрать фото']
-        });
+                `,
+            {
+                Submit: [Submit, 'Выбрать фото'],
+            },
+        );
 
         this.listen('.submit-button', 'click', () => {
             document.querySelector('#upload-file').click();
