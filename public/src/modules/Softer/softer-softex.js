@@ -22,7 +22,7 @@ export function useSelector(component, selector, id = null) {
                component.__rerender();
            }
         } catch (e) {}
-    }, id || component.id);
+    }, id || component.id + selector.toString().split('return ')[1].split(';')[0]);
     return result;
 }
 
