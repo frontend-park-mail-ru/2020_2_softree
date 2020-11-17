@@ -1,18 +1,22 @@
 export const createStore = (rootReducer, initialStore = {}) => {
     let state = rootReducer(initialStore, { type: '__INIT__' });
     let subscribers = [];
+    const subIDs = [];
 
     return {
         dispatch(action) {
             const was = state;
             state = rootReducer(state, action);
-            subscribers = subscribers.filter(sub => !sub(was, state));
+            subscribers.forEach(sub => sub(was, state));
         },
         subscribe(clb, id) {
-            if (id && subscribers.includes(id)) {
+            if (id && subIDs.includes(id)) {
                 return;
             }
             subscribers.push(clb);
+            if (id) {
+                subIDs.push(id);
+            }
         },
         getState() {
             return state;

@@ -78,8 +78,8 @@ export class Component {
         this.__rerender();
     }
 
-    useSelector(selector) {
-        return useSelector(this, selector);
+    useSelector(selector, key) {
+        return useSelector(this, selector, key);
     }
 
     /**
@@ -119,6 +119,9 @@ export class Component {
     }
 
     __rerender() {
+        if (this.node === null) {
+            return;
+        }
         this.__clearChildren(this);
         const node = this.render();
         this.node.replaceWith(node);

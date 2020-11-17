@@ -87,7 +87,7 @@ export default class Converter extends Component {
     render() {
         const currency = this.useSelector(store => store.currency);
 
-        const isOpen = this.useSelector(store => store.app.converterIsOpen);
+        const isOpen = this.useSelector(store => store.app.converterIsOpen, this.id + 'open');
 
         const hideArrowStyle = {
             transform: `rotate(${this.state.isHidden ? '' : '180'}deg)`,
