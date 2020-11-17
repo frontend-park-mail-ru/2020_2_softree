@@ -74,7 +74,6 @@ export default class ProfileSettings extends Component {
 
     clear() {
         super.clear();
-        console.log('fuck you clear');
         window.removeEventListener('resize', this.windowListener);
         this.windowListener = null;
     }
