@@ -81,8 +81,8 @@ export default class OpenedRate extends Component {
                type="number"
                placeholder="Введите сумму"/>
         <div class="opened-rate__control-panel">
-           <div class="opened-rate__btn buy">BUY</div>
-           <div class="opened-rate__btn sell">SELL</div>
+           <div class="opened-rate__btn buy">Купить</div>
+           <div class="opened-rate__btn sell">Продать</div>
         </div>
       </div> 
     </div>
