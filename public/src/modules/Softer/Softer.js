@@ -78,8 +78,8 @@ export class Component {
         this.__rerender();
     }
 
-    useSelector(selector) {
-        return useSelector(this, selector);
+    useSelector(selector, key) {
+        return useSelector(this, selector, key);
     }
 
     /**
@@ -119,6 +119,9 @@ export class Component {
     }
 
     __rerender() {
+        if (this.node === null) {
+            return;
+        }
         this.__clearChildren(this);
         const node = this.render();
         this.node.replaceWith(node);
@@ -223,11 +226,9 @@ export class Component {
             if (element.children) {
                 element.children.forEach(child => clear(child));
             }
-            if (element !== root) {
-                if (element.clear) {
-                    element.__resetState();
-                    element.clear();
-                }
+            if (element !== root && element.node !== null) {
+                element.__resetState();
+                element.clear();
             }
         };
         clear(root);

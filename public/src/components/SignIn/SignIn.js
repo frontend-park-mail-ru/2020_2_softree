@@ -1,13 +1,12 @@
 import { Component } from '../../modules/Softer/Softer.js';
-import GridField from '../Form/GridField/GridField.js';
-import Submit from '../Form/Submit/Submit.js';
+import GridField from '../UI/Form/GridField/GridField.js';
+import Submit from '../UI/Form/Submit/Submit.js';
 import { jpost } from '../../modules/jfetch.js';
 import { apiSignIn } from '../../api.js';
 import { pageForgotPassword, pageMain, pageSignUp } from '../../pages.js';
-import ErrorField from '../Form/ErrorField.js';
+import ErrorField from '../UI/Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
-import './SignIn.css';
 
 export default class SignIn extends Component {
     constructor() {
@@ -45,9 +44,8 @@ export default class SignIn extends Component {
         const { errors } = this.state;
         const signIn = this.create(
             `
-        <div>
             <div class='hidden-wrapper'>
-                <div class='modal auth'>
+                <div class='modal'>
                     <h2 class='modal__title'>Здравствуйте!</h2>
                     <form class='grid-form'>
                     ${errors ? '<Error/>' : ''}
@@ -60,7 +58,7 @@ export default class SignIn extends Component {
                     <a class='signup-link' style='margin-top: 20px' href='/signup'>Еще нет аккаунта?</a>
                 </div> 
             </div>
-        </div> `,
+        `,
             {
                 GridFields: [
                     GridField,

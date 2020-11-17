@@ -1,13 +1,13 @@
 import { Component } from '../../modules/Softer/Softer.js';
-import GridField from '../Form/GridField/GridField.js';
-import Submit from '../Form/Submit/Submit.js';
+import GridField from '../UI/Form/GridField/GridField.js';
+import Submit from '../UI/Form/Submit/Submit.js';
 import { jpost } from '../../modules/jfetch.js';
 import { apiSignUp } from '../../api.js';
 import { pageMain, pageSignIn } from '../../pages.js';
-import ErrorField from '../Form/ErrorField.js';
+import ErrorField from '../UI/Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
-import './SignUp.css';
+import './SignUp.scss';
 
 export class SignUp extends Component {
     constructor() {
@@ -47,19 +47,18 @@ export class SignUp extends Component {
         const { errors } = this.state;
         const signUp = this.create(
             `
-        <div>
             <div class='hidden-wrapper'>
-                <div class='modal auth'>
+                <div class='modal'>
                     <h2 class='modal__title'>Добро пожаловать!</h2>
                     <form class='grid-form'>
                         <GridFields/>
                         ${errors.non_field_errors ? '<ErrorField/>' : ''}
-                        <SubmitButton/>
+                        <Submit/>
                     </form> 
                     <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
                 </div> 
             </div>
-        </div>`,
+        `,
             {
                 GridFields: [
                     GridField,
@@ -72,7 +71,7 @@ export class SignUp extends Component {
                         dataHandler: this.setData.bind(this),
                     })),
                 ],
-                SubmitButton: [Submit, 'Зарегистрироваться'],
+                Submit: [Submit, 'Зарегистрироваться'],
                 ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );

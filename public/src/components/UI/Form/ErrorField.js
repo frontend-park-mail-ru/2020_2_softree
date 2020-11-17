@@ -1,4 +1,4 @@
-import { Component } from '../../modules/Softer/Softer.js';
+import { Component } from '../../../modules/Softer/Softer.js';
 
 export default class ErrorField extends Component {
     constructor(props) {

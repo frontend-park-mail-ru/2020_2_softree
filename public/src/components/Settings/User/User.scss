@@ -1,0 +1,26 @@
+@import "../../../globals";
+
+.user {
+    display: flex;
+    flex-flow: column;
+
+    &__avatar {
+        border: black;
+        border-radius: 50%;
+        @include square(200px);
+        background: white;
+        object-fit: cover;
+        margin: 0 auto;
+    }
+
+    &__email {
+        display: flex;
+        margin-top: 20px;
+        justify-content: space-between;
+    }
+
+    .submit-button {
+        width: 100%;
+    }
+}
+

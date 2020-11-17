@@ -1,6 +1,6 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
-import './Rate.css';
+import './Rate.scss';
 import OpenedRate from './OpenedRate/OpenedRate';
 
 export default class Rate extends Component {
@@ -37,17 +37,17 @@ export default class Rate extends Component {
         <div class="rate-card">
             ${state.isOpened ? `<OpenedRate/>` : ''}
             <div class="rate-card__header" style="${Styler(headerStyle)}">
-                <p class="rate-card__header_title">${props.base}/${props.title}</p> 
-                <p class="rate-card__header_change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
+                <p class="rate-card__header-title">${props.base}/${props.title}</p> 
+                <p class="rate-card__header-change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
             </div> 
             <div class="rate-card__body">
-                <div class="rate-card__body_field">
-                    <p class="rate-card__body_field-title">BUY</p> 
-                    <p class="rate-card__body_field-value">${this.calc(props.left, props.right, 1.0007)}</p> 
+                <div class="rate-card__body-field">
+                    <p class="rate-card__body-field-title">BUY</p> 
+                    <p class="rate-card__body-field-value">${this.calc(props.left, props.right, 1.0007)}</p> 
                 </div> 
-                <div class="rate-card__body_field">
-                    <p class="rate-card__body_field-title">SELL</p> 
-                    <p class="rate-card__body_field-value">${this.calc(props.left, props.right, 0.9993)}</p> 
+                <div class="rate-card__body-field">
+                    <p class="rate-card__body-field-title">SELL</p> 
+                    <p class="rate-card__body-field-value">${this.calc(props.left, props.right, 0.9993)}</p> 
                 </div>
             </div>
         </div>`,

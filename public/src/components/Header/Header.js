@@ -5,7 +5,7 @@ import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import { checkAuth } from '../../utils/utils.js';
 import MainDropDownMenu from './MainDropDownMenu/MainDropDownMenu.js';
 
-import './Header.css';
+import './Header.scss';
 
 import defaultAvatar from '../../images/avatar.svg';
 import logo from '../../images/cat.svg';

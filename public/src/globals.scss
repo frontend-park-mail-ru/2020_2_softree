@@ -1,0 +1,31 @@
+//rules
+$padding: 15px;
+$radius: 10px;
+
+//vars
+$fast: 200ms;
+
+//colors
+$red: #ffa7a7;
+
+$red-shadow: rgba(255, 121, 121, 0.64);
+$black-shadow-color: rgba(0, 0, 0, 0.2);
+
+//mixins
+@mixin neo($size, $color, $radius) {
+  box-shadow: $size/15 $size/15 ($size/10)*1.5 $color;
+  border-radius: $radius;
+}
+
+@mixin padding() {
+  padding: 20px;
+}
+
+@mixin clickable() {
+  cursor: pointer;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}

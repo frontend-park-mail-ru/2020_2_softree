@@ -1,3 +1,5 @@
+@import "globals";
+
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +16,17 @@ a {
 input {
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+input, select {
+    font-size: 16px;
+    border: #dbdbdb solid 1px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+@mixin clickable {
+    cursor: pointer;
 }
 
 .hidden-wrapper {
@@ -36,94 +49,26 @@ input {
     flex-flow: column;
     align-items: center;
     background: #ffffff;
-    box-shadow: 5px 5px 10px #b5b5b5,
-    -5px -5px 10px #ffffff;
     border-radius: 10px;
-    padding: 15px;
     width: max-content;
-    max-width: 450px;
-    margin: 0 15px;
-}
+    @include neo(450px, $black-shadow-color, $radius);
+    @include padding();
 
-.email-flexbox {
-    display: flex;
-}
+    &__bottom-wrapper {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-.modal.auth {
-    max-width: 330px;
-}
+    &__bottom-wrapper.auth {
+        flex-flow: column;
+    }
 
-.modal__bottom-wrapper {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.modal__bottom-wrapper.auth {
-    flex-flow: column;
-}
-
-.modal > .modal__title {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-input[type=email], input[type=password] {
-    font-size: 16px;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.exit-btn {
-    background: red;
-    color: white;
-    right: 0;
-}
-
-.exit-btn:hover {
-    background: red;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-}
-
-.avatar {
-    border: black;
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
-    background: white;
-    object-fit: cover;
-}
-
-.action-btn {
-    border: #f1f1f1 solid 1px;
-    text-align: center;
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background: white;
-    transition: box-shadow 200ms
-}
-
-
-.action-btn:hover {
-    border: white solid 1px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.flex-menu {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.flex-left {
-    display: flex;
-}
-
-.flex-right {
-    display: flex;
+    &__title {
+        text-align: center;
+        margin-bottom: 15px;
+    }
 }
 
 .wrapper {
@@ -178,11 +123,5 @@ input[type=email], input[type=password] {
         width: calc(100% - 30px);
         margin-left: 15px;
         margin-right: 15px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .action-btn {
-        font-size: 14px;
     }
 }

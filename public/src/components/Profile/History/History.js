@@ -1,5 +1,5 @@
 import { Component } from '../../../modules/Softer/Softer.js';
-import Tabs from './Tab/Tab.js';
+import Tabs from './HistoryCard/HistoryCard.js';
 import { apiHistory } from '../../../api.js';
 import { setUserHistory } from '../../../store/actions.js';
 import { jget } from '../../../modules/jfetch.js';
@@ -30,7 +30,7 @@ export default class History extends Component {
         if (histories.length === 0) {
             return `<h3 style="${Styler(style)}">Вы еще не совершали операций :(</h3>`;
         } else {
-            return '<Tabs></Tabs>';
+            return '<Tabs/>';
         }
     }
 

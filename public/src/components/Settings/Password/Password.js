@@ -1,13 +1,15 @@
-import { Component } from '../../modules/Softer/Softer.js';
-import GridField from '../Form/GridField/GridField.js';
-import Submit from '../Form/Submit/Submit.js';
-import ErrorField from '../Form/ErrorField.js';
-import { msgTypes } from '../../messages/types';
-import { showMessage } from '../../store/actions';
-import { useDispatch } from '../../modules/Softer/softer-softex';
-import { apiChangePass } from '../../api';
-import { jput } from '../../modules/jfetch';
-import Validator from '../../modules/validator/validator.js';
+import { Component } from '../../../modules/Softer/Softer.js';
+import GridField from '../../UI/Form/GridField/GridField.js';
+import Submit from '../../UI/Form/Submit/Submit.js';
+import ErrorField from '../../UI/Form/ErrorField.js';
+import { msgTypes } from '../../../messages/types';
+import { showMessage } from '../../../store/actions';
+import { useDispatch } from '../../../modules/Softer/softer-softex';
+import { apiChangePass } from '../../../api';
+import { jput } from '../../../modules/jfetch';
+import Validator from '../../../modules/validator/validator.js';
+
+import './Password.scss';
 
 export default class ProfileSettings extends Component {
     constructor() {
@@ -37,15 +39,43 @@ export default class ProfileSettings extends Component {
         };
 
         this.validator = new Validator();
+
+        this.windowListener = null;
     }
 
     initState() {
-        return { errors: {} };
+        return {
+            showPlaceholders: window.innerWidth < 430,
+            errors: {},
+        };
     }
 
     resetData() {
         this.data = {};
         this.__resetState();
+    }
+
+    initWindowListener() {
+        if (this.windowListener === null) {
+            this.windowListener = e => {
+                if (this.state.showPlaceholders) {
+                    if (window.innerWidth >= 430) {
+                        this.setState({ showPlaceholders: false });
+                    }
+                } else {
+                    if (window.innerWidth < 430) {
+                        this.setState({ showPlaceholders: true });
+                    }
+                }
+            };
+            window.addEventListener('resize', this.windowListener);
+        }
+    }
+
+    clear() {
+        super.clear();
+        window.removeEventListener('resize', this.windowListener);
+        this.windowListener = null;
     }
 
     changePass(e) {
@@ -69,19 +99,17 @@ export default class ProfileSettings extends Component {
     }
 
     render() {
+        this.initWindowListener();
         const { errors } = this.state;
 
         const password = this.create(
             `
-            <div>
-                <form class="password-form" novalidate>
-                    <GridFields/>
-                    ${errors['non_field_errors'] ? '<ErrorField/>' : ''}
-                    <div class="password-btn">
-                        <SubmitButton/>
-                    </div>
-                </form>
-            </div>`,
+            <form class="grid-form password-form" novalidate>
+                <GridFields/>
+                ${errors['non_field_errors'] ? '<ErrorField/>' : ''}
+                <Submit/>
+            </form>
+            `,
             {
                 GridFields: [
                     GridField,
@@ -91,10 +119,11 @@ export default class ProfileSettings extends Component {
                         required: true,
                         value: this.data[field.name],
                         gridTemplate: '150px 200px',
+                        placeholder: this.state.showPlaceholders && field.title,
                         dataHandler: this.setData.bind(this),
                     })),
                 ],
-                SubmitButton: [Submit, 'Подтвердить'],
+                Submit: [Submit, 'Подтвердить'],
                 ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );

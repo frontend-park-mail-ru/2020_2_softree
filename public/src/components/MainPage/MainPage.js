@@ -2,7 +2,7 @@ import { Component } from '../../modules/Softer/Softer.js';
 import Rate from './Rate/Rate.js';
 import { jget } from '../../modules/jfetch.js';
 import { apiMarkets, apiRates } from '../../api.js';
-import './MainPage.css';
+import './MainPage.scss';
 import { useDispatch } from '../../modules/Softer/softer-softex';
 import { fetchMarkets, setMarkets } from '../../store/actions';
 
