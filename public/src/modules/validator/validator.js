@@ -19,7 +19,7 @@ export default class Validator {
         ];
     }
 
-    validateEmail(email) {
+    validateEmail(key, email) {
         const errors = [];
 
         this.emailCheck.forEach(check => {
@@ -27,27 +27,34 @@ export default class Validator {
                 errors.push(check.error);
             }
         });
-        return errors;
+        return this.returnObject(key, errors);
     }
 
-    validatePasswords(passwords) {
+    validatePasswords(key, password) {
         const errors = [];
-        passwords.forEach(password => {
-            this.passwordCheck.forEach(check => {
-                if (!check.regex.test(password) && !errors.includes(check.error)) {
-                    errors.push(check.error);
-                }
-            });
+        this.passwordCheck.forEach(check => {
+            if (!check.regex.test(password)) {
+                errors.push(check.error);
+            }
         });
-
-        return errors;
+        return this.returnObject(key, errors);
     }
 
-    comparePasswords(newPassword, oldPassword) {
+    comparePasswords(key, newPassword, oldPassword) {
         const errors = [];
         if (newPassword !== oldPassword) {
             errors.push('Пароли не совпадают');
         }
-        return errors;
+        return this.returnObject(key, errors);
+    }
+
+    returnObject(key, errors) {
+        console.log('returnObject', errors, errors.length);
+        if (errors.length === 0) {
+            return {};
+        }
+        const result = {};
+        result[key] = errors;
+        return result;
     }
 }

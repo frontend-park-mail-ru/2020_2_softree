@@ -22,7 +22,7 @@ export class SignUp extends Component {
     }
 
     initState() {
-        return { errors: null };
+        return { errors: {} };
     }
 
     initData() {
@@ -36,12 +36,16 @@ export class SignUp extends Component {
     submit(e) {
         e.preventDefault();
 
-        const errors = this.validator.validateEmail(this.data.email);
-        errors.push(...this.validator.validatePasswords([this.data.password1, this.data.password2]));
-        errors.push(...this.validator.comparePasswords(this.data.password1, this.data.password2));
-        console.log('check', ...errors);
-        if (errors.length > 0) {
-            this.setState({ errors: errors || {} });
+        const errors = {
+            ...this.validator.validateEmail('email', this.data.email),
+            ...this.validator.validatePasswords('password1', this.data.password1),
+            ...this.validator.validatePasswords('password2', this.data.password2),
+            ...this.validator.comparePasswords('non_field_errors', this.data.password1, this.data.password2),
+        };
+        console.log(errors, Object.keys(errors).length);
+        if (Object.keys(errors).length > 0) {
+            console.log(errors);
+            this.setState({ errors: { ...errors } });
             return;
         }
 
@@ -63,8 +67,8 @@ export class SignUp extends Component {
                 <div class='modal'>
                     <h2 class='modal__title'>Добро пожаловать!</h2>
                     <form class='grid-form' novalidate>
-                        ${errors ? '<Error/>' : ''}
                         <GridFields/>
+                        ${errors.non_field_errors ? '<ErrorField/>' : ''}
                         <Submit/>
                     </form> 
                     <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
@@ -76,6 +80,7 @@ export class SignUp extends Component {
                     GridField,
                     this.fields.map(field => ({
                         ...field,
+                        errors: errors[field.name],
                         required: true,
                         value: this.data[field.name],
                         gridTemplate: '80px 200px',
@@ -83,7 +88,7 @@ export class SignUp extends Component {
                     })),
                 ],
                 Submit: [Submit, 'Зарегистрироваться'],
-                Error: [ErrorField, [errors]],
+                ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );
 

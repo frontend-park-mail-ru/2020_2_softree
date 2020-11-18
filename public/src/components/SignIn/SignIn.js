@@ -20,7 +20,7 @@ export default class SignIn extends Component {
     }
 
     initState() {
-        return { errors: null };
+        return { errors: {} };
     }
 
     initData() {
@@ -33,10 +33,12 @@ export default class SignIn extends Component {
     submit(e) {
         e.preventDefault();
 
-        const errors = this.validator.validateEmail(this.data.email);
-        errors.push(...this.validator.validatePasswords([this.data.password]));
-        if (errors.length > 0) {
-            this.setState({ errors: errors || {} });
+        const errors = {
+            ...this.validator.validateEmail('email', this.data.email),
+            ...this.validator.validatePasswords('password', this.data.password1),
+        };
+        if (Object.values(errors).length > 0) {
+            this.setState({ errors: { ...errors } });
             return;
         }
 
@@ -45,7 +47,7 @@ export default class SignIn extends Component {
                 useDispatch()(setUserData(data));
                 this.redirect(...pageMain());
             })
-            .catch(() => this.setState({ errors: ['Пароль или Email не подходит'] }));
+            .catch(() => this.setState({ errors: { non_field_errors: ['Пароль или Email не подходит'] } }));
     }
 
     render() {
@@ -56,8 +58,8 @@ export default class SignIn extends Component {
                 <div class='modal'>
                     <h2 class='modal__title'>Здравствуйте!</h2>
                     <form class='grid-form' novalidate>
-                    ${errors ? '<Error/>' : ''}
                         <GridFields/>
+                        ${errors.non_field_errors ? '<ErrorField/>' : ''}
                         <div class='modal__bottom-wrapper'>
                             <a class='forgot-link' href='/forgot-password'>Забыли пароль?</a>
                             <SubmitButton/>
@@ -72,6 +74,7 @@ export default class SignIn extends Component {
                     GridField,
                     this.fields.map(field => ({
                         ...field,
+                        errors: errors[field.name],
                         value: this.data[field.name],
                         gridTemplate: '60px 200px',
                         required: true,
@@ -79,7 +82,7 @@ export default class SignIn extends Component {
                     })),
                 ],
                 SubmitButton: [Submit, 'Войти'],
-                Error: [ErrorField, [errors]],
+                ErrorField: [ErrorField, [errors.non_field_errors]],
             },
         );
 
