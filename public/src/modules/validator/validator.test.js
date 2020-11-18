@@ -21,12 +21,12 @@ describe('validate password', () => {
 
     tests.forEach(test => {
         it(test.name, () => {
-            expect(validator.validatePassword(test.input)).toEqual(test.output);
+            expect(validator.validatePasswords([test.input])).toEqual(test.output);
         });
     });
 
     it('New password is not match', () => {
-        expect(validator.validatePassword('OhiMark', 'littledoggie')).toEqual(['Пароли не совпадают']);
+        expect(validator.comparePasswords('OhiMark', 'littledoggie')).toEqual(['Пароли не совпадают']);
     });
 });
 

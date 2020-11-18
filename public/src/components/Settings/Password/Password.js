@@ -46,7 +46,7 @@ export default class ProfileSettings extends Component {
     initState() {
         return {
             showPlaceholders: window.innerWidth < 430,
-            errors: {},
+            errors: null,
         };
     }
 
@@ -80,9 +80,15 @@ export default class ProfileSettings extends Component {
 
     changePass(e) {
         e.preventDefault();
-        const errors = this.validator.validatePassword(this.data.newPassword, this.data.repeatPassword);
+
+        const errors = this.validator.validatePasswords([
+            this.data.oldPassword,
+            this.data.newPassword,
+            this.data.repeatPassword,
+        ]);
+        errors.push(...this.validator.comparePasswords(this.data.newPassword, this.data.repeatPassword));
         if (errors.length > 0) {
-            this.setState({ errors: { non_field_errors: errors } });
+            this.setState({ errors: errors || {} });
             return;
         }
 
@@ -105,8 +111,8 @@ export default class ProfileSettings extends Component {
         const password = this.create(
             `
             <form class="grid-form password-form" novalidate>
+                ${errors ? '<Error/>' : ''}
                 <GridFields/>
-                ${errors['non_field_errors'] ? '<ErrorField/>' : ''}
                 <Submit/>
             </form>
             `,
@@ -115,7 +121,6 @@ export default class ProfileSettings extends Component {
                     GridField,
                     this.fields.map(field => ({
                         ...field,
-                        errors: errors[field.name],
                         required: true,
                         value: this.data[field.name],
                         gridTemplate: '150px 200px',
@@ -124,7 +129,7 @@ export default class ProfileSettings extends Component {
                     })),
                 ],
                 Submit: [Submit, 'Подтвердить'],
-                ErrorField: [ErrorField, [errors.non_field_errors]],
+                Error: [ErrorField, [errors]],
             },
         );
 

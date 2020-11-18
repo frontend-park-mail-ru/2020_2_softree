@@ -30,19 +30,23 @@ export default class Validator {
         return errors;
     }
 
-    validatePassword(password, ...repeatPassword) {
+    validatePasswords(passwords) {
         const errors = [];
-
-        this.passwordCheck.forEach(check => {
-            if (!check.regex.test(password)) {
-                errors.push(check.error);
-            }
+        passwords.forEach(password => {
+            this.passwordCheck.forEach(check => {
+                if (!check.regex.test(password) && !errors.includes(check.error)) {
+                    errors.push(check.error);
+                }
+            });
         });
 
-        if (repeatPassword.length === 1) {
-            if (password !== repeatPassword[0]) {
-                errors.push('Пароли не совпадают');
-            }
+        return errors;
+    }
+
+    comparePasswords(newPassword, oldPassword) {
+        const errors = [];
+        if (newPassword !== oldPassword) {
+            errors.push('Пароли не совпадают');
         }
         return errors;
     }

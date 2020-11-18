@@ -7,6 +7,7 @@ import { pageMain, pageSignIn } from '../../pages.js';
 import ErrorField from '../UI/Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
+import Validator from '../../modules/validator/validator.js';
 import './SignUp.scss';
 
 export class SignUp extends Component {
@@ -17,10 +18,11 @@ export class SignUp extends Component {
             { title: 'Пароль', type: 'password', name: 'password1' },
             { title: 'Повторите пароль', type: 'password', name: 'password2' },
         ];
+        this.validator = new Validator();
     }
 
     initState() {
-        return { errors: {} };
+        return { errors: null };
     }
 
     initData() {
@@ -33,6 +35,16 @@ export class SignUp extends Component {
 
     submit(e) {
         e.preventDefault();
+
+        const errors = this.validator.validateEmail(this.data.email);
+        errors.push(...this.validator.validatePasswords([this.data.password1, this.data.password2]));
+        errors.push(...this.validator.comparePasswords(this.data.password1, this.data.password2));
+        console.log('check', ...errors);
+        if (errors.length > 0) {
+            this.setState({ errors: errors || {} });
+            return;
+        }
+
         jpost(apiSignUp(), { email: this.data.email, password: this.data.password1 })
             .then(() => {
                 useDispatch()(setUserData({ ...this.data, password1: '', password2: '' }));
@@ -50,9 +62,9 @@ export class SignUp extends Component {
             <div class='hidden-wrapper'>
                 <div class='modal'>
                     <h2 class='modal__title'>Добро пожаловать!</h2>
-                    <form class='grid-form'>
+                    <form class='grid-form' novalidate>
+                        ${errors ? '<Error/>' : ''}
                         <GridFields/>
-                        ${errors.non_field_errors ? '<ErrorField/>' : ''}
                         <Submit/>
                     </form> 
                     <a class='signin-link' href='/signin'>Уже есть аккаунт?</a>
@@ -64,7 +76,6 @@ export class SignUp extends Component {
                     GridField,
                     this.fields.map(field => ({
                         ...field,
-                        errors: errors[field.name],
                         required: true,
                         value: this.data[field.name],
                         gridTemplate: '80px 200px',
@@ -72,7 +83,7 @@ export class SignUp extends Component {
                     })),
                 ],
                 Submit: [Submit, 'Зарегистрироваться'],
-                ErrorField: [ErrorField, [errors.non_field_errors]],
+                Error: [ErrorField, [errors]],
             },
         );
 

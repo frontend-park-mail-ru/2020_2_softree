@@ -18,9 +18,9 @@ export function useSelector(component, selector, id = null) {
         }
 
         try {
-           if (selector(diff(was, become)) !== undefined) {
-               component.__rerender();
-           }
+            if (selector(diff(was, become)) !== undefined) {
+                component.__rerender();
+            }
         } catch (e) {}
     }, id || component.id + selector.toString().split('return ')[1].split(';')[0]);
     return result;

@@ -7,6 +7,7 @@ import { pageForgotPassword, pageMain, pageSignUp } from '../../pages.js';
 import ErrorField from '../UI/Form/ErrorField.js';
 import { useDispatch } from '../../modules/Softer/softer-softex.js';
 import { setUserData } from '../../store/actions.js';
+import Validator from '../../modules/validator/validator.js';
 
 export default class SignIn extends Component {
     constructor() {
@@ -15,12 +16,11 @@ export default class SignIn extends Component {
             { title: 'Email', type: 'email', name: 'email' },
             { title: 'Пароль', type: 'password', name: 'password' },
         ];
+        this.validator = new Validator();
     }
 
     initState() {
-        return {
-            errors: null,
-        };
+        return { errors: null };
     }
 
     initData() {
@@ -32,6 +32,14 @@ export default class SignIn extends Component {
 
     submit(e) {
         e.preventDefault();
+
+        const errors = this.validator.validateEmail(this.data.email);
+        errors.push(...this.validator.validatePasswords([this.data.password]));
+        if (errors.length > 0) {
+            this.setState({ errors: errors || {} });
+            return;
+        }
+
         jpost(apiSignIn(), this.data)
             .then(({ data }) => {
                 useDispatch()(setUserData(data));
@@ -47,7 +55,7 @@ export default class SignIn extends Component {
             <div class='hidden-wrapper'>
                 <div class='modal'>
                     <h2 class='modal__title'>Здравствуйте!</h2>
-                    <form class='grid-form'>
+                    <form class='grid-form' novalidate>
                     ${errors ? '<Error/>' : ''}
                         <GridFields/>
                         <div class='modal__bottom-wrapper'>
