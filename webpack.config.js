@@ -1,3 +1,5 @@
+
+const webpack = require('webpack');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -102,6 +104,9 @@ const plugins = () => {
                 },
             ],
         }),
+        new webpack.EnvironmentPlugin({
+            SOFTREE_HOST: 'https://api.softree.group'
+        })
     ];
 
     return base;
