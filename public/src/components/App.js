@@ -2,6 +2,7 @@ import { Component, Router, Switch } from '../modules/Softer/Softer.js';
 import { Header } from './Header/Header.js';
 import { SignUp } from './SignUp/SignUp.js';
 import History from './Profile/History/History.js';
+import Bag from './Profile/Bag/Bag.js';
 import Profile from './Profile/Profile.js';
 import MainPage from './MainPage/MainPage.js';
 import SignIn from './SignIn/SignIn.js';
@@ -85,6 +86,16 @@ export default class App extends Component {
                             {
                                 path: '/settings',
                                 component: Settings,
+                                authRequired: true,
+                            },
+                            {
+                                path: '/profile/history',
+                                component: History,
+                                authRequired: true,
+                            },
+                            {
+                                path: '/profile',
+                                component: Bag,
                                 authRequired: true,
                             },
                             { component: Page404 },

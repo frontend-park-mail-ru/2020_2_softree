@@ -8,7 +8,6 @@ export default class Profile extends Component {
         return this.create(
             `
         <div>
-            <Menu/>
             <Content/>
         </div>
         `,
