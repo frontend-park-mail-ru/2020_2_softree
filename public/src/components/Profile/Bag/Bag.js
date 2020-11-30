@@ -26,12 +26,15 @@ export default class Bag extends Component {
         const currencyStore = select(store => store.currency);
         let sum = 0;
         accounts.forEach(account => {
-            sum += this.calc(currencyStore, account.title, 'RUB') * account.value;
+            sum += this.calc(currencyStore, account.title, 'RUB') * (account.value || 0);
         });
         return sum.toFixed(3);
     }
 
     calc(currencyStore, from, to) {
+        if (!currencyStore[to].value || !currencyStore[from].value) {
+            return 0;
+        }
         return (currencyStore[to].value / currencyStore[from].value).toFixed(3);
     }
 
@@ -59,7 +62,7 @@ export default class Bag extends Component {
                     currencies.map((element, idx) => ({
                         ...element,
                         key: idx,
-                        value: (+element.value).toFixed(3),
+                        value: element.value ? (+element.value).toFixed(3) : 0,
                     })),
                 ],
             },

@@ -36,16 +36,12 @@ export default class OpenedRate extends Component {
     }
 
     action(action) {
-        let from = this.props.base;
-        let to = this.props.currency;
-        if (action === 'buy') {
-            from = this.props.currency;
-            to = this.props.base;
-        }
+        let currency = this.props.base;
+        let base = this.props.currency;
         const amount = +document.querySelector('#rate-amount-input').value;
         this.setData({ amount });
 
-        jpost(apiTransactions(), { from, to, amount })
+        jpost(apiTransactions(), { base, currency, amount, sell: (action === 'sell').toString() })
             .then(resp => {
                 useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
                 this.fetchAccounts();
