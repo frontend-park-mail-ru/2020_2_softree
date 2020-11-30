@@ -27,7 +27,7 @@ export default class History extends Component {
         if (!this.isFetched) {
             return `<h3 style="${Styler(style)}">История подгружается...</h3>`;
         }
-        if (histories.length === 0) {
+        if (!histories) {
             return `<h3 style="${Styler(style)}">Вы еще не совершали операций :(</h3>`;
         } else {
             return '<Tabs/>';
@@ -49,13 +49,15 @@ export default class History extends Component {
             {
                 Tabs: [
                     Tabs,
+                    histories ?
                     histories.map((history, idx) => ({
                         ...history,
                         key: idx,
                         date: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[0],
                         time: new Date(Date.parse(history.datetime)).toLocaleString().split(', ')[1],
                         value: (+history.value).toFixed(3),
-                    })),
+                    }))
+                        : {},
                 ],
             },
         );
