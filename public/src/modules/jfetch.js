@@ -2,8 +2,8 @@ import { useDispatch } from './Softer/softer-softex';
 import { showMessage } from '../store/actions';
 import { msgTypes } from '../messages/types';
 
-// const hostname = 'https://api.softree.group';
-const hostname = 'http://localhost:8000';
+const hostname = 'https://api.softree.group';
+// const hostname = 'http://localhost:8000';
 
 export const jfetch = async (path, options) => {
     let response;

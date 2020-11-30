@@ -1,14 +1,15 @@
-import { Component } from '../modules/Softer/Softer.js';
-import Styler from '../modules/Styler.js';
+import { Component } from '../../modules/Softer/Softer.js';
+import Styler from '../../modules/Styler.js';
 import './Message.css';
-import { msgTypes } from './types';
+import { msgTypes } from '../types';
 
 export class Message extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
-        const message = this.useSelector(store => store.message);
-
         let color;
-        switch (message.type) {
+        switch (this.props.type) {
             case msgTypes.FAIL:
                 color = '#ff7575';
                 break;
@@ -21,12 +22,11 @@ export class Message extends Component {
 
         const style = {
             background: color,
-            transform: message.isShowed ? 'translate(0, 0)' : '',
         };
 
         return this.create(`
         <div class="message" style="${Styler(style)}">
-            <div class="message-content">${message.message}</div> 
+            <div class="message-content">${this.props.message}</div> 
         </div>
         `);
     }
