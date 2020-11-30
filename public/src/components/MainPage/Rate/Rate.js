@@ -2,6 +2,7 @@ import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
 import './Rate.scss';
 import OpenedRate from './OpenedRate/OpenedRate';
+import { flagStore } from "../../../utils/flagStore";
 
 export default class Rate extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ export default class Rate extends Component {
         this.doNotReset = true;
     }
 
-    calc(left, right, multiply) {
+    calc(left, right, multiply = 1) {
         return ((right * multiply) / left).toFixed(3);
     }
 
@@ -36,19 +37,17 @@ export default class Rate extends Component {
             `
         <div class="rate-card">
             ${state.isOpened ? `<OpenedRate/>` : ''}
-            <div class="rate-card__header" style="${Styler(headerStyle)}">
-                <p class="rate-card__header-title">${props.base}/${props.title}</p> 
-                <p class="rate-card__header-change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
-            </div> 
-            <div class="rate-card__body">
-                <div class="rate-card__body-field">
-                    <p class="rate-card__body-field-title">BUY</p> 
-                    <p class="rate-card__body-field-value">${this.calc(props.left, props.right, 1.0007)}</p> 
-                </div> 
-                <div class="rate-card__body-field">
-                    <p class="rate-card__body-field-title">SELL</p> 
-                    <p class="rate-card__body-field-value">${this.calc(props.left, props.right, 0.9993)}</p> 
-                </div>
+            <div class="rate-card__title">
+              <img src="${flagStore[props.base]}" alt="${props.base}">
+              <p>${props.base}/${props.title}</p>
+            </div>
+            <div class="rate-card__change"> 0% </div>
+            <div class="rate-card__price">
+              <p>${this.calc(props.left, props.right)}</p>
+              <div class="rate-card__price-currency-card">
+                <img src="${flagStore[props.title]}" alt="${props.title}">
+                <p>${props.title}</p>
+              </div>
             </div>
         </div>`,
             {

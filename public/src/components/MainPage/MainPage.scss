@@ -4,7 +4,20 @@
 
 .rates-wrapper {
     margin: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+
+    &__header {
+        padding: 5px 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        font-size: 16px;
+        font-weight: bold;
+        color: gray;
+        p {
+           justify-self: start;
+        }
+
+        p:nth-child(2), p:nth-child(3) {
+            justify-self: end;
+        }
+    }
 }
