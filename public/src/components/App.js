@@ -48,44 +48,18 @@ export default class App extends Component {
         this.interval = null;
     }
 
-    initState() {
-        return { headerIsOpen: false };
-    }
-
-    togglePage() {
-        if (this.state.headerIsOpen) {
-            document.querySelector('#page').style.top = '';
-            setTimeout(() => this.setState({ headerIsOpen: !this.state.headerIsOpen }), 200);
-        } else {
-            document.querySelector('#page').style.top = '160px';
-            setTimeout(() => this.setState({ headerIsOpen: !this.state.headerIsOpen }), 200);
-        }
-    }
-
     render() {
         this.subscribe();
-
-        const pageStyle = {
-            top: this.state.headerIsOpen ? '160px' : '',
-        };
 
         return this.create(
             `
         <div>
             <Header/>
-            <div class='page' id='page' style='${Styler(pageStyle)}'>
-                <MainContent/>
-            </div>
+            <MainContent/>
         </div>
         `,
             {
-                Header: [
-                    Header,
-                    {
-                        isOpen: this.state.headerIsOpen,
-                        toggle: this.togglePage.bind(this),
-                    },
-                ],
+                Header: [ Header, {}, ],
                 MainContent: [
                     Switch,
                     {
