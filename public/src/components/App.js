@@ -59,7 +59,7 @@ export default class App extends Component {
         </div>
         `,
             {
-                Header: [ Header, {}, ],
+                Header: [Header, {}],
                 MainContent: [
                     Switch,
                     {

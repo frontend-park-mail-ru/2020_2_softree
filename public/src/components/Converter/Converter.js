@@ -1,40 +1,31 @@
-import { Component } from '../../modules/Softer/Softer.js';
-import Styler from '../../modules/Styler.js';
-import { useDispatch } from '../../modules/Softer/softer-softex.js';
-import { toggleConverter } from '../../store/actions.js';
-import './Converter.scss';
+import { Component } from "../../modules/Softer/Softer.js";
+import Styler from "../../modules/Styler.js";
+import { useDispatch } from "../../modules/Softer/softer-softex.js";
+import { toggleConverter } from "../../store/actions.js";
+import "./Converter.scss";
 
-import upArrow from '../../images/upArrow.svg';
-import close from '../../images/close.svg';
+import upArrow from "../../images/upArrow.svg";
+import close from "../../images/close.svg";
+import calc from "../../images/calc.svg";
 
 export default class Converter extends Component {
     initState() {
         return {
+            isOpen: false,
             isHidden: false,
-            leftCurrency: 'RUB',
-            rightCurrency: 'USD',
+            leftCurrency: "RUB",
+            rightCurrency: "USD",
             inputValue: 1,
-            leftInputFocus: true,
+            leftInputFocus: true
         };
     }
 
     afterRerender() {
         if (this.state.leftInputFocus) {
-            this.focus('leftCurrency');
+            this.focus("leftCurrency");
         } else {
-            this.focus('rightCurrency');
+            this.focus("rightCurrency");
         }
-    }
-
-    toggleHide() {
-        if (this.state.isHidden) {
-            this.node.style.bottom = '';
-            this.node.querySelector('.converter__hide img').style.transform = 'rotate(180deg)';
-        } else {
-            this.node.style.bottom = '-140px';
-            this.node.querySelector('.converter__hide img').style.transform = '';
-        }
-        setTimeout(() => this.setState({ isHidden: !this.state.isHidden }), 200);
     }
 
     focus(id) {
@@ -45,7 +36,10 @@ export default class Converter extends Component {
     }
 
     change(event) {
-        const leftInputFocus = event.target.id === 'leftCurrency';
+        if (isNaN(event.key)) {
+            return;
+        }
+        const leftInputFocus = event.target.id === "leftCurrency";
         this.setState({ leftInputFocus, inputValue: +event.target.value });
     }
 
@@ -71,31 +65,23 @@ export default class Converter extends Component {
         return options.map(
             option =>
                 `<option value='${option.value}' 
-              ${option.title === selectedTitle ? 'selected' : ''}
+              ${option.title === selectedTitle ? "selected" : ""}
              >
               ${option.title}
-             </option>`,
+             </option>`
         );
     }
 
     calc(currencyStore) {
         return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value).toFixed(
-            3,
+            3
         );
     }
 
     render() {
         const currency = this.useSelector(store => store.currency);
 
-        const isOpen = this.useSelector(store => store.app.converterIsOpen);
-
-        const hideArrowStyle = {
-            transform: `rotate(${this.state.isHidden ? '' : '180'}deg)`,
-        };
-
-        const converterStyle = {
-            bottom: this.state.isHidden ? '-140px' : '',
-        };
+        const {isOpen} = this.state;
 
         const options = [];
 
@@ -103,12 +89,13 @@ export default class Converter extends Component {
             options.push({ title, value: title });
         }
 
+        const toggle = () => this.setState({isOpen: !isOpen});
+
         const component = this.create(
             isOpen
                 ? `
-        <div class='converter' style='${Styler(converterStyle)}'>
+        <div class='converter'>
             <div class='converter__control-wrapper'>
-                <div class='converter__hide'><img src='${upArrow}' style='${Styler(hideArrowStyle)}' alt='hide'/></div>
                 <h3 class='converter__control-title'>конвертер</h3>
                 <div class='converter__close'><img src='${close}' alt='close'/></div>
             </div>
@@ -133,22 +120,22 @@ export default class Converter extends Component {
             </div>
         </div>
         `
-                : '<div></div>',
+                : `
+        <div class="converter_closed">
+          <img src="${calc}" alt="calculator"/> 
+        </div>`
         );
 
-        const dispatch = useDispatch();
-
-        this.listen('.converter__hide', 'click', this.toggleHide.bind(this));
-        this.listen('.converter__close', 'click', () => dispatch(toggleConverter()));
-        this.listen('.converter__control-title', 'click', this.toggleHide.bind(this));
-        this.listen('input', 'keyup', this.change.bind(this));
-        this.listen('input', 'keypress', e => {
+        this.listen(".converter__close", "click", toggle);
+        this.listen("input", "keyup", this.change.bind(this));
+        this.listen("input", "keypress", e => {
             if (isNaN(e.key)) {
                 e.preventDefault();
                 return false;
             }
         });
-        this.listen('select', 'change', this.changeCurrency.bind(this));
+        this.listen('.converter_closed', 'click', toggle)
+        this.listen("select", "change", this.changeCurrency.bind(this));
 
         return component;
     }

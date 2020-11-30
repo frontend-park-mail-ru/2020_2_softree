@@ -1,14 +1,15 @@
+@import "../../globals";
+
 .converter {
     position: fixed;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, 0);
+    right: 15px;
+    bottom: 15px;
     background: white;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     padding: 15px;
-    border-radius: 15px 15px 0 0;
-    transition: bottom 200ms;
+    border-radius: 15px;
     width: 270px;
+
     &__title {
         color: gray;
         text-align: center;
@@ -35,8 +36,21 @@
 
     &__inputs-container {
         margin: 10px 0;
+    }
 
+    &_closed {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        @include square(45px);
+        background: yellow;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include clickable;
 
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
     }
 }
 

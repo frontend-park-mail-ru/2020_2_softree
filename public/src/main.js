@@ -8,7 +8,7 @@ import { thunk, logger } from './modules/Softex/middlewares';
 import Converter from './components/Converter/Converter';
 
 import './index.scss';
-import Messages from "./messages/Messages";
+import Messages from './messages/Messages';
 
 const softer = new Softer();
 softer.connectStore(applyMiddlewares(createStore(rootReducer), logger, thunk));
