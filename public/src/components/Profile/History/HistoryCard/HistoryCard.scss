@@ -1,35 +1,7 @@
 .history-card {
-    width: 80%;
-    max-width: 350px;
-    margin: 20px auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    background: white;
-    display: block;
-
-    &__header {
-        padding: 5px;
-        display: flex;
-        justify-content: space-between;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        background: black;
-        color: white;
-    }
-
-    &__body {
-        padding: 10px;
-        justify-content: space-around;
-
-        p {
-            font-size: 16px;
-            margin: 10px;
-            width: max-content;
-        }
-    }
-
-    &__section {
-        display: flex;
-        justify-content: space-between;
-    }
+  width: 100%;
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr 35px 3fr;
+  margin: 10px 0;
+  grid-column-gap: 5px;
 }
