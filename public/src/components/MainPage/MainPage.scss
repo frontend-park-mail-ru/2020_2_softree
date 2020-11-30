@@ -4,4 +4,7 @@
 
 .rates-wrapper {
     margin: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }

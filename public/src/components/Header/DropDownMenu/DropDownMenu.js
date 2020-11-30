@@ -23,10 +23,15 @@ export default class DropDownMenu extends Component {
     }
 
     render() {
+        const email = this.useSelector(store => store.user.userData.email);
+
         const element = this.create(`
         <div class='drop-down-menu'>
+          <div class='drop-down-menu__info'> ${email} </div>
+          <div class='drop-down-menu__control'>
             <div class='drop-down-menu__button' id='drop-down-settings-btn'>Настройки</div> 
             <div class='drop-down-menu__button' id='drop-down-exit-btn'>Выйти</div> 
+          </div>
         </div> 
         `);
 

@@ -1,40 +1,67 @@
 @import "../../globals";
 
 .header {
-    width: 100%;
+  width: 100%;
+  background: white;
+  padding: $padding 0 0;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+  }
+
+  &__control {
+    display: flex;
+    position: relative;
+
+    p {
+      margin: 10px 10px 10px 0;
+      font-weight: bold;
+      color: gray;
+      cursor: pointer;
+    }
+  }
+
+  &__account {
+    border-right: solid 2px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    width: max-content;
+    display: flex;
+    align-items: center;
     background: white;
-    padding: $padding 0 0;
+    @include clickable
+  }
 
-    &__container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+  &__logo-text {
+    margin-left: 10px;
+    color: black;
+    font-size: 28px;
+    font-weight: 900;
+  }
 
-    &__logo {
-        width: max-content;
-        display: flex;
-        align-items: center;
-        background: white;
-        @include clickable
-    }
+  &__control-avatar {
+    object-fit: cover;
+    border-radius: 50%;
+    @include square(35px);
+    @include clickable
+  }
 
-    &__logo-text {
-        margin-left: 10px;
-        color: black;
-        font-size: 28px;
-        font-weight: 900;
-    }
+  &__bag-btn {
+    @include square(43);
+    @include clickable
+  }
+}
 
-    &__control-avatar {
-        object-fit: cover;
-        border-radius: 50%;
-        @include square(43px);
-        @include clickable
-    }
-
-    &__bag-btn {
-        @include square(43);
-        @include clickable
-    }
+@media screen and (max-width: 400px) {
+  .header__account {
+    display: none;
+  }
 }
