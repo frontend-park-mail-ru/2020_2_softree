@@ -56,7 +56,7 @@ const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
     setTimeout(() => dispatch(hideMessage()), timeout);
 };
 
-// Currency
+// Account
 export const setCurrency = list => {
     return async dispatch => {
         let store = {};

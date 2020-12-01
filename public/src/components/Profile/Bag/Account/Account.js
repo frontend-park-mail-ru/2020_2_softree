@@ -2,9 +2,9 @@ import { Component } from '../../../../modules/Softer/Softer.js';
 
 import '../Bag.scss';
 import { flagStore } from "../../../../utils/flagStore";
-import './Currency.scss';
+import './Account.scss';
 
-export default class Currency extends Component {
+export default class Account extends Component {
     constructor(props) {
         super(props);
     }
@@ -12,10 +12,10 @@ export default class Currency extends Component {
     render() {
         const { props } = this;
         return this.create(`
-        <div class="currency-card">
-            <div class="currency-card__title">
+        <div class="account">
+            <div class="account__title">
               <img src="${flagStore[props.title]}" alt="currency"/>
-              <p class="currency-card__title-title">${props.title}</p>
+              <p class="account__title-title">${props.title}</p>
             </div>
             <p>${props.value}</p>
         </div>

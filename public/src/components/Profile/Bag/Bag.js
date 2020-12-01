@@ -2,7 +2,7 @@ import { Component } from '../../../modules/Softer/Softer.js';
 import { apiUserAccounts } from '../../../api.js';
 import { setUserAccount } from '../../../store/actions.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
-import Currency from './Currency/Currency.js';
+import Account from './Account/Account.js';
 import { jget } from '../../../modules/jfetch.js';
 
 import './Bag.scss';
@@ -28,19 +28,19 @@ export default class Bag extends Component {
         accounts.forEach(account => {
             sum += this.calc(currencyStore, account.title, 'RUB') * (account.value || 0);
         });
-        return sum.toFixed(3);
+        return sum;
     }
 
     calc(currencyStore, from, to) {
         if (!currencyStore[to].value || !currencyStore[from].value) {
             return 0;
         }
-        return (currencyStore[to].value / currencyStore[from].value).toFixed(3);
+        return (currencyStore[to].value / currencyStore[from].value);
     }
 
     render() {
-        const currencies = this.useSelector(store => store.user.accounts);
-        const total = this.getTotal(currencies);
+        const accounts = this.useSelector(store => store.user.accounts);
+        const total = this.getTotal(accounts);
 
         return this.create(
             `
@@ -48,21 +48,21 @@ export default class Bag extends Component {
                 <h2 class='bag__title'>Счет</h2>
                     <div class='bag__info'>
                         <p>ВСЕГО</p>
-                        <p>${total} ₽</p>
+                        <p>${total.toFixed(3)} ₽</p>
                     </div>
-                <h2 class='bag__title'>Валюта</h2>
+                <h2 class='bag__title'>Валюты</h2>
                 <div class="accounts-wrapper">
-                    ${currencies.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Currency></Currency>'}
+                    ${accounts.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Account/>'}
                 </div>
             </div>
             `,
             {
-                Currency: [
-                    Currency,
-                    currencies.map((element, idx) => ({
+                Account: [
+                    Account,
+                    accounts.map((element, idx) => ({
                         ...element,
                         key: idx,
-                        value: element.value ? (+element.value).toFixed(3) : 0,
+                        value: element.value ? element.value.toFixed(3) : 0,
                     })),
                 ],
             },
