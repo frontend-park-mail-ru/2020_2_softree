@@ -8,29 +8,14 @@ import ActionButton from '../../UI/ActionButton/ActionButton.js';
 
 import './Bag.scss';
 import { select } from '../../../modules/Softer/softer-softex';
+import Statistic from "./Statistic/Statistic";
 
 export default class Bag extends Component {
     constructor() {
         super();
 
         this.fetchAccounts();
-        this.buttons = [
-            {
-                content: '1г',
-                isPushed: () => window.location.pathname === '/profile',
-                clb: () => this.redirect(...pageProfile()),
-            },
-            {
-                content: '1м',
-                isPushed: () => window.location.pathname === '/profile/history',
-                clb: () => this.redirect(...pageHistory()),
-            },
-            {
-                content: '1д',
-                isPushed: () => window.location.pathname === '/profile/history',
-                clb: () => this.redirect(...pageHistory()),
-            },
-        ];
+
     }
 
     fetchAccounts() {
@@ -70,13 +55,7 @@ export default class Bag extends Component {
                         <p>${total.toFixed(3)} ₽</p>
                     </div>
                 <h2 class='bag__title'>Статистика</h2>
-                    <div class='bag__info'>
-                        <p>ДОХОД</p>
-                        <p>${income} ₽</p>
-                    </div>
-                    <div class="period__selector">
-                        <PeriodSelector/>
-                    </div>
+                  <Statistic/>
                 <h2 class='bag__title'>Валюта</h2>
                 <div class="accounts-wrapper">
                     ${accounts.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Account/>'}
@@ -92,7 +71,7 @@ export default class Bag extends Component {
                         value: element.value ? element.value.toFixed(3) : 0,
                     })),
                 ],
-                PeriodSelector: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))],
+                Statistic
             },
         );
     }

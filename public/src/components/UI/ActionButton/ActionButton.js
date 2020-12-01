@@ -3,8 +3,7 @@ import './ActionButton.scss';
 import Styler from '../../../modules/Styler';
 
 const pushedStyle = Styler({
-    boxShadow: `inset 0 0 10px rgba(0, 0, 0, 0.2)`,
-    background: 'rgba(0, 0, 0, 0.01)',
+    background: '#efefef',
 });
 
 export default class ActionButton extends Component {

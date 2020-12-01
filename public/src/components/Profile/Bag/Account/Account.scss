@@ -36,13 +36,20 @@
 }
 
 @media screen and (max-width: 1200px){
-  .currency-card {
+  .account {
     margin: 15px 9.375%;
   }
 }
 
+
 @media screen and (max-width: 992px){
-  .currency-card {
+  .account {
+    margin: 15px 3.33%;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .account {
     width: 100%;
     margin: 10px 0;
   }
