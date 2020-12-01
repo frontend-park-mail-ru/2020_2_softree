@@ -1,5 +1,5 @@
 import { Component } from '../../modules/Softer/Softer.js';
-import { pageProfile, pageSettings } from '../../pages.js';
+import { pageHistory, pageProfile, pageSettings } from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import { checkAuth } from '../../utils/utils.js';
@@ -68,6 +68,7 @@ export class Header extends Component {
                 ? `<div class="container header__control">
                     <p id="bag">Портфель</p> 
                     <p id="catalog">Каталог</p>
+                    <p id="history">История</p>
                  </div>`
                 : ''
         }
@@ -81,6 +82,7 @@ export class Header extends Component {
         this.link('.header__logo', ...pageMain());
         this.link('#catalog', ...pageMain());
         this.link('#account', ...pageSettings());
+        this.link('#history', ...pageHistory());
 
         this.listen('.header__control-avatar', 'click', toggleMenu);
 
