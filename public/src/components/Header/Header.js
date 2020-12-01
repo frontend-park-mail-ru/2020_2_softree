@@ -1,5 +1,5 @@
 import { Component } from '../../modules/Softer/Softer.js';
-import { pageProfile, pageSettings } from '../../pages.js';
+import { pageHistory, pageProfile, pageSettings } from '../../pages.js';
 import Styler from '../../modules/Styler.js';
 import DropDownMenu from './DropDownMenu/DropDownMenu.js';
 import { checkAuth } from '../../utils/utils.js';
@@ -63,16 +63,10 @@ export class Header extends Component {
                   : ''
           }
         </div>
-<<<<<<< HEAD
-        ${isAuth ?
-                `<div class="container header__control">
-                    <p id="bag">Портфель</p>
-=======
         ${
             isAuth
                 ? `<div class="container header__control">
                     <p id="bag">Портфель</p> 
->>>>>>> 4d03aa214fd2514b1efb970aa4483e5e7073e798
                     <p id="catalog">Каталог</p>
                     <p id="history">История</p>
                  </div>`
@@ -86,14 +80,9 @@ export class Header extends Component {
 
         this.link('#bag', ...pageProfile());
         this.link('.header__logo', ...pageMain());
-<<<<<<< HEAD
-        this.link("#catalog", ...pageMain());
-        this.link("#account", ...pageSettings());
-        this.link("#history", ...pageHistory());
-=======
         this.link('#catalog', ...pageMain());
         this.link('#account', ...pageSettings());
->>>>>>> 4d03aa214fd2514b1efb970aa4483e5e7073e798
+        this.link('#history', ...pageHistory());
 
         this.listen('.header__control-avatar', 'click', toggleMenu);
 

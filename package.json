@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest --collect-coverage",
-    "start": "cross-env NODE_ENV=development webpack serve --mode development",
+    "start": "cross-env NODE_ENV=development SOFTREE_HOST=http://localhost:8000 webpack serve --mode development",
     "build": "webpack --mode production",
     "build:dev": "cross-env NODE_ENV=development webpack --watch --mode development",
     "lint": "eslint public/src/",

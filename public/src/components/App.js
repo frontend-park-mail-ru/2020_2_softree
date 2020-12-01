@@ -71,12 +71,15 @@ export default class App extends Component {
                                 exact: true,
                                 authRequired: true,
                             },
-                            { path: '/signin', component: SignIn, exact: true },
-                            { path: '/signup', component: SignUp, exact: true },
                             {
-                                path: '/profile',
-                                component: Profile,
-                                authRequired: true,
+                                path: '/signin',
+                                component: SignIn,
+                                exact: true,
+                            },
+                            {
+                                path: '/signup',
+                                component: SignUp,
+                                exact: true,
                             },
                             {
                                 path: '/history',
@@ -86,11 +89,6 @@ export default class App extends Component {
                             {
                                 path: '/settings',
                                 component: Settings,
-                                authRequired: true,
-                            },
-                            {
-                                path: '/profile/history',
-                                component: History,
                                 authRequired: true,
                             },
                             {

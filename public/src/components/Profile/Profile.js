@@ -11,24 +11,6 @@ export default class Profile extends Component {
             <Content/>
         </div>
         `,
-            {
-                Menu,
-                Content: [
-                    Switch,
-                    {
-                        routers: [
-                            {
-                                path: '/profile/history',
-                                component: History,
-                            },
-                            {
-                                path: '/profile',
-                                component: Bag,
-                            },
-                        ],
-                    },
-                ],
-            },
         );
     }
 }
