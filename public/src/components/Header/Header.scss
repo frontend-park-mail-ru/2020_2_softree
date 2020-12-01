@@ -5,6 +5,8 @@
   background: white;
   padding: $padding 0 0;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  z-index: 1000;
 
   &__container {
     display: flex;

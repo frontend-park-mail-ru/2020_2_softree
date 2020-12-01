@@ -13,6 +13,7 @@ import { pageSignUp } from '../pages.js';
 import Styler from '../modules/Styler.js';
 import { jget } from '../modules/jfetch';
 import { apiRates } from '../api';
+import './App.scss'
 
 export default class App extends Component {
     constructor() {
@@ -55,7 +56,9 @@ export default class App extends Component {
             `
         <div>
             <Header/>
-            <MainContent/>
+            <div class="content">
+              <MainContent/>
+            </div>
         </div>
         `,
             {
