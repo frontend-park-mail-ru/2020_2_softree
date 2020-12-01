@@ -2,7 +2,7 @@ import { Component } from '../../../modules/Softer/Softer.js';
 import { apiUserAccounts } from '../../../api.js';
 import { setUserAccount } from '../../../store/actions.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
-import Currency from './Currency.js';
+import Currency from './Currency/Currency.js';
 import { jget } from '../../../modules/jfetch.js';
 
 import './Bag.scss';
@@ -51,7 +51,7 @@ export default class Bag extends Component {
                         <p>${total} ₽</p>
                     </div>
                 <h2 class='bag__title'>Валюта</h2>
-                <div>
+                <div class="accounts-wrapper">
                     ${currencies.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Currency></Currency>'}
                 </div>
             </div>
