@@ -1,23 +1,38 @@
-import { Component } from '../../../../modules/Softer/Softer.js';
+import { Component } from "../../../../modules/Softer/Softer";
+import Transaction from "./Transaction/Transaction";
 import './HistoryCard.scss';
 
-export default class Rate extends Component {
+export default class HistoryCard extends Component {
     constructor(props) {
         super(props);
     }
 
+    initState() {
+        return {
+            isOpen: true,
+        }
+    }
+
     render() {
-        const { props } = this;
-
-        const date = new Date(props.updated_at.seconds * 1000);
-
-        return this.create(`
+        const el = this.create(`
         <div class="history-card">
-          <div class="history-card__rate">${props.currency}/${props.base}</div>
-          <div class="history-card__amount">${props.amount}</div>
-          <div class="history-card__value">${props.value}</div>
-          <div class="history-card__action">${props.sell === "true" ? "SELL" : "BUY"}</div>
-          <div class="history-card__date">${date.toLocaleString()}</div>
-        </div>`);
+          <div class="history-card__header">${this.props.date}</div> 
+          ${ this.state.isOpen ? 
+            `
+            <div class="history-card__body">
+              <Transactions/>
+            </div>` 
+            : 
+            ``}
+        </div>
+        `, {
+            Transactions: [Transaction, this.props.transactions]
+        })
+
+        const toggle = () => this.setState({isOpen: !this.state.isOpen});
+
+        this.listen('.history-card__header', 'click', toggle);
+
+        return el;
     }
 }
