@@ -34,6 +34,11 @@ export default class MainPage extends Component {
             `
         <div class="container">
             <div class='rates-wrapper'>
+                <div class="rates-wrapper__header">
+                  <p>Название</p>
+                  <p>Изменение за день</p>
+                  <p>Цена</p>
+                </div>
                 ${markets.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
             </div>
         </div>

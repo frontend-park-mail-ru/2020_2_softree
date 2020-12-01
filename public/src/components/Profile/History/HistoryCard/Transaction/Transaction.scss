@@ -1,0 +1,78 @@
+@import "../../../../../globals";
+
+.transaction {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 10px;
+  justify-items: center;
+  align-items: center;
+  border-top: 1px solid gray;
+
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+
+    .transaction__time {
+      color: gray;
+      padding-right: 10px;
+    }
+  }
+
+  &__rate {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    img {
+      @include square(45px);
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 2px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &__price {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      @include square(30px);
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 2px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    justify-content: center;
+    .transaction__price {
+      padding-left: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .transaction {
+    font-size: 14px;
+    grid-template-columns: repeat(3, 1fr);
+
+    &__time {
+      font-size: 12px;
+    }
+
+    img {
+      @include square(30px);
+    }
+
+    &__action {
+      display: none;
+    }
+  }
+}

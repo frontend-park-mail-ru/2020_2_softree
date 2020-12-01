@@ -1,7 +1,13 @@
 .history-card {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 80px 1fr 1fr 35px 3fr;
-  margin: 10px 0;
-  grid-column-gap: 5px;
+  &__header {
+    font-weight: 900;
+    font-size: 18px;
+    padding: 10px 0;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+  }
+
+  .history-arrow {
+  }
 }
