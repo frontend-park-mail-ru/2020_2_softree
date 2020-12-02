@@ -19,7 +19,7 @@ export default class History extends Component {
         this.isFetched = true;
         const dispatch = useDispatch();
         jget(apiHistory()).then(resp => {
-            dispatch(setUserHistory(resp.data));
+            dispatch(setUserHistory(resp.data.history));
         });
     }
 
