@@ -12,4 +12,4 @@ export const apiMarkets = () => '/api/markets';
 export const apiUserAccounts = () => '/api/accounts';
 export const apiHistory = () => '/api/transactions';
 export const apiTransactions = () => '/api/transactions';
-export const apiIncome = period => `/api/income?period=${period}`;
+export const apiIncome = period => `/api/income/${period}`;

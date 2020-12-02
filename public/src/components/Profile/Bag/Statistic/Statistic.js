@@ -5,11 +5,12 @@ import { showMessage } from "../../../../store/actions";
 import { msgTypes } from "../../../../messages/types";
 import { jget } from "../../../../modules/jfetch";
 import ActionButton from "../../../UI/ActionButton/ActionButton";
+import { calc } from "../../../../utils/utils";
 
 
 export default class Statistic extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.buttons = [
             {
@@ -35,6 +36,7 @@ export default class Statistic extends Component {
         ];
 
         this.fetchIncome('day')
+        this.doNotReset = true;
     }
 
 
@@ -45,10 +47,14 @@ export default class Statistic extends Component {
         };
     }
 
-    fetchIncome(period) {
+    fetchIncome(period, rerender = true) {
         jget(apiIncome(period))
             .then(resp => {
-                this.setState({interest: period, income: resp.data})
+                if (rerender) {
+                    this.setState({interest: period, income: resp.data});
+                    return;
+                }
+                return resp.data;
             })
             .catch(resp => {
                 useDispatch()(showMessage("Не удалось получить данные", msgTypes.FAIL));
@@ -60,7 +66,7 @@ export default class Statistic extends Component {
         <div class="statistic">
           <div class='bag__info'>
             <p>ДОХОД</p>
-            <p>${this.state.income} ₽</p>
+            <p>${calc('USD', 'RUB', this.state.income).toFixed(3)} ₽</p>
           </div>
           <div class="period__selector">
             <PeriodSelector/>
