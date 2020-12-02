@@ -8,6 +8,17 @@ export default class Rate extends Component {
         super(props);
     }
 
+    time(date) {
+        return `${this.normalizeTimePart(date.getHours())}:${this.normalizeTimePart(date.getMinutes())}`
+    }
+
+    normalizeTimePart(part) {
+        if (part < 10) {
+            return `0${part}`
+        }
+        return part
+    }
+
     render() {
         const { props } = this;
 
@@ -20,7 +31,7 @@ export default class Rate extends Component {
         return this.create(`
         <div class="transaction" style="${Styler(style)}">
           <div class="transaction__title-wrapper">
-            <div class="transaction__time">${date.getHours()}:${date.getMinutes()}</div>
+            <div class="transaction__time">${this.time(date)}</div>
             <div class="transaction__rate">
               <img src="${flagStore[props.currency]}" alt="${props.currency}"/>
               <p>${props.currency}/${props.base}</p>

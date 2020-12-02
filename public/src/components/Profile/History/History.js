@@ -1,11 +1,13 @@
 import { Component } from '../../../modules/Softer/Softer.js';
-import Tabs from './HistoryCard/Transaction/Transaction.js';
 import { apiHistory } from '../../../api.js';
 import { setUserHistory } from '../../../store/actions.js';
 import { jget } from '../../../modules/jfetch.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import Styler from '../../../modules/Styler';
 import HistoryCard from "./HistoryCard/HistoryCard";
+
+import './History.scss';
+
 export default class History extends Component {
     constructor() {
         super();
@@ -63,8 +65,14 @@ export default class History extends Component {
 
         return this.create(
             `
-        <div class="container">
+        <div class="container history">
             <h2 class='block-title'>История</h2>
+            <div class='history-header'>
+              <p></p>
+              <p>Количество</p>
+              <p>Действие</p>
+              <p>Сумма</p>
+            </div>
             <div class='rates-wrapper'>
                 ${this.resolve(composedHistory)}
             </div>

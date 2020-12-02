@@ -2,7 +2,12 @@
   &__header {
     font-weight: 900;
     font-size: 18px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     cursor: pointer;
+    align-items: center;
+    display: flex;
+  }
+
+  .history-arrow {
   }
 }
