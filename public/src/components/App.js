@@ -1,9 +1,8 @@
-import { Component, Router, Switch } from '../modules/Softer/Softer.js';
+import { Component, Switch } from '../modules/Softer/Softer.js';
 import { Header } from './Header/Header.js';
 import { SignUp } from './SignUp/SignUp.js';
 import History from './Profile/History/History.js';
 import Bag from './Profile/Bag/Bag.js';
-import Profile from './Profile/Profile.js';
 import MainPage from './MainPage/MainPage.js';
 import SignIn from './SignIn/SignIn.js';
 import Settings from './Settings/Settings.js';
@@ -11,7 +10,6 @@ import Page404 from './Page404/Page404.js';
 import { useDispatch } from '../modules/Softer/softer-softex.js';
 import { fetchUserData, setCurrency } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
-import Styler from '../modules/Styler.js';
 import { jget } from '../modules/jfetch';
 import { apiRates } from '../api';
 import './App.scss'
@@ -27,7 +25,7 @@ export default class App extends Component {
     fetchRates() {
         jget(apiRates())
             .then(response => {
-                this.dispatch(setCurrency(response.data));
+                this.dispatch(setCurrency(response.data.rates));
             })
             .catch(() => {
                 this.setState({ error: 'Что-то пошло не так(' });

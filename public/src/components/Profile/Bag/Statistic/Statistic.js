@@ -51,10 +51,10 @@ export default class Statistic extends Component {
         jget(apiIncome(period))
             .then(resp => {
                 if (rerender) {
-                    this.setState({interest: period, income: resp.data});
+                    this.setState({interest: period, income: resp.data.change});
                     return;
                 }
-                return resp.data;
+                return resp.data.change;
             })
             .catch(resp => {
                 useDispatch()(showMessage("Не удалось получить данные", msgTypes.FAIL));
@@ -66,7 +66,7 @@ export default class Statistic extends Component {
         <div class="statistic">
           <div class='bag__info'>
             <p>ДОХОД</p>
-            <p>${calc('USD', 'RUB', this.state.income).toFixed(3)} ₽</p>
+            <p>${calc('USD', 'RUB', this.state.income || 0).toFixed(3)} ₽</p>
           </div>
           <div class="period__selector">
             <PeriodSelector/>
