@@ -1,6 +1,7 @@
 import { Component } from "../../../../modules/Softer/Softer";
 import Styler from "../../../../modules/Styler";
 import Canvas from "../../../../modules/Sancoft/Canvas";
+import Point from "./Point";
 
 export default class Chart extends Canvas {
     constructor(props) {
@@ -61,7 +62,8 @@ export default class Chart extends Canvas {
             const prev = getY(Y.values[idx - 1]);
             const curr = getY(Y.values[idx]);
 
-            this.__drawPoint(currX, prev);
+            const point = new Point(currX, prev);
+            this.drawObject(point);
 
             this.context.beginPath();
             this.context.moveTo(currX, prev);

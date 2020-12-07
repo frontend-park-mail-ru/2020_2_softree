@@ -15,7 +15,8 @@ export default class Canvas extends Component {
         this.draw();
     }
 
-    addObject(object) {
+    drawObject(object) {
+        object.draw(this.context);
         this.store.add(object);
     }
 
