@@ -73,9 +73,7 @@ export default class Converter extends Component {
     }
 
     calc(currencyStore) {
-        return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value).toFixed(
-            3,
-        );
+        return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value);
     }
 
     render() {
@@ -100,7 +98,7 @@ export default class Converter extends Component {
                 <div class='converter__close'><img src='${close}' alt='close'/></div>
             </div>
             <p class='converter__title'>
-              1 ${this.state.leftCurrency} = ${this.calc(currency)} ${this.state.rightCurrency}
+              1 ${this.state.leftCurrency} = ${this.calc(currency).toFixed(3)} ${this.state.rightCurrency}
             </p> 
             <div class='converter__inputs'>
                 <div class='converter__inputs-container'>

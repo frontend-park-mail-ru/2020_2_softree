@@ -38,7 +38,7 @@ export default class App extends Component {
         }
         if (this.useSelector(store => store.user.userData)) {
             this.fetchRates();
-            this.interval = setInterval(() => this.fetchRates(), 60000);
+            // this.interval = setInterval(() => this.fetchRates(), 60000);
         }
     }
 

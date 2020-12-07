@@ -8,6 +8,7 @@ import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../..
 import { msgTypes } from '../../../../messages/types';
 import { jget, jpost } from '../../../../modules/jfetch';
 import { pageSignUp } from '../../../../pages';
+import Chart from "./Chart";
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -69,7 +70,7 @@ export default class OpenedRate extends Component {
           <h2>${base}/${currency}</h2> 
           <img src="${close}" class="opened-rate__close-btn" alt="close"/>
         </header>
-        <div class="opened-rate__chart">График</div>
+        <div class="opened-rate__chart"><Chart/></div>
         <input class="opened-rate__amount-input"
                id="rate-amount-input"
                value="${this.data.amount}"
@@ -82,7 +83,9 @@ export default class OpenedRate extends Component {
         </div>
       </div> 
     </div>
-    `);
+    `, {
+            Chart: [Chart]
+        });
 
         this.listen('.opened-rate__amount-input', 'keydown', e => {
             changeHandler(e, this.setData.bind(this));
