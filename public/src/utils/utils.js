@@ -1,4 +1,4 @@
-import { select } from "../modules/Softer/softer-softex";
+import { select } from '../modules/Softer/softer-softex';
 
 export const changeHandler = (e, setState) => {
     setState({ [e.target.name]: e.target.value });
@@ -26,5 +26,5 @@ export function setUploadedImage(event, imgHandler) {
 
 export const calc = (from, to, amount) => {
     const store = select(store => store.currency);
-    return store[to].value/store[from].value * amount
-}
+    return (store[to].value / store[from].value) * amount;
+};

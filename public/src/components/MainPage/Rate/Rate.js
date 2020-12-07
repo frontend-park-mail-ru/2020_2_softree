@@ -2,7 +2,7 @@ import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
 import './Rate.scss';
 import OpenedRate from './OpenedRate/OpenedRate';
-import { flagStore } from "../../../utils/flagStore";
+import { flagStore } from '../../../utils/flagStore';
 
 export default class Rate extends Component {
     constructor(props) {

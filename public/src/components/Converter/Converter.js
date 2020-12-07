@@ -1,30 +1,30 @@
-import { Component } from "../../modules/Softer/Softer.js";
-import Styler from "../../modules/Styler.js";
-import { useDispatch } from "../../modules/Softer/softer-softex.js";
-import { toggleConverter } from "../../store/actions.js";
-import "./Converter.scss";
+import { Component } from '../../modules/Softer/Softer.js';
+import Styler from '../../modules/Styler.js';
+import { useDispatch } from '../../modules/Softer/softer-softex.js';
+import { toggleConverter } from '../../store/actions.js';
+import './Converter.scss';
 
-import upArrow from "../../images/upArrow.svg";
-import close from "../../images/close.svg";
-import calc from "../../images/calc.svg";
+import upArrow from '../../images/upArrow.svg';
+import close from '../../images/close.svg';
+import calc from '../../images/calc.svg';
 
 export default class Converter extends Component {
     initState() {
         return {
             isOpen: false,
             isHidden: false,
-            leftCurrency: "RUB",
-            rightCurrency: "USD",
+            leftCurrency: 'RUB',
+            rightCurrency: 'USD',
             inputValue: 1,
-            leftInputFocus: true
+            leftInputFocus: true,
         };
     }
 
     afterRerender() {
         if (this.state.leftInputFocus) {
-            this.focus("leftCurrency");
+            this.focus('leftCurrency');
         } else {
-            this.focus("rightCurrency");
+            this.focus('rightCurrency');
         }
     }
 
@@ -39,7 +39,7 @@ export default class Converter extends Component {
         if (isNaN(event.key)) {
             return;
         }
-        const leftInputFocus = event.target.id === "leftCurrency";
+        const leftInputFocus = event.target.id === 'leftCurrency';
         this.setState({ leftInputFocus, inputValue: +event.target.value });
     }
 
@@ -65,23 +65,23 @@ export default class Converter extends Component {
         return options.map(
             option =>
                 `<option value='${option.value}' 
-              ${option.title === selectedTitle ? "selected" : ""}
+              ${option.title === selectedTitle ? 'selected' : ''}
              >
               ${option.title}
-             </option>`
+             </option>`,
         );
     }
 
     calc(currencyStore) {
         return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value).toFixed(
-            3
+            3,
         );
     }
 
     render() {
         const currency = this.useSelector(store => store.currency);
 
-        const {isOpen} = this.state;
+        const { isOpen } = this.state;
 
         const options = [];
 
@@ -89,7 +89,7 @@ export default class Converter extends Component {
             options.push({ title, value: title });
         }
 
-        const toggle = () => this.setState({isOpen: !isOpen});
+        const toggle = () => this.setState({ isOpen: !isOpen });
 
         const component = this.create(
             isOpen
@@ -123,19 +123,19 @@ export default class Converter extends Component {
                 : `
         <div class="converter_closed">
           <img src="${calc}" alt="calculator"/> 
-        </div>`
+        </div>`,
         );
 
-        this.listen(".converter__close", "click", toggle);
-        this.listen("input", "keyup", this.change.bind(this));
-        this.listen("input", "keypress", e => {
+        this.listen('.converter__close', 'click', toggle);
+        this.listen('input', 'keyup', this.change.bind(this));
+        this.listen('input', 'keypress', e => {
             if (isNaN(e.key)) {
                 e.preventDefault();
                 return false;
             }
         });
-        this.listen('.converter_closed', 'click', toggle)
-        this.listen("select", "change", this.changeCurrency.bind(this));
+        this.listen('.converter_closed', 'click', toggle);
+        this.listen('select', 'change', this.changeCurrency.bind(this));
 
         return component;
     }

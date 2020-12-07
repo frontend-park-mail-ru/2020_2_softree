@@ -8,14 +8,13 @@ import ActionButton from '../../UI/ActionButton/ActionButton.js';
 
 import './Bag.scss';
 import { select } from '../../../modules/Softer/softer-softex';
-import Statistic from "./Statistic/Statistic";
+import Statistic from './Statistic/Statistic';
 
 export default class Bag extends Component {
     constructor() {
         super();
 
         this.fetchAccounts();
-
     }
 
     fetchAccounts() {
@@ -38,7 +37,7 @@ export default class Bag extends Component {
         if (!currencyStore[to].value || !currencyStore[from].value) {
             return 0;
         }
-        return (currencyStore[to].value / currencyStore[from].value);
+        return currencyStore[to].value / currencyStore[from].value;
     }
 
     render() {
@@ -71,7 +70,7 @@ export default class Bag extends Component {
                         value: element.value ? element.value.toFixed(3) : 0,
                     })),
                 ],
-                Statistic
+                Statistic,
             },
         );
     }

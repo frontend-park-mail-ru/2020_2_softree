@@ -1,5 +1,5 @@
-import { Component } from "../../modules/Softer/Softer";
-import { flagStore } from "../../utils/flagStore";
+import { Component } from '../../modules/Softer/Softer';
+import { flagStore } from '../../utils/flagStore';
 
 import './CurrencyCard.scss';
 
@@ -14,6 +14,6 @@ export default class CurrencyCard extends Component {
           <img src="${flagStore[this.props.title]}" alt="${this.props.title}">
           <p>${this.props.title}</p>
         </div>
-        `)
+        `);
     }
 }

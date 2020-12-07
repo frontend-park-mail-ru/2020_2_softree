@@ -4,7 +4,7 @@ import { setUserHistory } from '../../../store/actions.js';
 import { jget } from '../../../modules/jfetch.js';
 import { useDispatch } from '../../../modules/Softer/softer-softex.js';
 import Styler from '../../../modules/Styler';
-import HistoryCard from "./HistoryCard/HistoryCard";
+import HistoryCard from './HistoryCard/HistoryCard';
 
 import './History.scss';
 
@@ -43,15 +43,15 @@ export default class History extends Component {
         }
 
         const result = [];
-        let prevDate = new Date(histories[0].updated_at.seconds * 1000).toLocaleString().split(',')[0]
-        result.push({date: prevDate, transactions: [histories[0]]});
+        let prevDate = new Date(histories[0].updated_at.seconds * 1000).toLocaleString().split(',')[0];
+        result.push({ date: prevDate, transactions: [histories[0]] });
 
         for (let idx = 1; idx < histories.length; idx++) {
-            const currDate = new Date(histories[idx].updated_at.seconds * 1000).toLocaleString().split(',')[0]
+            const currDate = new Date(histories[idx].updated_at.seconds * 1000).toLocaleString().split(',')[0];
             if (currDate === prevDate) {
                 result[result.length - 1].transactions.push(histories[idx]);
             } else {
-                result.push({date: currDate, transactions: [histories[idx]]});
+                result.push({ date: currDate, transactions: [histories[idx]] });
                 prevDate = currDate;
             }
         }
@@ -79,7 +79,7 @@ export default class History extends Component {
         </div>
         `,
             {
-                HistoryCards: [ HistoryCard, composedHistory.map((el, key) => ({...el, key})) ],
+                HistoryCards: [HistoryCard, composedHistory.map((el, key) => ({ ...el, key }))],
             },
         );
     }

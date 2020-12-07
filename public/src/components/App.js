@@ -12,7 +12,7 @@ import { fetchUserData, setCurrency } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
 import { jget } from '../modules/jfetch';
 import { apiRates } from '../api';
-import './App.scss'
+import './App.scss';
 
 export default class App extends Component {
     constructor() {
