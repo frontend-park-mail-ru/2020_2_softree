@@ -1,61 +1,58 @@
 import { Component } from '../../modules/Softer/Softer.js';
 import Rate from './Rate/Rate.js';
 import { jget } from '../../modules/jfetch.js';
-import { apiRates } from '../../api.js';
-import './MainPage.css';
+import { apiMarkets, apiRates } from '../../api.js';
+import './MainPage.scss';
+import { useDispatch } from '../../modules/Softer/softer-softex';
+import { fetchMarkets, setMarkets } from '../../store/actions';
 
 export default class MainPage extends Component {
     constructor() {
         super();
 
-        this.interval = false;
         this.doNotReset = true;
+        this.fetched = false;
+        this.fetchMarkets();
     }
 
-    initState() {
-        return { rates: [] };
-    }
-
-    fetchRates() {
-        jget(apiRates())
-            .then(({ data }) => {
-                this.setState({ rates: data });
-            })
-            .catch(() => {
-                this.setState({ error: 'Что-то пошло не так(' });
-            });
-    }
-
-    clear() {
-        super.clear();
-        clearInterval(this.interval);
-        this.interval = null;
-    }
-
-    subscribe() {
-        if (this.interval) {
+    fetchMarkets() {
+        if (this.fetched) {
             return;
         }
-        if (this.useSelector(store => store.user.userData)) {
-            this.fetchRates();
-            this.interval = setInterval(() => this.fetchRates(), 2000);
-        }
+        this.fetched = true;
+        const dispatch = useDispatch();
+        jget(apiMarkets()).then(resp => {
+            dispatch(setMarkets(resp.data));
+        });
     }
 
     render() {
-        this.subscribe();
+        const markets = this.useSelector(store => store.markets);
+        const currency = this.useSelector(store => store.currency);
 
         return this.create(
             `
         <div class="container">
-            <h2 class='block-title'>Валюта</h2>
             <div class='rates-wrapper'>
-                ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
+                <div class="rates-wrapper__header">
+                  <p>Название</p>
+                  <p>Изменение за день</p>
+                  <p>Цена</p>
+                </div>
+                ${markets.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
             </div>
         </div>
         `,
             {
-                Rates: [Rate, this.state.rates],
+                Rates: [
+                    Rate,
+                    markets.map((market, idx) => ({
+                        ...market,
+                        left: currency[market.base].value,
+                        right: currency[market.title].value,
+                        key: idx,
+                    })),
+                ],
             },
         );
     }

@@ -1,34 +1,62 @@
 import { Component } from '../../../modules/Softer/Softer.js';
 import Styler from '../../../modules/Styler.js';
-import './Rate.css';
+import './Rate.scss';
+import OpenedRate from './OpenedRate/OpenedRate';
+import { flagStore } from '../../../utils/flagStore';
 
 export default class Rate extends Component {
     constructor(props) {
         super(props);
+
+        this.doNotReset = true;
+    }
+
+    calc(left, right, multiply = 1) {
+        return ((right * multiply) / left).toFixed(3);
+    }
+
+    initState() {
+        return {
+            isOpened: false,
+        };
+    }
+
+    toggle() {
+        this.setState({ isOpened: !this.state.isOpened });
     }
 
     render() {
         const { props } = this;
+        const { state } = this;
+        props.change = 1;
         const headerStyle = {
             background: props.change >= 0 ? '#60992D' : '#E71D36',
         };
 
-        return this.create(`
+        const element = this.create(
+            `
         <div class="rate-card">
-            <div class="rate-card__header" style="${Styler(headerStyle)}">
-                <p class="rate-card__header_title">${props.title}</p> 
-                <p class="rate-card__header_change">${props.change >= 0 ? `+${props.change}` : props.change}%</p> 
-            </div> 
-            <div class="rate-card__body">
-                <div class="rate-card__body_field">
-                    <p class="rate-card__body_field-title">BUY</p> 
-                    <p class="rate-card__body_field-value">${props.buy}</p> 
-                </div> 
-                <div class="rate-card__body_field">
-                    <p class="rate-card__body_field-title">SELL</p> 
-                    <p class="rate-card__body_field-value">${props.sell}</p> 
-                </div>
+            ${state.isOpened ? `<OpenedRate/>` : ''}
+            <div class="rate-card__title">
+              <img src="${flagStore[props.base]}" alt="${props.base}">
+              <p>${props.base}/${props.title}</p>
             </div>
-        </div>`);
+            <div class="rate-card__change"> 0% </div>
+            <div class="rate-card__price">
+              <p>${this.calc(props.left, props.right)}</p>
+              <div class="rate-card__price-currency-card">
+                <img src="${flagStore[props.title]}" alt="${props.title}">
+                <p>${props.title}</p>
+              </div>
+            </div>
+        </div>`,
+            {
+                OpenedRate: [OpenedRate, { base: props.base, currency: props.title, toggle: this.toggle.bind(this) }],
+            },
+        );
+
+        this.listen('.rate-card', 'click', this.toggle.bind(this));
+
+        return element;
     }
 }

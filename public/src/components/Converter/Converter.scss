@@ -1,0 +1,96 @@
+@import "../../globals";
+
+.converter {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    background: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 15px;
+    width: 270px;
+
+    &__title {
+        color: gray;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    &__control-wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+
+        h3 {
+            cursor: pointer;
+        }
+    }
+
+    &__close, &__hide {
+        cursor: pointer;
+    }
+
+    &__hide img {
+        transition: transform 200ms;
+    }
+
+    &__inputs-container {
+        margin: 10px 0;
+    }
+
+    &_closed {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        @include square(45px);
+        background: yellow;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include clickable;
+
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.converter__inputs-container input, select {
+
+}
+
+.converter__inputs-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.converter__inputs-container select {
+    cursor: pointer;
+}
+
+.converter__inputs-container select:focus {
+    outline: none;
+}
+
+.converter__inputs-container input {
+    width: 150px;
+    -moz-appearance: textfield;
+}
+
+.converter__inputs-container input::-webkit-outer-spin-button,
+.converter__inputs-container input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.converter__inputs-container input:focus {
+    outline: none;
+    border-color: gray;
+}
+
+.converter__last-update {
+    color: gray;
+    font-size: 11px;
+    text-align: center;
+}

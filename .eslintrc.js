@@ -11,7 +11,7 @@ module.exports = {
     'prettier',
   ],
   'parserOptions': {
-    'ecmaVersion': 12,
+    'ecmaVersion': 2020,
     'sourceType': 'module',
   },
   'rules': {

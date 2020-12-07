@@ -1,0 +1,18 @@
+.history-header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  color: gray;
+}
+
+@media screen and (max-width: 550px){
+  .history-header{
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 470px){
+  .history-header{
+    display: none;
+  }
+}

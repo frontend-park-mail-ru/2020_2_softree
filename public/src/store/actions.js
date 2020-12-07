@@ -1,7 +1,7 @@
-import { apiCheckAuth, apiUpdateUser } from '../api.js';
-import { jget, jpatch } from '../modules/jfetch.js';
-import { appTypes, messageTypes, userTypes } from './types';
+import { apiCheckAuth, apiMarkets, apiUpdateUser } from '../api.js';
+import { appTypes, currencyTypes, marketsTypes, messageTypes, userTypes } from './types';
 import { msgTypes } from '../messages/types';
+import { jget, jput } from '../modules/jfetch';
 
 // APP
 export const startLoading = () => ({ type: appTypes.START_LOADING });
@@ -14,6 +14,8 @@ export const dropUserData = () => ({ type: userTypes.DROP_DATA });
 export const setAvatar = src => ({ type: userTypes.SET_AVATAR, payload: src });
 export const startUserDataLoading = () => ({ type: userTypes.START_LOADING });
 export const endUserDataLoading = () => ({ type: userTypes.END_LOADING });
+export const setUserAccount = data => ({ type: userTypes.SET_ACCOUNTS, payload: data });
+export const setUserHistory = data => ({ type: userTypes.SET_HISTORIES, payload: data });
 
 export const fetchUserData = redirectToAuth => {
     return async dispatch => {
@@ -28,13 +30,14 @@ export const fetchUserData = redirectToAuth => {
     };
 };
 
-export const setPhoto = src => {
+export const setPhoto = (src, old) => {
     return async dispatch => {
         try {
-            const response = await jpatch(apiUpdateUser(), { avatar: src });
             dispatch(setAvatar(src));
+            const response = await jput(apiUpdateUser(), { avatar: src });
             syncShowMessage(dispatch, 'Фотография успешно обновлена!', msgTypes.SUCCESS);
         } catch (e) {
+            dispatch(setAvatar(old));
             syncShowMessage(dispatch, 'Упс, что-то пошло не так(', msgTypes.FAIL);
         }
     };
@@ -51,4 +54,29 @@ export const showMessage = (message, type, timeout = 2000) => {
 const syncShowMessage = (dispatch, message, type, timeout = 2000) => {
     dispatch({ type: messageTypes.SHOW, payload: { message, type } });
     setTimeout(() => dispatch(hideMessage()), timeout);
+};
+
+// Account
+export const setCurrency = list => {
+    return async dispatch => {
+        let store = {};
+        list.forEach(currency => {
+            const { title, value, updated_at } = currency;
+            store = { ...store, [title]: { value, updated_at } };
+        });
+        dispatch({ type: currencyTypes.SET, payload: store });
+    };
+};
+
+// Market
+export const setMarkets = markets => ({ type: marketsTypes.SET, payload: markets });
+export const fetchMarkets = () => {
+    return async dispatch => {
+        try {
+            const response = await jget(apiMarkets());
+            dispatch(setMarkets(response.data));
+        } catch (e) {
+            syncShowMessage(dispatch, 'Не удалось получить котировки (', msgTypes.FAIL);
+        }
+    };
 };
