@@ -20,7 +20,7 @@ export default class Bag extends Component {
     fetchAccounts() {
         const dispatch = useDispatch();
         jget(apiUserAccounts()).then(resp => {
-            dispatch(setUserAccount(resp.data.wallets));
+            dispatch(setUserAccount(resp.data));
         });
     }
 

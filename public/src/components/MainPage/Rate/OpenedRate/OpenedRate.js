@@ -74,14 +74,14 @@ export default class OpenedRate extends Component {
     fetchAccounts() {
         const dispatch = useDispatch();
         jget(apiUserAccounts()).then(resp => {
-            dispatch(setUserAccount(resp.data.wallets));
+            dispatch(setUserAccount(resp.data));
         });
     }
 
     fetchHistory() {
         const dispatch = useDispatch();
         jget(apiHistory()).then(resp => {
-            dispatch(setUserHistory(resp.data.history));
+            dispatch(setUserHistory(resp.data));
         });
     }
 
