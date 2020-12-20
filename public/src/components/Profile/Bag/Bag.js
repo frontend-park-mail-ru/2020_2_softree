@@ -43,7 +43,6 @@ export default class Bag extends Component {
     render() {
         const accounts = this.useSelector(store => store.user.accounts);
         const total = this.getTotal(accounts);
-        const income = -3;
 
         return this.create(
             `
@@ -67,7 +66,7 @@ export default class Bag extends Component {
                     accounts.map((element, idx) => ({
                         ...element,
                         key: idx,
-                        value: element.value ? element.value.toFixed(3) : 0,
+                        value: element.value ? (+element.value).toFixed(3) : 0,
                     })),
                 ],
                 Statistic,

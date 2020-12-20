@@ -49,10 +49,10 @@ export default class Statistic extends Component {
         jget(apiIncome(period))
             .then(resp => {
                 if (rerender) {
-                    this.setState({ interest: period, income: resp.data.change });
+                    this.setState({ interest: period, income: resp.data });
                     return;
                 }
-                return resp.data.change;
+                return resp.data;
             })
             .catch(resp => {
                 useDispatch()(showMessage('Не удалось получить данные', msgTypes.FAIL));

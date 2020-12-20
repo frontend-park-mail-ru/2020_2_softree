@@ -25,7 +25,7 @@ export default class App extends Component {
     fetchRates() {
         jget(apiRates())
             .then(response => {
-                this.dispatch(setCurrency(response.data.rates));
+                this.dispatch(setCurrency(response.data));
             })
             .catch(() => {
                 this.setState({ error: 'Что-то пошло не так(' });

@@ -91,7 +91,7 @@ export default class OpenedRate extends Component {
         const amount = +document.querySelector('#rate-amount-input').value;
         this.setData({ amount });
 
-        jpost(apiTransactions(), { base, currency, amount, sell: (action === 'sell').toString() })
+        jpost(apiTransactions(), { base, currency, amount, sell: action === 'sell'})
             .then(resp => {
                 useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
                 this.fetchAccounts();
