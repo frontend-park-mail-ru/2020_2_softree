@@ -20,6 +20,7 @@ export default class Canvas extends Component {
         this.store.add(object);
     }
 
+
     circle(x, y, radius) {
         this.context.arc(x, y, radius, 0, Math.PI * 2);
     }
@@ -32,6 +33,7 @@ export default class Canvas extends Component {
 
     __mousemove(e) {
         this.store.hover(e.offsetX, e.offsetY);
+        this.store.mouseOver(e.offsetX, e.offsetY);
     }
 
     __click(e) {

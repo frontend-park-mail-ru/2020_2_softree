@@ -2,19 +2,47 @@ import './OpenedRate.scss';
 import { Component } from '../../../../modules/Softer/Softer';
 import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
-import { apiHistory, apiTransactions, apiUserAccounts } from '../../../../api';
+import { apiHistory, apiRatesPeriod, apiTransactions, apiUserAccounts } from "../../../../api";
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
 import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
 import { msgTypes } from '../../../../messages/types';
 import { jget, jpost } from '../../../../modules/jfetch';
 import { pageSignUp } from '../../../../pages';
 import Chart from "./Chart";
+import ActionButton from "../../../UI/ActionButton/ActionButton";
 
 export default class OpenedRate extends Component {
     constructor(props) {
         super(props);
 
+        this.buttons = [
+            {
+                content: 'день',
+                isPushed: () => this.state.chartPeriod === 'day',
+                clb: () => this.fetchRateHistory('day'),
+            },
+            {
+                content: 'неделю',
+                isPushed: () => this.state.chartPeriod === 'week',
+                clb: () => this.fetchRateHistory('week'),
+            },
+            {
+                content: 'месяц',
+                isPushed: () => this.state.chartPeriod === 'month',
+                clb: () => this.fetchRateHistory('month'),
+            },
+            {
+                content: 'год',
+                isPushed: () => this.state.chartPeriod === 'year',
+                clb: () => this.fetchRateHistory('year'),
+            },
+        ];
+
+
         this.doNotReset = true;
+        this.fetchRateHistory('day').then(resp => {
+            console.log("fetched");
+        });
     }
 
     initData() {
@@ -23,12 +51,31 @@ export default class OpenedRate extends Component {
         };
     }
 
+    initState() {
+        return {
+            chartPeriod: 'day',
+            currencyValues: [],
+            baseValues: [],
+        }
+    }
+
+    async fetchRateHistory(period) {
+        const currencyResp = await jget(apiRatesPeriod(this.props.base, period));
+        const baseResp = await jget(apiRatesPeriod(this.props.currency, period));
+        this.setState({
+            chartPeriod: period,
+            currencyValues: currencyResp.data,
+            baseValues: baseResp.data
+        })
+    }
+
     fetchAccounts() {
         const dispatch = useDispatch();
         jget(apiUserAccounts()).then(resp => {
             dispatch(setUserAccount(resp.data.wallets));
         });
     }
+
     fetchHistory() {
         const dispatch = useDispatch();
         jget(apiHistory()).then(resp => {
@@ -60,8 +107,24 @@ export default class OpenedRate extends Component {
             });
     }
 
+    calc(base, currency) {
+        return (base / currency);
+    }
+
     render() {
         const { base, currency, toggle } = this.props;
+        const currencyStore = this.useSelector(store => store.currency);
+        const xValues = [];
+        const yValues = [];
+        console.log(this.state);
+        this.state.currencyValues.forEach((curr, idx) => {
+            if (this.props.base === "USD") {
+               yValues.push(1 / curr.value)
+            } else {
+                yValues.push(this.calc(this.state.baseValues[idx].value, curr.value));
+            }
+            xValues.push(curr.updated_at.seconds * 1000);
+        });
 
         const element = this.create(`
     <div class="wrapper">
@@ -70,7 +133,14 @@ export default class OpenedRate extends Component {
           <h2>${base}/${currency}</h2> 
           <img src="${close}" class="opened-rate__close-btn" alt="close"/>
         </header>
-        <div class="opened-rate__chart"><Chart/></div>
+        <div class="opened-rate__chart-wrapper">
+          <div class="opened-rate__period-choice-wrapper">
+            <PeriodChoice/>
+          </div>
+          <div class="opened-rate__chart">
+            <Chart/>
+          </div>
+        </div>
         <input class="opened-rate__amount-input"
                id="rate-amount-input"
                value="${this.data.amount}"
@@ -84,7 +154,8 @@ export default class OpenedRate extends Component {
       </div> 
     </div>
     `, {
-            Chart: [Chart]
+            Chart: [Chart, {X: {values: xValues}, Y: {values: yValues}, period: this.state.chartPeriod}],
+            PeriodChoice: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))]
         });
 
         this.listen('.opened-rate__amount-input', 'keydown', e => {

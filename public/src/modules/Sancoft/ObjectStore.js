@@ -3,8 +3,16 @@ export default class ObjectStore {
         this.store = [];
     }
 
+    clear() {
+        this.store = [];
+    }
+
     hover(x, y) {
         this.store.forEach(obj => obj.__hover(x, y));
+    }
+
+    mouseOver(x, y) {
+        this.store.forEach(obj => obj.__mouseOver(x, y));
     }
 
     click(x, y) {

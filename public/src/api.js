@@ -6,6 +6,7 @@ export const apiLogOut = () => '/api/sessions';
 export const apiCheckAuth = () => '/api/sessions';
 
 export const apiRates = () => '/api/rates';
+export const apiRatesPeriod = (rate, period) => `/api/rates/${rate}?period=${period}`;
 export const apiRate = id => `/api/rates/${id}`;
 
 export const apiMarkets = () => '/api/markets';

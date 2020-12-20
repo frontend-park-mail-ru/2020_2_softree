@@ -13,6 +13,14 @@ export default class CanvasObject {
 
     click(x, y) {}
 
+    mouseOver(x, y) {}
+
+    __mouseOver(x, y) {
+        if (!this.mouseIn(x, y)) {
+            this.mouseOver(x, y);
+        }
+    }
+
     __hover(x, y) {
         if (this.mouseIn(x, y)) {
             this.hover(x, y);

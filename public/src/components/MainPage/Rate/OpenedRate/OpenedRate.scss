@@ -9,12 +9,20 @@
     background: white;
     @include neo(600px, $black-shadow-color, $radius);
     width: 90%;
-    max-width: 800px;
+    max-width: 1500px;
     cursor: initial;
 
     &__header {
         display: flex;
         justify-content: space-between;
+    }
+
+    &__period-choice-wrapper {
+        display: flex;
+
+        .action-btn {
+            font-size: 12px;
+        }
     }
 
     &__chart {
@@ -25,7 +33,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(0, 0, 0, 0.15);
     }
 
     &__control-panel {
