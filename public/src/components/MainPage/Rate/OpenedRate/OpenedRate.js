@@ -60,12 +60,14 @@ export default class OpenedRate extends Component {
     }
 
     async fetchRateHistory(period) {
+        this.setState({fetched: false});
         const currencyResp = await jget(apiRatesPeriod(this.props.base, period));
         const baseResp = await jget(apiRatesPeriod(this.props.currency, period));
         this.setState({
             chartPeriod: period,
             currencyValues: currencyResp.data,
-            baseValues: baseResp.data
+            baseValues: baseResp.data,
+            fetched: true,
         })
     }
 
@@ -116,15 +118,16 @@ export default class OpenedRate extends Component {
         const currencyStore = this.useSelector(store => store.currency);
         const xValues = [];
         const yValues = [];
-        console.log(this.state);
-        this.state.currencyValues.forEach((curr, idx) => {
-            if (this.props.base === "USD") {
-               yValues.push(1 / curr.value)
-            } else {
-                yValues.push(this.calc(this.state.baseValues[idx].value, curr.value));
-            }
-            xValues.push(curr.updated_at.seconds * 1000);
-        });
+        if (this.state.fetched) {
+            this.state.baseValues.forEach((curr, idx) => {
+                if (this.props.base === "USD") {
+                    yValues.push(+curr.value)
+                } else {
+                    yValues.push(this.calc(+this.state.currencyValues[idx].value, +curr.value));
+                }
+                xValues.push(curr.updated_at.seconds * 1000);
+            });
+        }
 
         const element = this.create(`
     <div class="wrapper">
@@ -138,7 +141,7 @@ export default class OpenedRate extends Component {
             <PeriodChoice/>
           </div>
           <div class="opened-rate__chart">
-            <Chart/>
+            ${this.state.fetched ? `<Chart/>` : `Загрузка...` }
           </div>
         </div>
         <input class="opened-rate__amount-input"

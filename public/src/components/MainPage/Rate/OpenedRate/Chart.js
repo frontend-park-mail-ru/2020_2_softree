@@ -281,9 +281,4 @@ export default class Chart extends Canvas {
 
         this.context.stroke();
     }
-    //
-    // render() {
-    //     this.hardCodeInit();
-    //     return super.render();
-    // }
 }
