@@ -41,7 +41,6 @@ export default class OpenedRate extends Component {
 
         this.doNotReset = true;
         this.fetchRateHistory('day').then(resp => {
-            console.log("fetched");
         });
     }
 
@@ -60,11 +59,13 @@ export default class OpenedRate extends Component {
     }
 
     async fetchRateHistory(period) {
-        this.setState({fetched: false});
+        this.setState({
+            fetched: false,
+            chartPeriod: period,
+        });
         const currencyResp = await jget(apiRatesPeriod(this.props.base, period));
         const baseResp = await jget(apiRatesPeriod(this.props.currency, period));
         this.setState({
-            chartPeriod: period,
             currencyValues: currencyResp.data,
             baseValues: baseResp.data,
             fetched: true,
