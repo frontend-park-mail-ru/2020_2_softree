@@ -1,0 +1,18 @@
+.statistic {
+  &__chart {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
+
+  .bag__comes {
+    display: flex;
+
+    .title {
+      margin-right: 10px;
+      font-weight: 900;
+    }
+  }
+}

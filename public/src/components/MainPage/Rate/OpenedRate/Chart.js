@@ -12,41 +12,6 @@ export default class Chart extends Canvas {
         this.YIntervales = 10;
     }
 
-    hardCodeInit() {
-        const y = [];
-        const x = [];
-        let base = 79;
-        let date = +(new Date());
-        for (let idx = 0; idx < 1000; idx++) {
-            const random = Math.random();
-            if (Math.floor(random * 100) % 2 === 0) {
-                base += random / 100;
-            } else {
-                base -= random / 100;
-            }
-            y.push(base);
-            x.push(date);
-            date -= 60*60*1000;
-        }
-
-        x.reverse()
-
-        this.props.X = {
-            title: "time",
-            values: x
-        }
-
-        this.props.Y = {
-            title: "USD/RUB",
-            values: y
-        }
-
-        // this.props.period = "year"
-        this.props.period = "month"
-        // this.props.period = "week"
-        // this.props.period = "day"
-    }
-
     draw() {
         this.store.clear();
         this.context.clearRect(0, 0, this.node.width, this.node.height);
