@@ -16,11 +16,6 @@ export default class Statistic extends Component {
 
         this.buttons = [
             {
-                content: 'день',
-                isPushed: () => this.state.interest === 'day',
-                clb: () => this.fetchIncome('day'),
-            },
-            {
                 content: 'неделя',
                 isPushed: () => this.state.interest === 'week',
                 clb: () => this.fetchIncome('week'),
@@ -37,7 +32,7 @@ export default class Statistic extends Component {
             },
         ];
 
-        this.fetchIncome('day');
+        this.fetchIncome('week');
         this.doNotReset = true;
     }
 
@@ -78,15 +73,22 @@ export default class Statistic extends Component {
 
         this.state.history.forEach(history => {
             xValues.push(history.updated_at.seconds * 1000);
-            yValues.push(history.value);
+            yValues.push(calc('USD', 'RUB', history.value));
         });
+
+        let income;
+        if (xValues.length > 0) {
+            income = yValues.slice(-1)[0] - yValues[0];
+        } else {
+            income = 0;
+        }
 
         const el = this.create(
             `
         <div class="statistic">
           <div class='bag__comes'>
             <p class="title">Доход:</p>
-            <p>${calc('USD', 'RUB', this.state.income || 0).toFixed(3)} ₽</p>
+            <p>${income.toFixed(3)} ₽</p>
           </div>
           <div class="statistic__chart">
             ${xValues.length < 2 || yValues.length < 2 ? 'Данных нет :(' : '<Chart/>'}
