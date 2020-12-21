@@ -146,7 +146,7 @@ export default class Chart extends Canvas {
             case "month":
                 width = 25;
                 margin = 10;
-                format = date => `${date.getDate()}.${date.getMonth() + 1}`;
+                format = date => `${this.normaliseTime(date.getDate())}.${this.normaliseTime(date.getMonth() + 1)}`;
                 break;
         }
 

@@ -152,8 +152,8 @@ export default class OpenedRate extends Component {
                type="number"
                placeholder="Введите сумму"/>
         <div class="opened-rate__control-panel">
-           <div class="opened-rate__btn buy">Купить</div>
-           <div class="opened-rate__btn sell">Продать</div>
+           <div class="opened-rate__btn buy">Купить ${this.props.base}</div>
+           <div class="opened-rate__btn sell">Продать ${this.props.base}</div>
         </div>
       </div> 
     </div>
