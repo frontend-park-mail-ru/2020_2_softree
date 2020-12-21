@@ -20,7 +20,9 @@ export default class Chart extends Canvas {
 
         this.__drawChart();
 
-        this.drawInitialLine();
+        if (this.minValue() !== Math.max(...this.props.Y.values)) {
+            this.drawInitialLine();
+        }
         this.drawLastValue();
     }
 
@@ -29,7 +31,9 @@ export default class Chart extends Canvas {
 
         this.__drawXPoints([]);
 
-        this.__drawYPoints();
+        if (this.minValue() !== Math.max(...this.props.Y.values)) {
+            this.__drawYPoints();
+        }
     }
 
     minValue() {
@@ -57,7 +61,10 @@ export default class Chart extends Canvas {
         const xInterval = this.__xInterval();
         const minY = Math.min(...Y.values);
         const lengthYAxis = this.lengthYAxis();
-        const getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
+        let getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
+        if (minY === Math.max(...Y.values)) {
+            getY = value => lengthYAxis / 2 + padding;
+        }
 
         let currX = padding;
         const color = this.chooseColor();
@@ -163,8 +170,10 @@ export default class Chart extends Canvas {
         const lengthYAxis = this.lengthYAxis();
         const minY = this.minValue();
         const yFactor = this.yFactor(Y.values);
-        const getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
-
+        let getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
+        if (minY === Math.max(...Y.values)) {
+            getY = value => lengthYAxis / 2 + padding;
+        }
         const y = getY(lastValue);
 
         this.context.fillStyle = 'white';
@@ -206,9 +215,14 @@ export default class Chart extends Canvas {
     }
 
     __factor(values, length) {
-        const max = Math.max(...values);
-        const min = Math.min(...values);
-        return length / (max - min);
+        let max = Math.max(...values);
+        let min = Math.min(...values);
+        if (max === min) {
+            max += 1;
+            min -= min < 1 ? 0 : 1;
+        }
+        const diff = max - min;
+        return length / diff;
     }
 
     yFactor(values) {
