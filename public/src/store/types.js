@@ -30,3 +30,7 @@ export const currencyTypes = {
 export const marketsTypes = {
     SET: 'markets/set',
 };
+
+export const initialCurrencyTypes = {
+    SET: 'initCurr/set',
+};

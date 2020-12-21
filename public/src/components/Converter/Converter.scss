@@ -42,7 +42,7 @@
         position: fixed;
         right: 10px;
         bottom: 10px;
-        @include square(45px);
+        @include square(60px);
         background: yellow;
         border-radius: 50%;
         display: flex;
@@ -51,6 +51,11 @@
         @include clickable;
 
         box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
     }
 }
 

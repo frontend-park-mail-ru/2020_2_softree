@@ -2,12 +2,15 @@ import { useDispatch } from './Softer/softer-softex';
 import { showMessage } from '../store/actions';
 import { msgTypes } from '../messages/types';
 
-const hostname = process.env.SOFTREE_HOST;
+const hostname = process.env.SOFTREE_HOST || '';
 
 export const jfetch = async (path, options) => {
     let response;
     const dispatch = useDispatch();
 
+    // if (path.includes("rates") && path.includes("?period=")) {
+    //     response = mockApiRates(path);
+    // } else {
     try {
         response = await fetch(`${hostname}${path}`, {
             mode: 'cors',
@@ -24,6 +27,7 @@ export const jfetch = async (path, options) => {
         );
         return;
     }
+    // }
 
     const { ok, status, headers } = response;
 
@@ -72,3 +76,58 @@ export const jget = (path, params, options = {}) => {
         ...options,
     });
 };
+
+function mockApiRates(url) {
+    const init = {
+        status: 200,
+        statusText: 'OK',
+    };
+    const values = [];
+    let base = 0.014;
+    let date = +new Date();
+    let diff;
+    let amount;
+
+    if (url.includes('day')) {
+        amount = 24 * 2;
+        diff = 30 * 60 * 1000;
+    }
+
+    if (url.includes('week')) {
+        amount = 7 * 24;
+        diff = 60 * 60 * 1000;
+    }
+
+    if (url.includes('month')) {
+        amount = 30;
+        diff = 24 * 60 * 60 * 1000;
+    }
+
+    if (url.includes('year')) {
+        amount = 365;
+        diff = 24 * 60 * 60 * 1000;
+    }
+
+    for (let idx = 0; idx < amount; idx++) {
+        const random = Math.random();
+        console.log(new Date(date));
+        if (Math.floor(random * 1000) % 2 === 0) {
+            base += random / 1000;
+        } else {
+            base -= random / 1000;
+        }
+
+        values.push({
+            value: base,
+            updated_at: {
+                seconds: Math.floor(date / 1000),
+            },
+        });
+
+        date -= diff;
+    }
+
+    values.reverse();
+    const blob = new Blob([JSON.stringify(values, null, 2)], { type: 'application/json' });
+    return new Response(blob, init);
+}

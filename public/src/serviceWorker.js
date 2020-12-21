@@ -1,4 +1,4 @@
-const KEY = 'mc-v1';
+const KEY = 'mc-v2';
 
 self.addEventListener('install', event => {
     event.waitUntil(self.skipWaiting());

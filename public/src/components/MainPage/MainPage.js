@@ -29,6 +29,7 @@ export default class MainPage extends Component {
     render() {
         const markets = this.useSelector(store => store.markets);
         const currency = this.useSelector(store => store.currency);
+        const initialCurrency = this.useSelector(store => store.initialCurrency);
 
         return this.create(
             `
@@ -50,6 +51,8 @@ export default class MainPage extends Component {
                         ...market,
                         left: currency[market.base].value,
                         right: currency[market.title].value,
+                        leftInitial: initialCurrency[market.base],
+                        rightInitial: initialCurrency[market.title],
                         key: idx,
                     })),
                 ],
