@@ -25,7 +25,7 @@ export default class Rate extends Component {
         const date = new Date(props.updated_at.seconds * 1000);
 
         const style = {
-            background: props.sell === 'true' ? '#ffeaea' : '#f1fff1',
+            background: props.sell ? '#ffeaea' : '#f1fff1',
         };
 
         return this.create(`
@@ -39,7 +39,7 @@ export default class Rate extends Component {
           </div>
             
           <div class="transaction__amount">${props.amount}</div>
-          <div class="transaction__action">${props.sell === 'true' ? 'SELL' : 'BUY'}</div>
+          <div class="transaction__action">${props.sell ? 'SELL' : 'BUY'}</div>
           <div class="transaction__wrapper">
             <div>${(props.value * props.amount).toFixed(3)}</div>
             <div class="transaction__price">
