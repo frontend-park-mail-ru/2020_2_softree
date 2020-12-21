@@ -2,7 +2,7 @@ import { useDispatch } from "./Softer/softer-softex";
 import { showMessage } from "../store/actions";
 import { msgTypes } from "../messages/types";
 
-const hostname = process.env.SOFTREE_HOST;
+const hostname = process.env.SOFTREE_HOST || '';
 
 export const jfetch = async (path, options) => {
     let response;
