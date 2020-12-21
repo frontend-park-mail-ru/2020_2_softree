@@ -1,6 +1,6 @@
-import { Component } from "../Softer/Softer";
-import ObjectStore from "./ObjectStore";
-import Styler from "../Styler";
+import { Component } from '../Softer/Softer';
+import ObjectStore from './ObjectStore';
+import Styler from '../Styler';
 
 export default class Canvas extends Component {
     constructor(props) {
@@ -19,7 +19,6 @@ export default class Canvas extends Component {
         object.draw(this.context);
         this.store.add(object);
     }
-
 
     circle(x, y, radius) {
         this.context.arc(x, y, radius, 0, Math.PI * 2);
@@ -48,11 +47,11 @@ export default class Canvas extends Component {
     render() {
         const style = {
             width: '100%',
-            height: '100%'
-        }
+            height: '100%',
+        };
         const canvas = this.create(`
         <canvas class="${this.props.className || ''}" style="${Styler(style)}"></canvas>
-        `)
+        `);
 
         setTimeout(() => {
             this.context = this.node.getContext('2d');

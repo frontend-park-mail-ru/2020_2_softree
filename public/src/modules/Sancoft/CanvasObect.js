@@ -1,4 +1,4 @@
-import { id } from "../Softer/utils";
+import { id } from '../Softer/utils';
 
 export default class CanvasObject {
     constructor(x, y) {
@@ -33,5 +33,7 @@ export default class CanvasObject {
         }
     }
 
-    draw(context) {}
+    draw(context) {
+        this.context = context;
+    }
 }

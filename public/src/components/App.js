@@ -8,10 +8,10 @@ import SignIn from './SignIn/SignIn.js';
 import Settings from './Settings/Settings.js';
 import Page404 from './Page404/Page404.js';
 import { useDispatch } from '../modules/Softer/softer-softex.js';
-import { fetchUserData, setCurrency, setInitialCurrency } from "../store/actions.js";
+import { fetchUserData, setCurrency, setInitialCurrency } from '../store/actions.js';
 import { pageSignUp } from '../pages.js';
 import { jget } from '../modules/jfetch';
-import { apiInitialRates, apiRates } from "../api";
+import { apiInitialRates, apiRates } from '../api';
 import './App.scss';
 
 export default class App extends Component {
@@ -21,10 +21,9 @@ export default class App extends Component {
         this.dispatch(fetchUserData(() => this.redirect(...pageSignUp())));
         this.interval = false;
 
-        jget(apiInitialRates())
-            .then(response => {
-                this.dispatch(setInitialCurrency(response.data));
-            })
+        jget(apiInitialRates()).then(response => {
+            this.dispatch(setInitialCurrency(response.data));
+        });
     }
 
     fetchRates() {

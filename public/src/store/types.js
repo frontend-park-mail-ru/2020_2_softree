@@ -32,5 +32,5 @@ export const marketsTypes = {
 };
 
 export const initialCurrencyTypes = {
-    SET: 'initCurr/set'
-}
+    SET: 'initCurr/set',
+};

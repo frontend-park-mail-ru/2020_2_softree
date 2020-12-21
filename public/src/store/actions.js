@@ -1,5 +1,5 @@
 import { apiCheckAuth, apiMarkets, apiUpdateUser } from '../api.js';
-import { appTypes, currencyTypes, initialCurrencyTypes, marketsTypes, messageTypes, userTypes } from "./types";
+import { appTypes, currencyTypes, initialCurrencyTypes, marketsTypes, messageTypes, userTypes } from './types';
 import { msgTypes } from '../messages/types';
 import { jget, jput } from '../modules/jfetch';
 
@@ -81,4 +81,4 @@ export const fetchMarkets = () => {
     };
 };
 
-export const setInitialCurrency = currency => ({type: initialCurrencyTypes.SET, payload: currency});
+export const setInitialCurrency = currency => ({ type: initialCurrencyTypes.SET, payload: currency });

@@ -1,7 +1,7 @@
-import { Component } from "../../../../modules/Softer/Softer";
-import Styler from "../../../../modules/Styler";
-import Canvas from "../../../../modules/Sancoft/Canvas";
-import Point from "./Point";
+import { Component } from '../../../../modules/Softer/Softer';
+import Styler from '../../../../modules/Styler';
+import Canvas from '../../../../modules/Sancoft/Canvas';
+import Point from './Point';
 
 export default class Chart extends Canvas {
     constructor(props) {
@@ -18,7 +18,7 @@ export default class Chart extends Canvas {
 
         this.__drawAxis();
 
-        this.__drawChart()
+        this.__drawChart();
 
         this.drawInitialLine();
         this.drawLastValue();
@@ -51,8 +51,8 @@ export default class Chart extends Canvas {
     }
 
     __drawChart() {
-        const {Y} = this.props;
-        const {padding} = this;
+        const { Y } = this.props;
+        const { padding } = this;
         const yFactor = this.yFactor(Y.values);
         const xInterval = this.__xInterval();
         const minY = Math.min(...Y.values);
@@ -84,21 +84,19 @@ export default class Chart extends Canvas {
 
     normaliseTime(time) {
         if (time < 10) {
-            return `0` + time
+            return `0` + time;
         }
-        return '' + time
+        return '' + time;
     }
 
     normaliseDay(day) {
-        const weekDays = [
-            "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"
-        ]
+        const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
         return weekDays[day];
     }
 
     drawInitialLine() {
-        const {Y} = this.props;
-        const {padding} = this;
+        const { Y } = this.props;
+        const { padding } = this;
         const initial = Y.values[0];
         const lengthYAxis = this.lengthYAxis();
         const minY = this.minValue();
@@ -116,13 +114,13 @@ export default class Chart extends Canvas {
         const last = Y.values.slice(-1)[0];
         const diff = (last - initial).toFixed(3);
         this.context.fillStyle = diff < 0 ? 'red' : 'green';
-        const position = diff < 0 ?  y - 10 : y + 15;
+        const position = diff < 0 ? y - 10 : y + 15;
         const text = diff < 0 ? diff : '+' + diff;
         this.context.fillText(text, this.xPositionOfYAxis() - 50, position);
     }
 
     __drawXPoints(points) {
-        const {padding} = this;
+        const { padding } = this;
         this.context.font = '11px sans-serif';
         const xFactor = this.__xFactor(this.props.X.values);
         const xMin = this.props.X.values[0];
@@ -131,27 +129,26 @@ export default class Chart extends Canvas {
         let format = date => `${this.normaliseTime(date.getHours())}:${this.normaliseTime(date.getMinutes())}`;
         let margin = 5;
         let width = 27;
-        let text = (date, x) =>
-            this.context.fillText(
-                format(date),
-                x - width / 2,
-                this.node.height - padding + 15);
+        let text = (date, x) => this.context.fillText(format(date), x - width / 2, this.node.height - padding + 15);
 
         switch (this.props.period) {
-            case "week":
+            case 'week':
                 width = 50;
                 margin = 10;
-                format = date => `${date.getDate()} ${this.normaliseDay(date.getDay())} ${this.normaliseTime(date.getHours())}:${this.normaliseTime(date.getMinutes())}`;
+                format = date =>
+                    `${date.getDate()} ${this.normaliseDay(date.getDay())} ${this.normaliseTime(
+                        date.getHours(),
+                    )}:${this.normaliseTime(date.getMinutes())}`;
                 break;
-            case "year":
-            case "month":
+            case 'year':
+            case 'month':
                 width = 25;
                 margin = 10;
                 format = date => `${this.normaliseTime(date.getDate())}.${this.normaliseTime(date.getMonth() + 1)}`;
                 break;
         }
 
-        for (let currX = this.xPositionOfYAxis() - width; currX > padding ; currX -= width + 2*margin) {
+        for (let currX = this.xPositionOfYAxis() - width; currX > padding; currX -= width + 2 * margin) {
             this.__drawPoint(currX, this.node.height - padding, 'gray');
             const date = new Date(xMin + currX / xFactor);
             this.context.fillStyle = 'black';
@@ -160,8 +157,8 @@ export default class Chart extends Canvas {
     }
 
     drawLastValue() {
-        const {Y} = this.props;
-        const {padding} = this;
+        const { Y } = this.props;
+        const { padding } = this;
         const lastValue = Y.values.slice(-1)[0];
         const lengthYAxis = this.lengthYAxis();
         const minY = this.minValue();
@@ -174,36 +171,36 @@ export default class Chart extends Canvas {
         this.context.fillRect(this.xPositionOfYAxis() + 4, y - 12, 100, 15);
         this.context.font = 'bolder 14px sans-serif';
         this.context.fillStyle = 'black';
-        this.context.fillText('' + lastValue.toFixed(3), this.xPositionOfYAxis() + 5, y)
+        this.context.fillText('' + lastValue.toFixed(3), this.xPositionOfYAxis() + 5, y);
     }
 
     __drawYPoints() {
-        const {padding} = this;
+        const { padding } = this;
         const interval = this.__yInterval();
         const max = Math.max(...this.props.Y.values);
         const intervalCost = interval / this.yFactor(this.props.Y.values);
         const getValue = num => max - intervalCost * num;
         let idx = 0;
         this.context.font = '14px sans-serif';
-        for (let currY = 2 * padding; currY < this.node.height - padding ; currY += interval) {
+        for (let currY = 2 * padding; currY < this.node.height - padding; currY += interval) {
             this.__drawPoint(this.xPositionOfYAxis(), currY, 'gray');
             const value = getValue(idx);
             idx++;
             this.context.fillStyle = 'black';
-            this.context.fillText('' + value.toFixed(3), this.xPositionOfYAxis() + 5, currY)
+            this.context.fillText('' + value.toFixed(3), this.xPositionOfYAxis() + 5, currY);
         }
     }
 
     __xInterval() {
-        const {X} = this.props;
-        const {minXInterval, padding} = this;
+        const { X } = this.props;
+        const { minXInterval, padding } = this;
         const length = this.xPositionOfYAxis() - padding;
         const interval = length / (X.values.length - 1);
-        return minXInterval ? interval < minXInterval ? interval : minXInterval : interval;
+        return minXInterval ? (interval < minXInterval ? interval : minXInterval) : interval;
     }
 
     __yInterval() {
-        const {YIntervales, padding} = this;
+        const { YIntervales, padding } = this;
         const length = this.node.height - 3 * padding;
         return length / YIntervales;
     }
@@ -211,7 +208,7 @@ export default class Chart extends Canvas {
     __factor(values, length) {
         const max = Math.max(...values);
         const min = Math.min(...values);
-        return length / (max - min) ;
+        return length / (max - min);
     }
 
     yFactor(values) {
@@ -229,7 +226,7 @@ export default class Chart extends Canvas {
         this.context.fillStyle = color;
         this.context.beginPath();
         this.context.arc(x, y, 2, 0, Math.PI * 2);
-        this.context.fill()
+        this.context.fill();
     }
 
     xPositionOfYAxis() {
@@ -237,7 +234,7 @@ export default class Chart extends Canvas {
     }
 
     __drawAxisLines() {
-        const {padding} = this;
+        const { padding } = this;
         this.context.beginPath();
 
         const x = this.xPositionOfYAxis();

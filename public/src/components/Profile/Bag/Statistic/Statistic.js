@@ -1,14 +1,14 @@
 import { Component } from '../../../../modules/Softer/Softer';
-import { apiHistory, apiIncome, apiUserAccountsHistory } from "../../../../api";
+import { apiHistory, apiIncome, apiPeriodTransactions, apiUserAccountsHistory } from '../../../../api';
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
 import { showMessage } from '../../../../store/actions';
 import { msgTypes } from '../../../../messages/types';
 import { jget } from '../../../../modules/jfetch';
 import ActionButton from '../../../UI/ActionButton/ActionButton';
 import { calc } from '../../../../utils/utils';
-import Chart from "../../../MainPage/Rate/OpenedRate/Chart";
+import Chart from '../../../MainPage/Rate/OpenedRate/Chart';
 import './Statistic.scss';
-import ProfileChart from "./ProfileChart";
+import ProfileChart from './ProfileChart';
 
 export default class Statistic extends Component {
     constructor(props) {
@@ -54,14 +54,14 @@ export default class Statistic extends Component {
         jget(apiIncome(period))
             .then(resp => {
                 if (rerender) {
-                    this.setState({ interest: period, income: resp.data, loading: true});
-                    let state = {}
+                    this.setState({ interest: period, income: resp.data, loading: true });
+                    let state = {};
                     jget(apiUserAccountsHistory(period)).then(resp => {
-                        state = {history: resp.data, loading: false};
-                        jget(apiHistory()).then(resp => {
-                            this.setState({...state, transactions: resp.data});
-                        })
-                    })
+                        state = { history: resp.data, loading: false };
+                        jget(apiPeriodTransactions(period)).then(resp => {
+                            this.setState({ ...state, transactions: resp.data });
+                        });
+                    });
 
                     return;
                 }
@@ -73,14 +73,13 @@ export default class Statistic extends Component {
     }
 
     render() {
-
         const xValues = [];
         const yValues = [];
 
         this.state.history.forEach(history => {
             xValues.push(history.updated_at.seconds * 1000);
             yValues.push(history.value);
-        })
+        });
 
         const el = this.create(
             `
@@ -90,7 +89,7 @@ export default class Statistic extends Component {
             <p>${calc('USD', 'RUB', this.state.income || 0).toFixed(3)} ₽</p>
           </div>
           <div class="statistic__chart">
-            ${ xValues.length < 1 || yValues.length < 1 ? 'Данных нет :(' : '<Chart/>'}
+            ${xValues.length < 2 || yValues.length < 2 ? 'Данных нет :(' : '<Chart/>'}
           </div>
           <div class="period__selector">
             <PeriodSelector/>
@@ -99,9 +98,15 @@ export default class Statistic extends Component {
         `,
             {
                 PeriodSelector: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))],
-                Chart: [ProfileChart,
-                    {X: {values: xValues}, Y: {values: yValues}, period: this.state.interest, transactions: this.state.transactions}
-                    ]
+                Chart: [
+                    ProfileChart,
+                    {
+                        X: { values: xValues },
+                        Y: { values: yValues },
+                        period: this.state.interest,
+                        transactions: this.state.transactions,
+                    },
+                ],
             },
         );
 

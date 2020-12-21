@@ -36,7 +36,7 @@ export default class Rate extends Component {
         const initialValue = this.calc(+props.leftInitial, +props.rightInitial);
         const currentValue = this.calc(props.left, props.right);
 
-        const change = (initialValue - currentValue)/ initialValue
+        const change = (initialValue - currentValue) / initialValue;
 
         const element = this.create(
             `

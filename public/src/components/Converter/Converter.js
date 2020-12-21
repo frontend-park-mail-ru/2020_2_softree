@@ -73,7 +73,7 @@ export default class Converter extends Component {
     }
 
     calc(currencyStore) {
-        return (currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value);
+        return currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value;
     }
 
     render() {

@@ -1,12 +1,14 @@
-import Chart from "../../../MainPage/Rate/OpenedRate/Chart";
+import Chart from '../../../MainPage/Rate/OpenedRate/Chart';
 
 export default class ProfileChart extends Chart {
     drawTransactions() {
-        const {transactions} = this.props;
+        const { transactions } = this.props;
 
-        this.context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+        this.context.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+
         transactions.forEach(transaction => {
             const x = this.padding + (transaction.updated_at.seconds * 1000 - this.xMin) * this.xFactor;
+
             this.drawVerticalLine(x);
         });
     }
@@ -20,6 +22,6 @@ export default class ProfileChart extends Chart {
 
     draw() {
         super.draw();
-        this.drawTransactions()
+        this.drawTransactions();
     }
 }

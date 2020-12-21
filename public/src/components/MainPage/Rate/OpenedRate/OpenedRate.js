@@ -2,14 +2,14 @@ import './OpenedRate.scss';
 import { Component } from '../../../../modules/Softer/Softer';
 import close from '../../../../images/close.svg';
 import { changeHandler } from '../../../../utils/utils';
-import { apiHistory, apiRatesPeriod, apiTransactions, apiUserAccounts } from "../../../../api";
+import { apiHistory, apiRatesPeriod, apiUserAccounts } from '../../../../api';
 import { useDispatch } from '../../../../modules/Softer/softer-softex';
 import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
 import { msgTypes } from '../../../../messages/types';
 import { jget, jpost } from '../../../../modules/jfetch';
 import { pageSignUp } from '../../../../pages';
-import Chart from "./Chart";
-import ActionButton from "../../../UI/ActionButton/ActionButton";
+import Chart from './Chart';
+import ActionButton from '../../../UI/ActionButton/ActionButton';
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -38,10 +38,8 @@ export default class OpenedRate extends Component {
             },
         ];
 
-
         this.doNotReset = true;
-        this.fetchRateHistory('day').then(resp => {
-        });
+        this.fetchRateHistory('day').then(resp => {});
     }
 
     initData() {
@@ -55,7 +53,7 @@ export default class OpenedRate extends Component {
             chartPeriod: 'day',
             currencyValues: [],
             baseValues: [],
-        }
+        };
     }
 
     async fetchRateHistory(period) {
@@ -69,7 +67,7 @@ export default class OpenedRate extends Component {
             currencyValues: currencyResp.data,
             baseValues: baseResp.data,
             fetched: true,
-        })
+        });
     }
 
     fetchAccounts() {
@@ -92,7 +90,7 @@ export default class OpenedRate extends Component {
         const amount = +document.querySelector('#rate-amount-input').value;
         this.setData({ amount });
 
-        jpost(apiTransactions(), { base, currency, amount, sell: action === 'sell'})
+        jpost(apiHistory(), { base, currency, amount, sell: action === 'sell' })
             .then(resp => {
                 useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
                 this.fetchAccounts();
@@ -111,18 +109,17 @@ export default class OpenedRate extends Component {
     }
 
     calc(base, currency) {
-        return (base / currency);
+        return base / currency;
     }
 
     render() {
         const { base, currency, toggle } = this.props;
-        const currencyStore = this.useSelector(store => store.currency);
         const xValues = [];
         const yValues = [];
         if (this.state.fetched) {
             this.state.baseValues.forEach((curr, idx) => {
-                if (this.props.base === "USD") {
-                    yValues.push(+curr.value)
+                if (this.props.base === 'USD') {
+                    yValues.push(+curr.value);
                 } else {
                     yValues.push(this.calc(+this.state.currencyValues[idx].value, +curr.value));
                 }
@@ -130,7 +127,8 @@ export default class OpenedRate extends Component {
             });
         }
 
-        const element = this.create(`
+        const element = this.create(
+            `
     <div class="wrapper">
       <div class="opened-rate"> 
         <header class="opened-rate__header">
@@ -142,7 +140,7 @@ export default class OpenedRate extends Component {
             <PeriodChoice/>
           </div>
           <div class="opened-rate__chart">
-            ${this.state.fetched ? `<Chart/>` : `Загрузка...` }
+            ${this.state.fetched ? `<Chart/>` : `Загрузка...`}
           </div>
         </div>
         <input class="opened-rate__amount-input"
@@ -157,10 +155,12 @@ export default class OpenedRate extends Component {
         </div>
       </div> 
     </div>
-    `, {
-            Chart: [Chart, {X: {values: xValues}, Y: {values: yValues}, period: this.state.chartPeriod}],
-            PeriodChoice: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))]
-        });
+    `,
+            {
+                Chart: [Chart, { X: { values: xValues }, Y: { values: yValues }, period: this.state.chartPeriod }],
+                PeriodChoice: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))],
+            },
+        );
 
         this.listen('.opened-rate__amount-input', 'keydown', e => {
             changeHandler(e, this.setData.bind(this));

@@ -25,8 +25,6 @@ self.addEventListener('fetch', event => {
         caches
             .match(request)
             .then(async cachedResponse => {
-
-
                 if (navigator.onLine) {
                     if (!url.href.includes('/api/')) {
                         const response = await fetch(request);
