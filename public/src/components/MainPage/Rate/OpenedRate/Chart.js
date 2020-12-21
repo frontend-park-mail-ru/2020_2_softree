@@ -126,6 +126,7 @@ export default class Chart extends Canvas {
         this.context.font = '11px sans-serif';
         const xFactor = this.__xFactor(this.props.X.values);
         const xMin = this.props.X.values[0];
+        this.xMin = xMin;
 
         let format = date => `${this.normaliseTime(date.getHours())}:${this.normaliseTime(date.getMinutes())}`;
         let margin = 5;
@@ -220,7 +221,8 @@ export default class Chart extends Canvas {
 
     __xFactor(values) {
         const length = this.lengthXAxis();
-        return this.__factor(values, length);
+        this.xFactor = this.__factor(values, length);
+        return this.xFactor;
     }
 
     __drawPoint(x, y, color = 'black') {
