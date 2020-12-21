@@ -1,7 +1,7 @@
 import CanvasObject from '../../../../modules/Sancoft/CanvasObect';
 
 export default class Point extends CanvasObject {
-    constructor(x, y, radius, color, value, reset) {
+    constructor({ x, y, radius, color, value, reset }) {
         super(x, y);
         this.radius = radius;
         this.color = color;

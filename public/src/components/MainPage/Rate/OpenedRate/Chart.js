@@ -1,7 +1,7 @@
-import { Component } from '../../../../modules/Softer/Softer';
-import Styler from '../../../../modules/Styler';
 import Canvas from '../../../../modules/Sancoft/Canvas';
 import Point from './Point';
+
+const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
 export default class Chart extends Canvas {
     constructor(props) {
@@ -65,6 +65,7 @@ export default class Chart extends Canvas {
         const yFactor = this.yFactor(Y.values);
         const xInterval = this.__xInterval();
         const lengthYAxis = this.lengthYAxis();
+
         let getY = value => 2 * padding + lengthYAxis - (value - this.minValue) * yFactor;
         if (this.minValue === this.maxValue) {
             getY = value => lengthYAxis / 2 + padding;
@@ -84,7 +85,14 @@ export default class Chart extends Canvas {
             this.context.lineTo(currX + xInterval, curr);
             this.context.stroke();
 
-            const point = new Point(currX, prev, 2, color, Y.values[idx - 1], redraw);
+            const point = new Point({
+                x: currX,
+                y: prev,
+                radius: 2,
+                color: color,
+                value: Y.values[idx - 1],
+                reset: redraw,
+            });
             this.drawObject(point);
 
             currX += xInterval;
@@ -94,15 +102,7 @@ export default class Chart extends Canvas {
     }
 
     normaliseTime(time) {
-        if (time < 10) {
-            return `0` + time;
-        }
-        return '' + time;
-    }
-
-    normaliseDay(day) {
-        const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-        return weekDays[day];
+        return ('' + time).padStart(2, '0');
     }
 
     drawInitialLine() {
@@ -124,10 +124,15 @@ export default class Chart extends Canvas {
 
         const last = Y.values.slice(-1)[0];
         const diff = (last - initial).toFixed(3);
-        this.context.fillStyle = diff < 0 ? 'red' : 'green';
         const position = diff < 0 ? y - 10 : y + 15;
         const text = diff < 0 ? diff : '+' + diff;
-        this.context.fillText(text, this.xPositionOfYAxis() - 50, position);
+        const x = this.xPositionOfYAxis() - 50;
+
+        this.context.fillStyle = 'white';
+        this.context.fillRect(x - 10, position - 15, 70, 20);
+
+        this.context.fillStyle = diff < 0 ? 'red' : 'green';
+        this.context.fillText(text, x, position);
     }
 
     __drawXPoints(points) {
@@ -147,7 +152,7 @@ export default class Chart extends Canvas {
                 width = 50;
                 margin = 10;
                 format = date =>
-                    `${date.getDate()} ${this.normaliseDay(date.getDay())} ${this.normaliseTime(
+                    `${date.getDate()} ${weekDays[date.getDay()]} ${this.normaliseTime(
                         date.getHours(),
                     )}:${this.normaliseTime(date.getMinutes())}`;
                 break;

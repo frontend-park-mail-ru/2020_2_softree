@@ -73,13 +73,15 @@ export default class Converter extends Component {
     }
 
     calc(currencyStore) {
-        return currencyStore[this.state.rightCurrency].value / currencyStore[this.state.leftCurrency].value;
+        const { rightCurrency, leftCurrency } = this.state;
+
+        return currencyStore[rightCurrency].value / currencyStore[leftCurrency].value;
     }
 
     render() {
         const currency = this.useSelector(store => store.currency);
 
-        const { isOpen } = this.state;
+        const { isOpen, leftCurrency, rightCurrency } = this.state;
 
         const options = [];
 
@@ -98,21 +100,21 @@ export default class Converter extends Component {
                 <div class='converter__close'><img src='${close}' alt='close'/></div>
             </div>
             <p class='converter__title'>
-              1 ${this.state.leftCurrency} = ${this.calc(currency).toFixed(3)} ${this.state.rightCurrency}
+              1 ${leftCurrency} = ${this.calc(currency).toFixed(3)} ${rightCurrency}
             </p> 
             <div class='converter__inputs'>
                 <div class='converter__inputs-container'>
                     <input type='text' id='leftCurrency' 
                         value='${this.calcForInput(true, currency)}' /> 
                     <select name="leftCurrency">
-                        ${this.options(options, this.state.leftCurrency)}
+                        ${this.options(options, leftCurrency)}
                     </select>
                 </div>
                 <div class='converter__inputs-container'>
                     <input type='text' id='rightCurrency'
                         value='${this.calcForInput(false, currency)}'/> 
                     <select name="rightCurrency">
-                        ${this.options(options, this.state.rightCurrency)}
+                        ${this.options(options, rightCurrency)}
                     </select>
                 </div>
             </div>
