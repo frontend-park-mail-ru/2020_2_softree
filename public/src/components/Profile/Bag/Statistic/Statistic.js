@@ -1,14 +1,14 @@
-import { Component } from "../../../../modules/Softer/Softer";
-import { apiHistory, apiIncome, apiPeriodTransactions, apiUserAccountsHistory } from "../../../../api";
-import { useDispatch } from "../../../../modules/Softer/softer-softex";
-import { showMessage } from "../../../../store/actions";
-import { msgTypes } from "../../../../messages/types";
-import { jget } from "../../../../modules/jfetch";
-import ActionButton from "../../../UI/ActionButton/ActionButton";
-import { calc } from "../../../../utils/utils";
-import Chart from "../../../MainPage/Rate/OpenedRate/Chart";
-import "./Statistic.scss";
-import ProfileChart from "./ProfileChart";
+import { Component } from '../../../../modules/Softer/Softer';
+import { apiHistory, apiIncome, apiPeriodTransactions, apiUserAccountsHistory } from '../../../../api';
+import { useDispatch } from '../../../../modules/Softer/softer-softex';
+import { showMessage } from '../../../../store/actions';
+import { msgTypes } from '../../../../messages/types';
+import { jget } from '../../../../modules/jfetch';
+import ActionButton from '../../../UI/ActionButton/ActionButton';
+import { calc } from '../../../../utils/utils';
+import Chart from '../../../MainPage/Rate/OpenedRate/Chart';
+import './Statistic.scss';
+import ProfileChart from './ProfileChart';
 
 export default class Statistic extends Component {
     constructor(props) {
@@ -16,32 +16,32 @@ export default class Statistic extends Component {
 
         this.buttons = [
             {
-                content: "неделя",
-                isPushed: () => this.state.interest === "week",
-                clb: () => this.fetchIncome("week")
+                content: 'неделя',
+                isPushed: () => this.state.interest === 'week',
+                clb: () => this.fetchIncome('week'),
             },
             {
-                content: "месяц",
-                isPushed: () => this.state.interest === "month",
-                clb: () => this.fetchIncome("month")
+                content: 'месяц',
+                isPushed: () => this.state.interest === 'month',
+                clb: () => this.fetchIncome('month'),
             },
             {
-                content: "год",
-                isPushed: () => this.state.interest === "year",
-                clb: () => this.fetchIncome("year")
-            }
+                content: 'год',
+                isPushed: () => this.state.interest === 'year',
+                clb: () => this.fetchIncome('year'),
+            },
         ];
 
-        this.fetchIncome("week");
+        this.fetchIncome('week');
         this.doNotReset = true;
     }
 
     initState() {
         return {
-            interest: "day",
+            interest: 'day',
             income: 0,
             history: [],
-            transactions: []
+            transactions: [],
         };
     }
 
@@ -65,7 +65,7 @@ export default class Statistic extends Component {
 
         this.state.history.forEach(history => {
             xValues.push(history.updated_at.seconds * 1000);
-            yValues.push(calc("USD", "RUB", history.value));
+            yValues.push(calc('USD', 'RUB', history.value));
         });
 
         let income;
@@ -83,7 +83,7 @@ export default class Statistic extends Component {
             <p>${income.toFixed(3)} ₽</p>
           </div>
           <div class="statistic__chart">
-            ${xValues.length < 2 || yValues.length < 2 ? "Данных нет :(" : "<Chart/>"}
+            ${xValues.length < 2 || yValues.length < 2 ? 'Данных нет :(' : '<Chart/>'}
           </div>
           <div class="period__selector">
             <PeriodSelector/>
@@ -98,10 +98,10 @@ export default class Statistic extends Component {
                         X: { values: xValues },
                         Y: { values: yValues },
                         period: this.state.interest,
-                        transactions: this.state.transactions
-                    }
-                ]
-            }
+                        transactions: this.state.transactions,
+                    },
+                ],
+            },
         );
 
         return el;

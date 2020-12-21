@@ -10,9 +10,18 @@ export default class Chart extends Canvas {
         this.padding = 20;
         this.minXInterval = undefined;
         this.YIntervales = 10;
+
+        this.initValues();
+    }
+
+    initValues() {
+        this.minValue = Math.min(...this.props.Y.values);
+        this.maxValue = Math.max(...this.props.Y.values);
     }
 
     draw() {
+        this.initValues();
+
         this.store.clear();
         this.context.clearRect(0, 0, this.node.width, this.node.height);
 
@@ -20,7 +29,7 @@ export default class Chart extends Canvas {
 
         this.__drawChart();
 
-        if (this.minValue() !== Math.max(...this.props.Y.values)) {
+        if (this.minValue !== this.maxValue) {
             this.drawInitialLine();
         }
         this.drawLastValue();
@@ -31,13 +40,9 @@ export default class Chart extends Canvas {
 
         this.__drawXPoints([]);
 
-        if (this.minValue() !== Math.max(...this.props.Y.values)) {
+        if (this.minValue !== this.maxValue) {
             this.__drawYPoints();
         }
-    }
-
-    minValue() {
-        return Math.min(...this.props.Y.values);
     }
 
     lengthYAxis() {
@@ -59,10 +64,9 @@ export default class Chart extends Canvas {
         const { padding } = this;
         const yFactor = this.yFactor(Y.values);
         const xInterval = this.__xInterval();
-        const minY = Math.min(...Y.values);
         const lengthYAxis = this.lengthYAxis();
-        let getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
-        if (minY === Math.max(...Y.values)) {
+        let getY = value => 2 * padding + lengthYAxis - (value - this.minValue) * yFactor;
+        if (this.minValue === this.maxValue) {
             getY = value => lengthYAxis / 2 + padding;
         }
 
@@ -106,7 +110,7 @@ export default class Chart extends Canvas {
         const { padding } = this;
         const initial = Y.values[0];
         const lengthYAxis = this.lengthYAxis();
-        const minY = this.minValue();
+        const minY = this.minValue;
         const yFactor = this.yFactor(Y.values);
         const getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
 
@@ -168,10 +172,10 @@ export default class Chart extends Canvas {
         const { padding } = this;
         const lastValue = Y.values.slice(-1)[0];
         const lengthYAxis = this.lengthYAxis();
-        const minY = this.minValue();
+        const minY = this.minValue;
         const yFactor = this.yFactor(Y.values);
         let getY = value => 2 * padding + lengthYAxis - (value - minY) * yFactor;
-        if (minY === Math.max(...Y.values)) {
+        if (minY === this.maxValue) {
             getY = value => lengthYAxis / 2 + padding;
         }
         const y = getY(lastValue);
@@ -186,7 +190,7 @@ export default class Chart extends Canvas {
     __drawYPoints() {
         const { padding } = this;
         const interval = this.__yInterval();
-        const max = Math.max(...this.props.Y.values);
+        const max = this.maxValue;
         const intervalCost = interval / this.yFactor(this.props.Y.values);
         const getValue = num => max - intervalCost * num;
         let idx = 0;
