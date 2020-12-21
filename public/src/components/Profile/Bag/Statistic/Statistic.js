@@ -53,7 +53,7 @@ export default class Statistic extends Component {
             .then(resp => {
                 if (rerender) {
                     this.setState({ interest: period, income: resp.data, loading: true});
-                    jget(apiUserAccountsHistory()).then(resp => {
+                    jget(apiUserAccountsHistory(period)).then(resp => {
                         this.setState({history: resp.data, loading: false});
                     })
                     return;

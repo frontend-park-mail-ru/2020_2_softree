@@ -12,7 +12,7 @@ export const apiRate = id => `/api/rates/${id}`;
 
 export const apiMarkets = () => '/api/markets';
 export const apiUserAccounts = () => '/api/accounts';
-export const apiUserAccountsHistory = () => '/api/accounts/history';
+export const apiUserAccountsHistory = period => `/api/accounts/history?period=${period}`;
 export const apiHistory = () => '/api/transactions';
 export const apiTransactions = () => '/api/transactions';
 export const apiIncome = period => `/api/income/${period}`;
