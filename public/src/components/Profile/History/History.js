@@ -19,7 +19,7 @@ export default class History extends Component {
         this.isFetched = true;
         const dispatch = useDispatch();
         jget(apiHistory()).then(resp => {
-            dispatch(setUserHistory(resp.data.history));
+            dispatch(setUserHistory(resp.data));
         });
     }
 
@@ -30,7 +30,7 @@ export default class History extends Component {
         if (!this.isFetched) {
             return `<h3 style="${Styler(style)}">История подгружается...</h3>`;
         }
-        if (!histories) {
+        if (histories.length === 0) {
             return `<h3 style="${Styler(style)}">Вы еще не совершали операций :(</h3>`;
         } else {
             return '<HistoryCards/>';

@@ -1,4 +1,4 @@
-const KEY = 'mc-v1';
+const KEY = 'mc-v2';
 
 self.addEventListener('install', event => {
     event.waitUntil(self.skipWaiting());
@@ -25,6 +25,8 @@ self.addEventListener('fetch', event => {
         caches
             .match(request)
             .then(async cachedResponse => {
+
+
                 if (navigator.onLine) {
                     if (!url.href.includes('/api/')) {
                         const response = await fetch(request);

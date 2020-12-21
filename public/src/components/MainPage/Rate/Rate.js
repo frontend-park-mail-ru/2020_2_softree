@@ -33,6 +33,11 @@ export default class Rate extends Component {
             background: props.change >= 0 ? '#60992D' : '#E71D36',
         };
 
+        const initialValue = this.calc(+props.leftInitial, +props.rightInitial);
+        const currentValue = this.calc(props.left, props.right);
+
+        const change = (initialValue - currentValue)/ initialValue
+
         const element = this.create(
             `
         <div class="rate-card">
@@ -41,9 +46,9 @@ export default class Rate extends Component {
               <img src="${flagStore[props.base]}" alt="${props.base}">
               <p>${props.base}/${props.title}</p>
             </div>
-            <div class="rate-card__change"> 0% </div>
+            <div class="rate-card__change"> ${change.toFixed(2)}% </div>
             <div class="rate-card__price">
-              <p>${this.calc(props.left, props.right)}</p>
+              <p>${currentValue}</p>
               <div class="rate-card__price-currency-card">
                 <img src="${flagStore[props.title]}" alt="${props.title}">
                 <p>${props.title}</p>
