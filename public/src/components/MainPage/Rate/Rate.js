@@ -28,15 +28,29 @@ export default class Rate extends Component {
     render() {
         const { props } = this;
         const { state } = this;
-        props.change = 1;
-        const headerStyle = {
-            background: props.change >= 0 ? '#60992D' : '#E71D36',
-        };
+
 
         const initialValue = this.calc(+props.leftInitial, +props.rightInitial);
         const currentValue = this.calc(props.left, props.right);
 
-        const change = (initialValue - currentValue) / initialValue;
+        let change = (initialValue - currentValue) / initialValue;
+        let color = ''
+
+        if (Math.abs(change) < 0.005) {
+            change = 0;
+        }
+
+        if (change < 0) {
+            color = '#E71D36';
+            change = change.toFixed(2);
+        } else if (change > 0 ) {
+            color = '#60992D';
+            change = '+' + change.toFixed(2);
+        } else {
+            change = '0'
+        }
+
+        const changeStyle = { color };
 
         const element = this.create(
             `
@@ -46,7 +60,7 @@ export default class Rate extends Component {
               <img src="${flagStore[props.base]}" alt="${props.base}">
               <p>${props.base}/${props.title}</p>
             </div>
-            <div class="rate-card__change"> ${change.toFixed(2)}% </div>
+            <div class="rate-card__change" style="${Styler(changeStyle)}"> ${change}% </div>
             <div class="rate-card__price">
               <p>${currentValue}</p>
               <div class="rate-card__price-currency-card">
