@@ -9,7 +9,9 @@ export default class ProfileChart extends Chart {
         transactions.forEach(transaction => {
             const x = this.padding + (transaction.updated_at.seconds * 1000 - this.xMin) * this.xFactor;
 
-            this.drawVerticalLine(x);
+            if (x < this.lengthXAxis()) {
+                this.drawVerticalLine(x);
+            }
         });
     }
 
