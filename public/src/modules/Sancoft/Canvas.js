@@ -9,9 +9,20 @@ export default class Canvas extends Component {
         this.store = new ObjectStore();
     }
 
+    fixDPI() {
+        if (!this.node) {
+            return;
+        }
+        let dpi = window.devicePixelRatio;
+
+        this.context.imageSmoothingEnabled = false;
+
+        this.node.setAttribute('height', this.node.offsetHeight * dpi);
+        this.node.setAttribute('width', this.node.offsetWidth * dpi);
+    }
+
     __adaptive() {
-        this.node.width = this.node.offsetWidth;
-        this.node.height = this.node.offsetHeight;
+        this.fixDPI();
         this.draw();
     }
 

@@ -19,6 +19,7 @@ export default class Chart extends Canvas {
         this.maxValue = Math.max(...this.props.Y.values);
     }
 
+
     draw() {
         this.initValues();
 

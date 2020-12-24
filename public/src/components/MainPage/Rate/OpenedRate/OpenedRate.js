@@ -1,15 +1,16 @@
-import './OpenedRate.scss';
-import { Component } from '../../../../modules/Softer/Softer';
-import close from '../../../../images/close.svg';
-import { changeHandler } from '../../../../utils/utils';
-import { apiHistory, apiRatesPeriod, apiUserAccounts } from '../../../../api';
-import { useDispatch } from '../../../../modules/Softer/softer-softex';
-import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
-import { msgTypes } from '../../../../messages/types';
-import { jget, jpost } from '../../../../modules/jfetch';
-import { pageSignUp } from '../../../../pages';
-import Chart from './Chart';
-import ActionButton from '../../../UI/ActionButton/ActionButton';
+import "./OpenedRate.scss";
+import { Component } from "../../../../modules/Softer/Softer";
+import close from "../../../../images/close.svg";
+import { changeHandler } from "../../../../utils/utils";
+import { apiHistory, apiRatesPeriod, apiUserAccounts } from "../../../../api";
+import { useDispatch } from "../../../../modules/Softer/softer-softex";
+import { dropUserData, setUserAccount, setUserHistory, showMessage } from "../../../../store/actions";
+import { msgTypes } from "../../../../messages/types";
+import { jget, jpost } from "../../../../modules/jfetch";
+import { pageSignUp } from "../../../../pages";
+import Chart from "./Chart";
+import ActionButton from "../../../UI/ActionButton/ActionButton";
+import SellBuy from "./SellBuy";
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -17,95 +18,58 @@ export default class OpenedRate extends Component {
 
         this.buttons = [
             {
-                content: 'день',
-                isPushed: () => this.state.chartPeriod === 'day',
-                clb: () => this.fetchRateHistory('day'),
+                content: "день",
+                isPushed: () => this.state.chartPeriod === "day",
+                clb: () => this.fetchRateHistory("day")
             },
             {
-                content: 'неделю',
-                isPushed: () => this.state.chartPeriod === 'week',
-                clb: () => this.fetchRateHistory('week'),
+                content: "неделю",
+                isPushed: () => this.state.chartPeriod === "week",
+                clb: () => this.fetchRateHistory("week")
             },
             {
-                content: 'месяц',
-                isPushed: () => this.state.chartPeriod === 'month',
-                clb: () => this.fetchRateHistory('month'),
+                content: "месяц",
+                isPushed: () => this.state.chartPeriod === "month",
+                clb: () => this.fetchRateHistory("month")
             },
             {
-                content: 'год',
-                isPushed: () => this.state.chartPeriod === 'year',
-                clb: () => this.fetchRateHistory('year'),
-            },
+                content: "год",
+                isPushed: () => this.state.chartPeriod === "year",
+                clb: () => this.fetchRateHistory("year")
+            }
         ];
 
         this.doNotReset = true;
-        this.fetchRateHistory('day').then(resp => {});
+        this.fetchRateHistory("day").then(resp => {
+        });
     }
 
     initData() {
         return {
-            amount: '',
+            amount: ""
         };
     }
 
     initState() {
         return {
-            chartPeriod: 'day',
+            chartPeriod: "day",
             currencyValues: [],
-            baseValues: [],
+            baseValues: []
         };
     }
 
     async fetchRateHistory(period) {
         this.setState({
             fetched: false,
-            chartPeriod: period,
+            chartPeriod: period
         });
         const currencyResp = await jget(apiRatesPeriod(this.props.base, period));
         const baseResp = await jget(apiRatesPeriod(this.props.currency, period));
         this.setState({
             currencyValues: currencyResp.data,
             baseValues: baseResp.data,
-            fetched: true,
+            fetched: true
         });
-    }
-
-    fetchAccounts() {
-        const dispatch = useDispatch();
-        jget(apiUserAccounts()).then(resp => {
-            dispatch(setUserAccount(resp.data));
-        });
-    }
-
-    fetchHistory() {
-        const dispatch = useDispatch();
-        jget(apiHistory()).then(resp => {
-            dispatch(setUserHistory(resp.data));
-        });
-    }
-
-    action(action) {
-        let currency = this.props.base;
-        let base = this.props.currency;
-        const amount = +document.querySelector('#rate-amount-input').value;
-        this.setData({ amount });
-
-        jpost(apiHistory(), { base, currency, amount, sell: action === 'sell' })
-            .then(resp => {
-                useDispatch()(showMessage('Успешно!', msgTypes.SUCCESS));
-                this.fetchAccounts();
-                this.fetchHistory();
-            })
-            .catch(resp => {
-                const dispatch = useDispatch();
-                if (resp.status === 401) {
-                    dispatch(showMessage('Нет авторизации :(', msgTypes.FAIL));
-                    dispatch(dropUserData());
-                    this.redirect(...pageSignUp());
-                } else {
-                    dispatch(showMessage('Недостаточно средств' + ' для совершения операции :(', msgTypes.FAIL));
-                }
-            });
     }
 
     calc(base, currency) {
@@ -116,9 +80,10 @@ export default class OpenedRate extends Component {
         const { base, currency, toggle } = this.props;
         const xValues = [];
         const yValues = [];
+
         if (this.state.fetched) {
             this.state.baseValues.forEach((curr, idx) => {
-                if (this.props.base === 'USD') {
+                if (this.props.base === "USD") {
                     yValues.push(+curr.value);
                 } else {
                     yValues.push(this.calc(+this.state.currencyValues[idx].value, +curr.value));
@@ -126,6 +91,7 @@ export default class OpenedRate extends Component {
                 xValues.push(curr.updated_at.seconds * 1000);
             });
         }
+
 
         const element = this.create(
             `
@@ -143,34 +109,23 @@ export default class OpenedRate extends Component {
             ${this.state.fetched ? `<Chart/>` : `Загрузка...`}
           </div>
         </div>
-        <input class="opened-rate__amount-input"
-               id="rate-amount-input"
-               value="${this.data.amount}"
-               name="amount"
-               type="number"
-               placeholder="Введите сумму"/>
-        <div class="opened-rate__control-panel">
-           <div class="opened-rate__btn buy">Купить ${this.props.base}</div>
-           <div class="opened-rate__btn sell">Продать ${this.props.base}</div>
-        </div>
+        <SellBuy/>
       </div> 
     </div>
     `,
             {
                 Chart: [Chart, { X: { values: xValues }, Y: { values: yValues }, period: this.state.chartPeriod }],
                 PeriodChoice: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))],
-            },
+                SellBuy: [SellBuy, {currency, base}]
+            }
         );
 
-        this.listen('.opened-rate__amount-input', 'keydown', e => {
+        this.listen(".opened-rate__amount-input", "keydown", e => {
             changeHandler(e, this.setData.bind(this));
         });
 
-        this.listen('.opened-rate', 'click', e => e.stopPropagation());
-        this.listen('.opened-rate__close-btn', 'click', toggle);
-
-        this.listen('.opened-rate__btn.buy', 'click', () => this.action.bind(this)('buy'));
-        this.listen('.opened-rate__btn.sell', 'click', () => this.action.bind(this)('sell'));
+        this.listen(".opened-rate", "click", e => e.stopPropagation());
+        this.listen(".opened-rate__close-btn", "click", toggle);
 
         return element;
     }

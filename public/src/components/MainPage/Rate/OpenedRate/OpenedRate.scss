@@ -50,6 +50,25 @@
         text-align: center;
         border: 1px rgba(0, 0, 0, 0.4) solid;
         border-radius: 5px;
+        margin-top: 15px;
+    }
+
+    &__btn-wrapper {
+        border-radius: 5px;
+        text-align: center;
+
+        p {
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        &.sell {
+            background: rgb(220 34 34 / 0.42);
+        }
+
+        &.buy {
+            background: rgb(137 210 137 / 42%);
+        }
     }
 
     &__btn {

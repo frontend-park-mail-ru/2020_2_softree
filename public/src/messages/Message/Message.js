@@ -7,6 +7,7 @@ export class Message extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         let color;
         switch (this.props.type) {
