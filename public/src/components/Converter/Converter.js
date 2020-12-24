@@ -129,11 +129,12 @@ export default class Converter extends Component {
         this.listen('.converter__close', 'click', toggle);
         this.listen('input', 'keyup', this.change.bind(this));
         this.listen('input', 'keypress', e => {
-            if (isNaN(e.key)) {
+            if (isNaN(e.key) && e.key !== '.') {
                 e.preventDefault();
                 return false;
             }
         });
+
         this.listen('.converter_closed', 'click', toggle);
         this.listen('select', 'change', this.changeCurrency.bind(this));
 
