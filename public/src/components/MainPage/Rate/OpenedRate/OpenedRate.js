@@ -73,7 +73,7 @@ export default class OpenedRate extends Component {
     }
 
     calc(base, currency) {
-        return base / currency;
+        return currency / base;
     }
 
     render() {
@@ -101,15 +101,17 @@ export default class OpenedRate extends Component {
           <h2>${base}/${currency}</h2> 
           <img src="${close}" class="opened-rate__close-btn" alt="close"/>
         </header>
-        <div class="opened-rate__chart-wrapper">
-          <div class="opened-rate__period-choice-wrapper">
-            <PeriodChoice/>
+        <div class="opened-rate__content">
+          <div class="opened-rate__chart-wrapper">
+            <div class="opened-rate__period-choice-wrapper">
+              <PeriodChoice/>
+            </div>
+            <div class="opened-rate__chart">
+              ${this.state.fetched ? `<Chart/>` : `Загрузка...`}
+            </div>
           </div>
-          <div class="opened-rate__chart">
-            ${this.state.fetched ? `<Chart/>` : `Загрузка...`}
-          </div>
+          <SellBuy/> 
         </div>
-        <SellBuy/>
       </div> 
     </div>
     `,

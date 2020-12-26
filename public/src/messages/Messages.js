@@ -2,7 +2,6 @@ import { Component } from '../modules/Softer/Softer';
 import { Message } from './Message/Message';
 
 import './Messages.scss';
-import { id } from "../modules/Softer/utils";
 
 export default class Messages extends Component {
     render() {

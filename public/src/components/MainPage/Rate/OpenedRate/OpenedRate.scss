@@ -35,14 +35,6 @@
         justify-content: center;
     }
 
-    &__control-panel {
-        padding-top: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 15px;
-        justify-content: space-around;
-    }
-
     &__amount-input {
         font-size: 16px;
         padding: 5px;
@@ -50,16 +42,20 @@
         text-align: center;
         border: 1px rgba(0, 0, 0, 0.4) solid;
         border-radius: 5px;
-        margin-top: 15px;
+        margin-top: 16px;
     }
 
     &__btn-wrapper {
         border-radius: 5px;
         text-align: center;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        margin: 10px 0;
 
         p {
             font-size: 13px;
-            margin: 10px 0;
+            margin: 5px 0;
         }
 
         &.sell {
@@ -73,6 +69,7 @@
 
     &__btn {
         padding: 5px;
+        min-width: 130px;
         width: 100%;
         text-align: center;
         border-radius: 5px;
@@ -81,6 +78,18 @@
         color: rgba(0, 0, 0, 0.7);
         transition: box-shadow $fast, border-radius $fast;
         @include clickable;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-columns: 1fr 150px;
+        align-items: center;
+    }
+
+    &__sell-buy {
+        max-width: 500px;
+        margin: 0 auto;
+        z-index: 100;
     }
 
     &__close-btn {
@@ -92,7 +101,7 @@
     }
 
     &__btn.buy:hover {
-        @include neo(70px, #73d473, $radius);
+        @include neo(70px, #73d473, 5px);
     }
 
     &__btn.sell {
@@ -100,12 +109,26 @@
     }
 
     &__btn.sell:hover {
-        @include neo(70px, #dc5d5d, $radius);
+        @include neo(70px, #dc5d5d, 5px);
     }
 
 }
 
+@media screen and (max-width: 700px) {
+    .opened-rate {
+        &__content {
+          display: block;
+        }
 
+        &__control-panel {
+            padding-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 15px;
+            justify-content: space-around;
+        }
+    }
+}
 
 
 

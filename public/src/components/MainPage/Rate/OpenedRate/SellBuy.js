@@ -80,7 +80,7 @@ export default class SellBuy extends Component {
 
 
         const element = this.create(`
-        <div>
+        <div class="opened-rate__sell-buy">
           <input class="opened-rate__amount-input"
                id="rate-amount-input"
                value="${this.data.amount}"
@@ -89,11 +89,11 @@ export default class SellBuy extends Component {
                placeholder="Введите сумму"/>
           <div class="opened-rate__control-panel">
             <div class="opened-rate__btn-wrapper buy">
-              <p class="opened-rate__available">Доступно: ${currencyValue} ${currency}</p>
+              <p class="opened-rate__available">${currencyValue} ${currency}</p>
               <div class="opened-rate__btn buy">Купить ${base}</div>
             </div>
             <div class="opened-rate__btn-wrapper sell">
-              <p class="opened-rate__available">Доступно: ${baseValue} ${base}</p>
+              <p class="opened-rate__available">${baseValue} ${base}</p>
               <div class="opened-rate__btn sell">Продать ${base}</div>
             </div>
           </div>
