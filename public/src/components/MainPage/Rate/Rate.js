@@ -29,12 +29,11 @@ export default class Rate extends Component {
         const { props } = this;
         const { state } = this;
 
-
         const initialValue = this.calc(+props.leftInitial, +props.rightInitial);
         const currentValue = this.calc(props.left, props.right);
 
         let change = (initialValue - currentValue) / initialValue;
-        let color = ''
+        let color = '';
 
         if (Math.abs(change) < 0.005) {
             change = 0;
@@ -43,11 +42,11 @@ export default class Rate extends Component {
         if (change < 0) {
             color = '#E71D36';
             change = change.toFixed(2);
-        } else if (change > 0 ) {
+        } else if (change > 0) {
             color = '#60992D';
             change = '+' + change.toFixed(2);
         } else {
-            change = '0'
+            change = '0';
         }
 
         const changeStyle = { color };

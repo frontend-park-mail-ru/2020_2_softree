@@ -1,10 +1,10 @@
-import { Component } from "../../../../modules/Softer/Softer";
-import { useDispatch } from "../../../../modules/Softer/softer-softex";
-import { jget, jpost } from "../../../../modules/jfetch";
-import { apiHistory, apiUserAccounts } from "../../../../api";
-import { dropUserData, setUserAccount, setUserHistory, showMessage } from "../../../../store/actions";
-import { msgTypes } from "../../../../messages/types";
-import { pageSignUp } from "../../../../pages";
+import { Component } from '../../../../modules/Softer/Softer';
+import { useDispatch } from '../../../../modules/Softer/softer-softex';
+import { jget, jpost } from '../../../../modules/jfetch';
+import { apiHistory, apiUserAccounts } from '../../../../api';
+import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
+import { msgTypes } from '../../../../messages/types';
+import { pageSignUp } from '../../../../pages';
 
 export default class SellBuy extends Component {
     constructor(props) {
@@ -36,7 +36,12 @@ export default class SellBuy extends Component {
         }
 
         if (amount > accountValue && action === 'sell') {
-            useDispatch()(showMessage(`У вас недостаточно ${currency} для совершения сделки на ${amount} ${currency}`, msgTypes.FAIL));
+            useDispatch()(
+                showMessage(
+                    `У вас недостаточно ${currency} для совершения сделки на ${amount} ${currency}`,
+                    msgTypes.FAIL,
+                ),
+            );
             return;
         }
 
@@ -53,7 +58,12 @@ export default class SellBuy extends Component {
                     dispatch(dropUserData());
                     this.redirect(...pageSignUp());
                 } else {
-                    useDispatch()(showMessage(`У вас недостаточно ${base} для совершения сделки на ${amount} ${currency}`, msgTypes.FAIL));
+                    useDispatch()(
+                        showMessage(
+                            `У вас недостаточно ${base} для совершения сделки на ${amount} ${currency}`,
+                            msgTypes.FAIL,
+                        ),
+                    );
                 }
             });
 
@@ -69,7 +79,7 @@ export default class SellBuy extends Component {
     }
 
     render() {
-        const {currency, base} = this.props;
+        const { currency, base } = this.props;
 
         const accounts = this.useSelector(store => store.user.accounts);
         if (accounts.length === 0) {
@@ -77,7 +87,6 @@ export default class SellBuy extends Component {
         }
         const baseValue = this.findAccountValue(accounts, base);
         const currencyValue = this.findAccountValue(accounts, currency);
-
 
         const element = this.create(`
         <div class="opened-rate__sell-buy">

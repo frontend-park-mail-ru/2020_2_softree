@@ -1,16 +1,16 @@
-import "./OpenedRate.scss";
-import { Component } from "../../../../modules/Softer/Softer";
-import close from "../../../../images/close.svg";
-import { changeHandler } from "../../../../utils/utils";
-import { apiHistory, apiRatesPeriod, apiUserAccounts } from "../../../../api";
-import { useDispatch } from "../../../../modules/Softer/softer-softex";
-import { dropUserData, setUserAccount, setUserHistory, showMessage } from "../../../../store/actions";
-import { msgTypes } from "../../../../messages/types";
-import { jget, jpost } from "../../../../modules/jfetch";
-import { pageSignUp } from "../../../../pages";
-import Chart from "./Chart";
-import ActionButton from "../../../UI/ActionButton/ActionButton";
-import SellBuy from "./SellBuy";
+import './OpenedRate.scss';
+import { Component } from '../../../../modules/Softer/Softer';
+import close from '../../../../images/close.svg';
+import { changeHandler } from '../../../../utils/utils';
+import { apiHistory, apiRatesPeriod, apiUserAccounts } from '../../../../api';
+import { useDispatch } from '../../../../modules/Softer/softer-softex';
+import { dropUserData, setUserAccount, setUserHistory, showMessage } from '../../../../store/actions';
+import { msgTypes } from '../../../../messages/types';
+import { jget, jpost } from '../../../../modules/jfetch';
+import { pageSignUp } from '../../../../pages';
+import Chart from './Chart';
+import ActionButton from '../../../UI/ActionButton/ActionButton';
+import SellBuy from './SellBuy';
 
 export default class OpenedRate extends Component {
     constructor(props) {
@@ -18,57 +18,56 @@ export default class OpenedRate extends Component {
 
         this.buttons = [
             {
-                content: "день",
-                isPushed: () => this.state.chartPeriod === "day",
-                clb: () => this.fetchRateHistory("day")
+                content: 'день',
+                isPushed: () => this.state.chartPeriod === 'day',
+                clb: () => this.fetchRateHistory('day'),
             },
             {
-                content: "неделю",
-                isPushed: () => this.state.chartPeriod === "week",
-                clb: () => this.fetchRateHistory("week")
+                content: 'неделю',
+                isPushed: () => this.state.chartPeriod === 'week',
+                clb: () => this.fetchRateHistory('week'),
             },
             {
-                content: "месяц",
-                isPushed: () => this.state.chartPeriod === "month",
-                clb: () => this.fetchRateHistory("month")
+                content: 'месяц',
+                isPushed: () => this.state.chartPeriod === 'month',
+                clb: () => this.fetchRateHistory('month'),
             },
             {
-                content: "год",
-                isPushed: () => this.state.chartPeriod === "year",
-                clb: () => this.fetchRateHistory("year")
-            }
+                content: 'год',
+                isPushed: () => this.state.chartPeriod === 'year',
+                clb: () => this.fetchRateHistory('year'),
+            },
         ];
 
         this.doNotReset = true;
-        this.fetchRateHistory("day").then(resp => {
-        });
+        this.fetchRateHistory('day').then(resp => {});
     }
 
     initData() {
         return {
-            amount: ""
+            amount: '',
         };
     }
 
     initState() {
         return {
-            chartPeriod: "day",
+            chartPeriod: 'day',
             currencyValues: [],
-            baseValues: []
+            baseValues: [],
         };
     }
 
     async fetchRateHistory(period) {
         this.setState({
             fetched: false,
-            chartPeriod: period
+            chartPeriod: period,
         });
         const currencyResp = await jget(apiRatesPeriod(this.props.base, period));
         const baseResp = await jget(apiRatesPeriod(this.props.currency, period));
         this.setState({
             currencyValues: currencyResp.data,
             baseValues: baseResp.data,
-            fetched: true
+            fetched: true,
         });
     }
 
@@ -83,7 +82,7 @@ export default class OpenedRate extends Component {
 
         if (this.state.fetched) {
             this.state.baseValues.forEach((curr, idx) => {
-                if (this.props.base === "USD") {
+                if (this.props.base === 'USD') {
                     yValues.push(+curr.value);
                 } else {
                     yValues.push(this.calc(+this.state.currencyValues[idx].value, +curr.value));
@@ -91,7 +90,6 @@ export default class OpenedRate extends Component {
                 xValues.push(curr.updated_at.seconds * 1000);
             });
         }
-
 
         const element = this.create(
             `
@@ -118,16 +116,16 @@ export default class OpenedRate extends Component {
             {
                 Chart: [Chart, { X: { values: xValues }, Y: { values: yValues }, period: this.state.chartPeriod }],
                 PeriodChoice: [ActionButton, this.buttons.map((button, idx) => ({ ...button, key: idx }))],
-                SellBuy: [SellBuy, {currency, base}]
-            }
+                SellBuy: [SellBuy, { currency, base }],
+            },
         );
 
-        this.listen(".opened-rate__amount-input", "keydown", e => {
+        this.listen('.opened-rate__amount-input', 'keydown', e => {
             changeHandler(e, this.setData.bind(this));
         });
 
-        this.listen(".opened-rate", "click", e => e.stopPropagation());
-        this.listen(".opened-rate__close-btn", "click", toggle);
+        this.listen('.opened-rate', 'click', e => e.stopPropagation());
+        this.listen('.opened-rate__close-btn', 'click', toggle);
 
         return element;
     }
