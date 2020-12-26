@@ -1,0 +1,23 @@
+@import "../../../globals";
+
+.action-btn {
+  border: #efefef solid 1px;
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: $radius;
+  background: white;
+  transition: background 200ms;
+  @include clickable();
+}
+
+
+.action-btn:hover {
+  background: #efefef;
+}
+
+@media screen and (max-width: 400px) {
+  .action-btn {
+    font-size: 14px;
+  }
+}

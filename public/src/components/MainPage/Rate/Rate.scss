@@ -1,0 +1,95 @@
+@import "../../../globals";
+
+.rate-card {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    background: white;
+    border-bottom: 1px solid gray;
+    padding: 15px;
+    @include clickable;
+    transition: background 200ms;
+
+    &__title {
+        justify-self: start;
+    }
+
+    &__change, &__price {
+        justify-self: end;
+    }
+
+    &__title, &__price {
+        font-weight: bold;
+        font-size: 21px;
+        display: flex;
+        align-items: center;
+
+        img {
+            @include square(45px);
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    &__price-currency-card {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        padding-left: 10px;
+
+        img {
+            @include square(30px);
+            margin: 0 auto 1px;
+        }
+
+        p {
+           font-size: 14px;
+           color: gray;
+           font-weight: normal;
+        }
+    }
+}
+
+.rate-card:hover {
+    background: #efefef;
+}
+
+.rate-card:nth-last-child(1) {
+    border-bottom: none;
+}
+
+@media screen and (max-width: 500px) {
+    .rate-card {
+        grid-template-columns: 40px 80px 2fr;
+
+        &__title {
+            justify-self: center;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: normal;
+            font-size: 14px;
+            color: gray;
+
+            img {
+                @include square(30px);
+                margin: 0 auto 5px;
+            }
+        }
+
+        &__change {
+            font-size: 14px;
+        }
+
+        &__price {
+            font-size: 14px;
+        }
+    }
+
+}

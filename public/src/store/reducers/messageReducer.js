@@ -1,19 +1,16 @@
-import { msgTypeNeutral } from '../../messages/types.js';
-import { MESSAGE_SHOW, MESSAGE_HIDE } from '../types.js';
+import { messageTypes } from '../types.js';
 
 const initState = {
-    type: msgTypeNeutral,
-    message: '',
-    isShowed: false,
+    messages: [],
 };
 
 export const messageReducer = (state = initState, action) => {
     switch (action.type) {
-        case MESSAGE_SHOW:
+        case messageTypes.SHOW:
             const { type, message } = action.payload;
-            return { ...state, type, message, isShowed: true };
-        case MESSAGE_HIDE:
-            return { ...state, isShowed: false };
+            return { ...state, messages: [...state.messages, { type, message }] };
+        case messageTypes.HIDE:
+            return { ...state, messages: state.messages.slice(1) };
         default:
             return state;
     }

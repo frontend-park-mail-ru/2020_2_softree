@@ -1,3 +1,5 @@
+
+const webpack = require('webpack');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -16,13 +18,20 @@ const optimization = () => {
     };
 
     if (isProd) {
-        config.minimizer = [new CssMinimizerWebpackPlugin(), new TerserWebpackPlugin()];
+        config.minimizer = [
+            new CssMinimizerWebpackPlugin(),
+            new TerserWebpackPlugin({
+                terserOptions: {
+                    mangle: false,
+                },
+            }),
+        ];
     }
 
     return config;
 };
 
-const filename = ext => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
+const filename = ext => (isDev ? `[name].${ext}` : `[name].[fullhash].${ext}`);
 
 const cssLoaders = extra => {
     const loaders = ['style-loader', 'css-loader'];
@@ -55,10 +64,6 @@ const jsLoaders = () => {
         },
     ];
 
-    if (isDev) {
-        loaders.push('eslint-loader');
-    }
-
     return loaders;
 };
 
@@ -68,7 +73,9 @@ const fileLoaders = () => {
             loader: 'file-loader',
             options: {
                 limit: 8192,
-                name: filename,
+                name() {
+                    return isDev ? '[path][name].[ext]' : '[contenthash].[ext]';
+                },
             },
         },
     ];
@@ -91,8 +98,15 @@ const plugins = () => {
                     from: path.resolve(__dirname, 'public/src/images/favicon.ico'),
                     to: path.join(__dirname, 'dist'),
                 },
+                {
+                    from: path.resolve(__dirname, 'public/src/serviceWorker.js'),
+                    to: path.join(__dirname, 'dist'),
+                },
             ],
         }),
+        new webpack.EnvironmentPlugin({
+            SOFTREE_HOST: 'https://api.softree.group'
+        })
     ];
 
     return base;
@@ -131,28 +145,12 @@ module.exports = {
                 use: cssLoaders(),
             },
             {
-                test: /\.less$/,
-                use: cssLoaders('less-loader'),
-            },
-            {
                 test: /\.s[ac]ss$/,
                 use: cssLoaders('sass-loader'),
             },
             {
                 test: /\.(png|jpg|svg|gif)$/,
                 use: fileLoaders(),
-            },
-            {
-                test: /\.(ttf|woff|woff2|eot)$/,
-                use: fileLoaders(),
-            },
-            {
-                test: /\.xml$/,
-                use: fileLoaders(),
-            },
-            {
-                test: /\.csv$/,
-                use: ['csv-loader'],
             },
             {
                 test: /\.js/,

@@ -1,0 +1,36 @@
+@import "../../../globals";
+
+.drop-down-menu {
+    position: absolute;
+    right: 0;
+    background: white;
+    border: solid 1px #ececec;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 900;
+    z-index: 10;
+
+    &__info, &__control {
+        padding: 15px;
+    }
+
+    &__info {
+        color: gray;
+    }
+
+    &__control {
+        background: #eaedf1;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    &__button {
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+}
+
+#drop-down-exit-btn {
+    color: $red;
+}

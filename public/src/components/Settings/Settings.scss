@@ -1,0 +1,30 @@
+.settings {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    padding: 40px;
+    justify-content: space-around;
+
+    &__window {
+        display: flex;
+        justify-content: center;
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .settings {
+        grid-template-columns: 1fr;
+        margin: 10px;
+        padding: 10px;
+
+        &__window {
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            padding: 20px;
+        }
+    }
+}

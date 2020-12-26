@@ -1,0 +1,19 @@
+.mainPage-link {
+    display: block;
+    margin-top: 20px;
+}
+
+.page-message {
+    position: fixed;
+
+    &__body {
+        margin: 15px 0;
+    }
+}
+
+
+
+.code-404 {
+    font-size: 50vw;
+    color: gray;
+}

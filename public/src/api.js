@@ -1,8 +1,18 @@
-export const apiSignUp = () => '/signup'; // post: {email: str, password1: str, password2: str} -> 200 | 400
-export const apiSignIn = () => '/signin'; // post: {email: str, password: str} -> 200 | 401
-export const apiLogOut = () => '/logout'; // post: -> 200
-export const apiCheckAuth = () => '/auth'; // get: -> 200 {email: str} | 401
-export const apiRates = () => '/rates'; // get: -> 200 [{title: str, change: float, buy: float, sell: float},]
-export const apiRate = id => `/rates/${id}`; // get: -> {title: str, change: float, buy: float, sell: float}
-export const apiChangePass = () => '/change-password'; // post: -> 200
-export const apiUpdateUser = () => '/user';
+export const apiSignUp = () => '/api/users';
+export const apiUpdateUser = () => '/api/users/avatar';
+export const apiChangePass = () => '/api/users/password';
+export const apiSignIn = () => '/api/sessions';
+export const apiLogOut = () => '/api/sessions';
+export const apiCheckAuth = () => '/api/sessions';
+
+export const apiRates = () => '/api/rates';
+export const apiInitialRates = () => '/api/rates?initial=true';
+export const apiRatesPeriod = (rate, period) => `/api/rates/${rate}?period=${period}`;
+export const apiRate = id => `/api/rates/${id}`;
+
+export const apiMarkets = () => '/api/markets';
+export const apiUserAccounts = () => '/api/accounts';
+export const apiUserAccountsHistory = period => `/api/accounts/history?period=${period}`;
+export const apiHistory = () => '/api/transactions';
+export const apiPeriodTransactions = period => `/api/transactions?period=${period}`;
+export const apiIncome = period => `/api/income/${period}`;

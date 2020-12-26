@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "test": "jest --collect-coverage",
-    "start": "cross-env NODE_ENV=development webpack serve --mode development",
+    "start": "cross-env NODE_ENV=development SOFTREE_HOST=http://localhost:8000 webpack serve --mode development",
     "build": "webpack --mode production",
-    "build:dev": "cross-env NODE_ENV=development webpack --watch --mode development",
+    "build:dev": "cross-env NODE_ENV=development webpack --mode development",
     "lint": "eslint public/src/",
     "fix": "eslint public/src/ --fix"
   },
@@ -22,16 +22,13 @@
     "url": "https://github.com/frontend-park-mail-ru/2020_2_softree/issues"
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2020_2_softree#readme",
-  "dependencies": {
-    "webpack": "^4.0.0"
-  },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^26.6.1",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
     "cross-env": "^7.0.2",
@@ -46,9 +43,12 @@
     "html-webpack-plugin": "^4.5.0",
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
-    "webpack-cli": "^4.1.0",
-    "webpack-dev-server": "^3.11.0",
-    "workbox-webpack-plugin": "^5.1.4"
+    "webpack": "^5.4.0",
+    "webpack-bundle-analyzer": "^4.1.0",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }

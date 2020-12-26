@@ -1,0 +1,14 @@
+.main-drop-down-menu {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+    img {
+        width: 40px;
+    }
+
+    p {
+        color: gray;
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,23 @@
+.bag__title {
+   margin: 10px 0;
+}
+
+.bag__info {
+    margin: auto;
+    padding: 20px;
+    max-width: 80%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: white;
+    margin-top: 10px;
+}
+
+.period__selector {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}

@@ -1,59 +1,75 @@
 import { Component } from '../../../modules/Softer/Softer.js';
-import Rates from '../../MainPage/Rate/Rate.js';
+import { apiUserAccounts } from '../../../api.js';
+import { setUserAccount } from '../../../store/actions.js';
+import { useDispatch } from '../../../modules/Softer/softer-softex.js';
+import Account from './Account/Account.js';
+import { jget } from '../../../modules/jfetch.js';
+import ActionButton from '../../UI/ActionButton/ActionButton.js';
 
-import './Bag.css';
+import './Bag.scss';
+import { select } from '../../../modules/Softer/softer-softex';
+import Statistic from './Statistic/Statistic';
 
 export default class Bag extends Component {
-    initState() {
-        return {
-            rates: [
-                {
-                    title: 'USD',
-                    change: -1,
-                    buy: '50.00',
-                    sell: '34.00',
-                },
-                {
-                    title: 'RUB',
-                    change: 1,
-                    buy: '50.00',
-                    sell: '34.00',
-                },
-            ],
-        };
+    constructor() {
+        super();
+
+        this.fetchAccounts();
+    }
+
+    fetchAccounts() {
+        const dispatch = useDispatch();
+        jget(apiUserAccounts()).then(resp => {
+            dispatch(setUserAccount(resp.data));
+        });
+    }
+
+    getTotal(accounts) {
+        const currencyStore = select(store => store.currency);
+        let sum = 0;
+        accounts.forEach(account => {
+            sum += this.calc(currencyStore, account.title, 'RUB') * (account.value || 0);
+        });
+        return sum;
+    }
+
+    calc(currencyStore, from, to) {
+        if (!currencyStore[to].value || !currencyStore[from].value) {
+            return 0;
+        }
+        return currencyStore[to].value / currencyStore[from].value;
     }
 
     render() {
+        const accounts = this.useSelector(store => store.user.accounts);
+        const total = this.getTotal(accounts);
+
         return this.create(
             `
-            <div class="container">
-                <h2 class='block-title'>Счет</h2>
-                    <div class='bag-info__container'>
-                        <div class='bag-info amount-info'>
-                            <p>На счету</p>
-                            <p>400 000</p>
-                        </div>
-                        <div class='bag-info summary-info'>
-                            <p>Доход за все время</p>
-                            <p style='color: green'>22 000 (+5%)</p>
-                        </div>
-                        <div class='bag-info refill-info'>
-                            <p>Пополнения</p>
-                            <p>100 000</p>
-                        </div>
-                        <div class='bag-info decrease-info'>
-                            <p>Выведено</p>
-                            <p>200 000</p>
-                        </div>
+            <div class="container bag">
+                <h2 class='bag__title'>Счет</h2>
+                    <div class='bag__info'>
+                        <p>ВСЕГО</p>
+                        <p>${total.toFixed(3)} ₽</p>
                     </div>
-                <h2 class='block-title'>Валюта</h2>
-                <div class='rates-wrapper'>
-                    ${this.state.rates.length === 0 ? '<h1>Котировки подгружаются...</h1>' : '<Rates></Rates>'}
+                <h2 class='bag__title'>Статистика</h2>
+                  <Statistic/>
+                <h2 class='bag__title'>Валюта</h2>
+                <div class="accounts-wrapper">
+                    ${accounts.length === 0 ? '<h1>Валюты подгружаются...</h1>' : '<Account/>'}
                 </div>
             </div>
             `,
             {
-                Rates: [Rates, this.state.rates],
+                Account: [
+                    Account,
+                    accounts.map((element, idx) => ({
+                        ...element,
+                        key: idx,
+                        value: element.value ? (+element.value).toFixed(3) : 0,
+                    })),
+                ],
+                Statistic,
             },
         );
     }
